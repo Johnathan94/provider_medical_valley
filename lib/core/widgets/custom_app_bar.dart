@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 
 import '../app_colors.dart';
@@ -25,7 +26,7 @@ class MyCustomAppBar extends AppBar {
           elevation: 0,
           backgroundColor: primaryColor,
           centerTitle: false,
-          actions: isActionButtonShown ? [Image.asset(transparentAppIcon)] : [],
+          actions: isActionButtonShown ? [SvgPicture.asset(appIcon,height: 60,)] : [],
           titleSpacing: -10,
           toolbarHeight: customAppBarHeight.h,
         );

@@ -8,6 +8,7 @@
     "email" : "Email",
     "most_recent" : "Most recent",
     "oldest" : "Oldest",
+      "profile": "Profile",
     "pending_nego" : "Pending negotiations",
     "accepted_neo" : "Accepted negotiations",
     "yes" : "Yes",
