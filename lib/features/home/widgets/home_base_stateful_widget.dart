@@ -47,7 +47,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: getBody(),
       bottomNavigationBar: buildBottomNavigationBar(),
-      floatingActionButton: getFloatingButton(),
+   //   floatingActionButton: getFloatingButton(),
     );
   }
 
