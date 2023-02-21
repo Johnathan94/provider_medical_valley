@@ -4,11 +4,10 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
-
+import 'package:provider_medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/widgets/app_bar_with_null_background.dart';
-import '../../../../welcome_page/presentation/screens/welcome_page_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({Key? key}) : super(key: key);
@@ -90,7 +89,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
               ))),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const WelcomePageScreen()));
+                builder: (context) => const HomeBaseStatefulWidget()));
           },
           child: Center(
             child: Text(

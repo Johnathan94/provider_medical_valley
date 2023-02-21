@@ -7,15 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
-import 'package:provider_medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
-import 'package:provider_medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
-import 'package:provider_medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
 import 'package:provider_medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/app_styles.dart';
 import '../../../../../core/strings/images.dart';
 import '../../../widgets/home_base_app_bar.dart';
+import '../../data/models/categories_model.dart';
+import '../bloc/home_bloc.dart';
+import '../bloc/home_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   buildAppBar() {
     return CustomHomeAppBar(
-      isSearchableAppBar: false,
       controller: TextEditingController(),
       goodMorningText: AppLocalizations.of(context)!.good_morning,
       leadingIcon: SvgPicture.asset(
@@ -82,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         width: appBarIconWidth,
         height: appBarIconHeight,
       ),
-      isTwoLineTitle: true,
+      hiddenWidget: Container(),
     );
   }
 

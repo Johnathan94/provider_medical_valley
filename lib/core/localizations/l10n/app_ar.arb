@@ -74,7 +74,7 @@
       "terms_and_privacy": "الشروط والخصوصيه",
       "manage_notifications": "ادارة الاشعارات",
   "notifications": "الاشعارات",
-  "history": "السجل",
+  "negotiation": "محادثات",
   "more": "المزيد",
   "how_we_serve_you": "كيف نخدمك ؟",
   "chat_on_boarding_desc": "مرحبًا بك في ميديكال فالي بوت ، صديق رائع للدردشة معك",
@@ -93,7 +93,10 @@
   "language_title": "اللغه",
   "english_title": "English (US)",
   "arabic_title": "اللغه العربيه",
-  "arabic_sub_title": "السعوديه"
+  "arabic_sub_title": "السعوديه",
+  "reply_to_customers": "الرد على العملاء",
+  "auto_replay": "رد آلي",
+  "within_three_hours": "خلال 3 ساعات"
 
 
 

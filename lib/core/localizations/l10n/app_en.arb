@@ -71,7 +71,7 @@
           "sign_out": "Sign out",
           "terms_and_privacy": "Terms & Privacy Policy",
     "manage_notifications": "Manage notifications",
-    "history": "History",
+    "negotiation": "Negotiation",
     "more": "More",
     "how_we_serve_you": "How we serve you ?",
     "chat_on_boarding_desc": "Welcome to medical valley bot, a great friend to chat with you",
@@ -90,7 +90,10 @@
     "language_title": "Language",
     "english_title": "English (US)",
     "arabic_title": "Arabic",
-    "arabic_sub_title": "Arabic"
+    "arabic_sub_title": "Arabic",
+    "reply_to_customers": "Reply to customers",
+    "auto_replay": "auto reply",
+    "within_three_hours": "within 3 hours"
 
 
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_initialized.dart';
 import 'package:provider_medical_valley/core/app_paddings.dart';
@@ -15,9 +14,7 @@ import 'package:provider_medical_valley/features/home/history/presentation/bloc/
 import 'package:provider_medical_valley/features/home/history/widgets/filter_view.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../core/app_sizes.dart';
-import '../../../../core/strings/images.dart';
-import '../../widgets/home_base_app_bar.dart';
+import '../../../../core/widgets/custom_app_bar.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -43,17 +40,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return GestureDetector(
       onTap: () => optionDisplayed.sink.add(false),
       child: Scaffold(
-        appBar: CustomHomeAppBar(
-          controller: TextEditingController(),
-          searchHint: AppLocalizations.of(context)!.search,
-          goodMorningText: AppLocalizations.of(context)!.good_morning,
-          leadingIcon: SvgPicture.asset(
-            appIcon,
-            width: appBarIconWidth.w,
-            height: appBarIconHeight.h,
-          ),
-          isTwoLineTitle: true,
-          isSearchableAppBar: false,
+        appBar: MyCustomAppBar(
+          header: AppLocalizations.of(context)!.negotiation,
+          leadingIcon: Container(),
         ),
         body: BlocBuilder<ClinicsBloc, ClinicsState>(
             bloc: clinicsBloc,
@@ -116,7 +105,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children:
-                                                  AppInitializer.sortChoicesHistory
+                                                  AppInitializer
+                                                      .sortChoicesHistory
                                                       .map((e) => Padding(
                                                             padding:
                                                                 smallPaddingAll,

@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
-import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
@@ -92,39 +90,38 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlocListener <LoginBloc , LoginState>(
-                  bloc: loginBloc,
-                  listener: (context, state) async{
-                    if(state is LoginStateLoading){
-                      await LoadingDialogs.showLoadingDialog(context);
-                    }
-                    else if (state is LoginStateSuccess)
-                    {
-                      LoadingDialogs.hideLoadingDialog();
-                      CoolAlert.show(
-                        barrierDismissible: false,
-                        context: context,
-                        onConfirmBtnTap: (){
-                          navigateToOtpScreen();
-                        },
-                        type: CoolAlertType.success,
-                        text: AppLocalizations.of(context)!.success_registered,
-                      );
-                    }
-                    else {
-                      LoadingDialogs.hideLoadingDialog();
-                      CoolAlert.show(
-                        context: context,
-                        onConfirmBtnTap: (){
-                          Navigator.pop(context);
-                        },
-                        type: CoolAlertType.error,
-                        text: AppLocalizations.of(context)!.invalid_phone_number,
-                      );
-                    }
-                  },
-                  child: Container()
-                ),
+                BlocListener<LoginBloc, LoginState>(
+                    bloc: loginBloc,
+                    listener: (context, state) async {
+                      navigateToOtpScreen();
+                      /* if (state is LoginStateLoading) {
+                        await LoadingDialogs.showLoadingDialog(context);
+                      } else if (state is LoginStateSuccess) {
+                        LoadingDialogs.hideLoadingDialog();
+                        CoolAlert.show(
+                          barrierDismissible: false,
+                          context: context,
+                          onConfirmBtnTap: () {
+                            navigateToOtpScreen();
+                          },
+                          type: CoolAlertType.success,
+                          text:
+                              AppLocalizations.of(context)!.success_registered,
+                        );
+                      } else {
+                        LoadingDialogs.hideLoadingDialog();
+                        CoolAlert.show(
+                          context: context,
+                          onConfirmBtnTap: () {
+                            Navigator.pop(context);
+                          },
+                          type: CoolAlertType.error,
+                          text: AppLocalizations.of(context)!
+                              .invalid_phone_number,
+                        );
+                      }*/
+                    },
+                    child: Container()),
                 buildLoginScreenTitle(),
                 buildMobilePhoneField(),
                 SizedBox(
@@ -135,13 +132,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                      if(_formKey.currentState!.validate()){
-                      loginBloc.loginUser(LoginEvent(phoneController.text));
-                    }
-                      else {
-                        context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data );
+                      if (_formKey.currentState!.validate()) {
+                        loginBloc.loginUser(LoginEvent(phoneController.text));
+                      } else {
+                        context.showSnackBar(
+                            AppLocalizations.of(context)!.please_fill_all_data);
                       }
-                      },
+                    },
                     text: AppLocalizations.of(context)!.sign_in,
                   ),
                 ),
@@ -163,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   String dialCode = "+966";
   buildMobilePhoneField() {
     return Container(
@@ -170,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child:  PhoneIntlWidgetField(phoneController,(Country country){
+      child: PhoneIntlWidgetField(phoneController, (Country country) {
         dialCode = country.dialCode;
       }),
     );

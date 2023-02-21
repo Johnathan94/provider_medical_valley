@@ -1,111 +1,179 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../core/app_colors.dart';
-import '../../../core/app_sizes.dart';
 import '../../../core/app_styles.dart';
-import '../../../core/widgets/custom_search_field.dart';
-import 'home_base_stateful_widget.dart';
 
-class CustomHomeAppBar extends AppBar {
-  final bool isSearchableAppBar;
-  final bool isTwoLineTitle;
+class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String goodMorningText;
-  final String? searchHint;
   final Widget leadingIcon;
-  final TextEditingController controller ;
-  final Function (String? text)? onSubmit ;
-
+  final Widget hiddenWidget;
+  final TextEditingController controller;
 
   CustomHomeAppBar(
-      {this.searchHint,
-      required this.isSearchableAppBar,
-      required this.goodMorningText,
+      {required this.goodMorningText,
       required this.leadingIcon,
+      required this.hiddenWidget,
       required this.controller,
-       this.onSubmit,
-      required this.isTwoLineTitle,
-      Key? key})
-      : super(
-            key: key,
-            elevation: 0,
-            leading: Container(),
-            centerTitle: false,
-            titleSpacing: appBarTitleNegativeMargin,
-            title: Column(
+      Key? key});
+
+  BehaviorSubject<bool> _isClicked = BehaviorSubject();
+
+  @override
+  Widget build(BuildContext context) {
+    _isClicked.sink.add(false);
+    return StreamBuilder<bool>(
+        stream: _isClicked,
+        builder: (context, snapshot) {
+          return Container(
+            padding: const EdgeInsets.only(top: 30),
+            decoration: const BoxDecoration(
+              color: primaryColor,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    leadingIcon,
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
+                    Expanded(
+                        child: Row(
+                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        SizedBox(
+                          width: 30.h,
+                        ),
+                        leadingIcon,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              goodMorningText,
-                              style: AppStyles.baloo2FontWith700WeightAnd17Size,
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 20.h,
+                                ),
+                                Text(
+                                  goodMorningText,
+                                  style: AppStyles
+                                      .baloo2FontWith700WeightAnd17Size,
+                                ),
+                                Image.asset(
+                                  handIcon,
+                                )
+                              ],
                             ),
-                            isTwoLineTitle
-                                ? Image.asset(
-                              handIcon,
-                            )
-                                : Container()
+                            Text(
+                              "اوكسي هيلث",
+                              style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                            ),
                           ],
                         ),
-                        isTwoLineTitle
-                            ? Text(
-                          "Hossam Saeed",
-                          style: AppStyles.baloo2FontWith400WeightAnd22Size,
-                        )
-                            : Container(),
                       ],
-                    )
+                    )),
+                    InkWell(
+                        onTap: () => _isClicked.sink.add(!_isClicked.value),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 20.0),
+                          child: snapshot.hasData && snapshot.data == true
+                              ? SvgPicture.asset(planIconDown)
+                              : SvgPicture.asset(planIcon),
+                        )),
                   ],
                 ),
-                isSearchableAppBar
-                    ? Container(
-                  margin: const EdgeInsetsDirectional.only(
-                      top: 35, end: 60, start: 25),
-                  child: SizedBox(
-                    height: appBarSearchHeight.h,
-                    child: CustomSearchField(
-                      textController: controller,
-                      hintText: searchHint,
-                      onFieldSubmit: onSubmit,
-                      hintStyle: AppStyles
-                          .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
-                    ),
-                  ),
-                )
-                    : Container()
+                StreamBuilder<bool>(
+                    stream: _isClicked,
+                    builder: (context, snapshot) {
+                      return snapshot.hasData && snapshot.data == true
+                          ? Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 15.0),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 40.h,
+                                      ),
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .reply_to_customers,
+                                        style: AppStyles
+                                            .baloo2FontWith400WeightAnd16Size,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Checkbox(
+                                          value: false,
+                                          activeColor: whiteColor,
+                                          checkColor: primaryColor,
+                                          fillColor: MaterialStateProperty.all(
+                                              whiteColor),
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          onChanged: (newValue) {},
+                                        ),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .auto_replay,
+                                          style: AppStyles
+                                              .baloo2FontWith400WeightAnd14SizeAndWhite,
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Checkbox(
+                                          value: false,
+                                          activeColor: whiteColor,
+                                          checkColor: primaryColor,
+                                          fillColor: MaterialStateProperty.all(
+                                              whiteColor),
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          onChanged: (newValue) {},
+                                        ),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .within_three_hours,
+                                          style: AppStyles
+                                              .baloo2FontWith400WeightAnd14SizeAndWhite,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          : Container();
+                    })
               ],
             ),
-            backgroundColor: primaryColor,
-            actions: isSearchableAppBar
-                ? []
-                : [
-                    InkWell(
-                      onTap: () {
-                        HomeBaseStatefulWidgetState.searchIconClicked();
-                      },
-                      child: Container(
-                        margin: const EdgeInsetsDirectional.only(
-                            end: searchIconMarginEnd),
-                        child: SvgPicture.asset(searchIcon),
-                      ),
-                    )
-                  ],
-            toolbarHeight: isSearchableAppBar
-                ? homeScreenAppBarWithSearchHeight.h
-                : homeScreenAppBarHeight.h);
+          );
+        });
+  }
 
+  @override
+  Size get preferredSize => Size.fromHeight(180.h);
 }

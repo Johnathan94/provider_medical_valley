@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 
@@ -37,9 +36,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
 
   buildAppBar() {
     return CustomHomeAppBar(
-      isSearchableAppBar: true,
       controller: TextEditingController(),
-      searchHint: AppLocalizations.of(context)!.search,
       goodMorningText: _screenTitle,
       leadingIcon: InkWell(
         onTap: () => Navigator.pop(context),
@@ -48,7 +45,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
           color: whiteColor,
         ),
       ),
-      isTwoLineTitle: false,
+      hiddenWidget: Container(),
     );
   }
 
