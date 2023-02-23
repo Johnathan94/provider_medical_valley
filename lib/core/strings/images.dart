@@ -33,5 +33,7 @@ const homeIconDeactivated = "${svgImagesPath}home_icon_deactivated.svg";
 const menuIconActive = "${svgImagesPath}menu_icon_active.svg";
 const menuIconDeactivated = "${svgImagesPath}menu_icon_deactivated.svg";
 const notificationIconActive = "${svgImagesPath}notification_icon_active.svg";
+const locationGreenIcon = "${svgImagesPath}location.svg";
+const ratingIcon = "${svgImagesPath}rating.svg";
 const notificationIconDeactivated =
     "${svgImagesPath}notification_icon_deactivated.svg";
