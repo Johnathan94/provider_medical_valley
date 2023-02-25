@@ -11,6 +11,7 @@ import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:provider_medical_valley/core/widgets/disabled_text_field.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/categories_model.dart';
+import 'package:provider_medical_valley/features/profile/edit_profile_screen.dart';
 import 'package:rxdart/rxdart.dart';
 List<Services> services = [];
 class ProfileScreen extends StatefulWidget {
@@ -156,9 +157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: mediumPaddingAll,
                 child: PrimaryButton(
                   onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (c)=> EditProfileScreen()));
                   },
-                  text: AppLocalizations.of(context)!.sign_in,
+                  text: AppLocalizations.of(context)!.edit_profile,
                 ),
               ),
             ],

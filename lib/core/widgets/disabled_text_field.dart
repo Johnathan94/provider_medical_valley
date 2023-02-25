@@ -4,12 +4,18 @@ import 'package:provider_medical_valley/core/app_colors.dart';
 class DisabledTextField extends TextFormField{
   String? hintText ;
   TextStyle?  hintStyle ;
-  String?  prefixIcon ;
   TextInputType? keyboardType ;
   TextEditingController textController ;
   Function (String) ? onFieldSubmit ;
+  Widget? suffixIcon ;
+  Widget? prefixIcon ;
   String? Function (String?) ? onValidator ;
-  DisabledTextField({required this.textController , this.hintStyle, this.onValidator, this.onFieldSubmit, this.hintText,this.keyboardType,this.prefixIcon , Key? key}) : super(key: key ,
+  DisabledTextField({required this.textController , this.hintStyle,
+    this.onValidator, this.onFieldSubmit,
+    this.hintText,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.keyboardType , Key? key}) : super(key: key ,
     keyboardType: keyboardType,
     controller: textController,
     onFieldSubmitted:onFieldSubmit ,
@@ -19,8 +25,9 @@ class DisabledTextField extends TextFormField{
     decoration:  InputDecoration(
       hintText:  hintText ?? "",
       fillColor: textFieldBg,
-      suffixIcon: const Icon(Icons.mail_outline , color: gray900,),
+      suffixIcon: suffixIcon ?? const Icon(Icons.mail_outline , color: hintTextColor,),
       filled: true,
+      prefixIcon: prefixIcon,
       hintStyle: hintStyle ?? const TextStyle(),
       enabledBorder:  InputBorder.none,
       focusedBorder:  InputBorder.none ,

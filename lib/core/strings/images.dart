@@ -17,6 +17,7 @@ const paypalIcon = "${imagesPath}paypal.png";
 const googlePayIcon = "${imagesPath}google_pay.png";
 const personImage = "${imagesPath}person.png";
 const insuranceIcon = "${imagesPath}insurance.png";
+const saudiArabiaIcon = "${imagesPath}saudi-arabia.png";
 
 const planIcon = "${svgImagesPath}plan_upper_icon.svg";
 const planIconDown = "${svgImagesPath}plan_down_icon.svg";

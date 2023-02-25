@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
+import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
@@ -93,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 BlocListener<LoginBloc, LoginState>(
                     bloc: loginBloc,
                     listener: (context, state) async {
-                      navigateToOtpScreen();
-                      /* if (state is LoginStateLoading) {
+                       if (state is LoginStateLoading) {
                         await LoadingDialogs.showLoadingDialog(context);
-                      } else if (state is LoginStateSuccess) {
+                      }
+                       else if (state is LoginStateSuccess) {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           barrierDismissible: false,
@@ -108,7 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           text:
                               AppLocalizations.of(context)!.success_registered,
                         );
-                      } else {
+                      }
+                       else {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           context: context,
@@ -119,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           text: AppLocalizations.of(context)!
                               .invalid_phone_number,
                         );
-                      }*/
+                      }
                     },
                     child: Container()),
                 buildLoginScreenTitle(),

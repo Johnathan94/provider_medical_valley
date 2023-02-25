@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageManager {
@@ -6,7 +8,10 @@ class LocalStorageManager {
     sharedPreferences = await SharedPreferences.getInstance();
   }
   static saveUser (Map<String, dynamic> userDate)async{
-    await sharedPreferences.setString("user", userDate.toString());
+    await sharedPreferences.setString("user", jsonEncode(userDate));
+  }
+  static deleteUser ()async{
+    await sharedPreferences.setString("user","");
   }
   static String getUser (){
     return sharedPreferences.getString("user") ?? "";
