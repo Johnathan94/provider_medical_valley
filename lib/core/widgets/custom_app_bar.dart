@@ -26,7 +26,14 @@ class MyCustomAppBar extends AppBar {
           elevation: 0,
           backgroundColor: primaryColor,
           centerTitle: false,
-          actions: isActionButtonShown ? [SvgPicture.asset(appIcon,height: 60,)] : [],
+          actions: isActionButtonShown
+              ? [
+                  SvgPicture.asset(
+                    appIconWithOpacity,
+                    height: 60,
+                  )
+                ]
+              : [],
           titleSpacing: -10,
           toolbarHeight: customAppBarHeight.h,
         );

@@ -26,6 +26,7 @@ const chatOnBoardingIcon = "${svgImagesPath}chat_on_board_icon.svg";
 const paymentCardIcon = "${svgImagesPath}card_icon.svg";
 const error404Icon = "${svgImagesPath}error_404_icon.svg";
 const appIcon = "${svgImagesPath}app_icon.svg";
+const appIconWithOpacity = "${svgImagesPath}app_icon_with_opacity.svg";
 const negotiationIconActive = "${svgImagesPath}negotiation_icon_active.svg";
 const negotiationIconDeactivated =
     "${svgImagesPath}negotiation_icon_deactivated.svg";
