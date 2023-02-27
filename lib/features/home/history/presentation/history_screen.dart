@@ -207,7 +207,8 @@ class ClinicCard extends StatelessWidget {
                   children: [
                     Text(
                       items.clinicName ?? "",
-                      style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+                      style: AppStyles.baloo2FontWith400WeightAnd18Size
+                          .copyWith(color: blackColor),
                     ),
                     const SizedBox(height: 2),
                     Row(
@@ -219,8 +220,7 @@ class ClinicCard extends StatelessWidget {
                         ),
                         Text(
                           " ${items.rate}",
-                          style: AppStyles
-                              .baloo2FontWith400WeightAnd18SizeAndBlack
+                          style: AppStyles.baloo2FontWith400WeightAnd18Size
                               .copyWith(color: const Color(0xffD8D7D9)),
                         ),
                       ],
@@ -230,13 +230,13 @@ class ClinicCard extends StatelessWidget {
                       children: [
                         Text(
                           items.distance.toString(),
-                          style: AppStyles
-                              .baloo2FontWith400WeightAnd18SizeAndBlack,
+                          style: AppStyles.baloo2FontWith400WeightAnd18Size
+                              .copyWith(color: blackColor),
                         ),
                         Text(
                           " ${items.distanceUnit}",
-                          style: AppStyles
-                              .baloo2FontWith400WeightAnd18SizeAndBlack,
+                          style: AppStyles.baloo2FontWith400WeightAnd18Size
+                              .copyWith(color: blackColor),
                         ),
                       ],
                     ),
@@ -247,7 +247,8 @@ class ClinicCard extends StatelessWidget {
                   children: [
                     Text(
                       "${items.timeAgo.toString()} ${items.timeUnit.toString()}",
-                      style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+                      style: AppStyles.baloo2FontWith400WeightAnd18Size
+                          .copyWith(color: blackColor),
                     ),
                     const SizedBox(height: 8),
                     Container(
@@ -259,8 +260,7 @@ class ClinicCard extends StatelessWidget {
                           horizontal: 10, vertical: 10),
                       child: Text(
                         "${items.price} RS",
-                        style: AppStyles
-                            .baloo2FontWith400WeightAnd18SizeAndBlack
+                        style: AppStyles.baloo2FontWith400WeightAnd18Size
                             .copyWith(color: whiteColor, fontSize: 14),
                       ),
                     )
@@ -338,7 +338,8 @@ class ClinicCard extends StatelessWidget {
                 ),
                 Text(
                   "${items.address}",
-                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+                  style: AppStyles.baloo2FontWith400WeightAnd18Size
+                      .copyWith(color: blackColor),
                 ),
               ],
             ),
@@ -376,8 +377,7 @@ class ButtonWidget extends StatelessWidget {
             BoxDecoration(color: color, borderRadius: BorderRadius.circular(8)),
         child: Text(
           title,
-          style: AppStyles.baloo2FontWith400WeightAnd20SizeAndBlack
-              .copyWith(color: whiteColor),
+          style: AppStyles.baloo2FontWith400WeightAnd20Size,
         ),
       ),
     );

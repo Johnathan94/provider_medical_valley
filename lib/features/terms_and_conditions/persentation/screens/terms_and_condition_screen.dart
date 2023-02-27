@@ -44,7 +44,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
   getAppBar(BuildContext context) {
     return AppBar(
       title: Text(AppLocalizations.of(context)!.terms_and_condition,
-          style: AppStyles.baloo2FontWith600WeightAnd25SizeBlackText),
+          style: AppStyles.baloo2FontWith600WeightAnd25Size
+              .copyWith(color: blackColor)),
       leading: InkWell(
         onTap: () => Navigator.of(context).pop(),
         child: const Icon(
@@ -77,7 +78,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
               child: SingleChildScrollView(
                 child: Text(
                   AppLocalizations.of(context)!.terms_and_condition_desc,
-                  style: AppStyles.baloo2FontWith400WeightAnd20SizeBlackColor,
+                  style: AppStyles.baloo2FontWith400WeightAnd20Size
+                      .copyWith(color: blackColor),
                 ),
               ),
             ),

@@ -96,8 +96,8 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
                       left: 10.0,
                       child: Text(
                         "(23)",
-                        style: AppStyles
-                            .baloo2FontWith400WeightAnd12SizePrimaryColor,
+                        style: AppStyles.baloo2FontWith400WeightAnd12Size
+                            .copyWith(color: primaryColor),
                       ),
                     )
                   ]),

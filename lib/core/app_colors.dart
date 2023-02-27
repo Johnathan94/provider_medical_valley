@@ -16,6 +16,7 @@ const dividerGrey = Color(0xffE5E5E5);
 const darkGreen = Color(0xff184F44);
 const bgColor = Color(0xffF8F8F8);
 const blackColor = Color(0xFF000000);
+const lightGrey = Color(0xFFD1D1D1);
 const greyWith80Percentage = Color(0x80D1D1D1);
 const textFieldBg = Color(0xffFAFAFA);
 const darkGrey = Color(0xFF6C6C6C);

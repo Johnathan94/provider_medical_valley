@@ -1,18 +1,21 @@
 import 'package:cool_alert/cool_alert.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
-import 'package:provider_medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
+import 'package:provider_medical_valley/core/app_styles.dart';
 
 import '../../../../../core/app_sizes.dart';
-import '../../../../../core/app_styles.dart';
+import '../../../../../core/medical_injection.dart';
 import '../../../../../core/strings/images.dart';
+import '../../../history/presentation/bloc/clinics_bloc.dart';
+import '../../../history/presentation/bloc/clinics_state.dart';
 import '../../../widgets/home_base_app_bar.dart';
+import '../../../widgets/negotiation_card.dart';
 import '../../data/models/categories_model.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_state.dart';
@@ -28,12 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
   final PagingController<int, CategoryModel> pagingController =
       PagingController(firstPageKey: 1);
+  ClinicsBloc clinicsBloc = getIt.get<ClinicsBloc>();
   int nextPage = 1;
   int nextPageKey = 1;
   @override
   initState() {
+    clinicsBloc.getAllClinics();
     homeBloc.getCategories(nextPage, 10);
-
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = 10 + nextPage;
       nextPage = pageKey + 1;
@@ -85,9 +89,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  var value;
   Widget getBody() {
-    return Container(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: TabBar(
+          indicatorColor: primaryColor,
+          automaticIndicatorColorAdjustment: false,
+          labelPadding: const EdgeInsets.all(12),
+          labelStyle: AppStyles.baloo2FontWith500WeightAnd16Size,
+          unselectedLabelStyle: AppStyles.baloo2FontWith400WeightAnd16Size
+              .copyWith(color: blackColor),
+          tabs: [
+            const Text("Immediate ( 16  )"),
+            const Text("Earliest Date ( 7 )"),
+            Row(
+              children: [
+                SvgPicture.asset(calendarIcon),
+                const Text("( 32 )"),
+              ],
+            ),
+          ],
+        ),
+        body: TabBarView(
+          children: [
+            getHomeBody(),
+            getHomeBody(),
+            getHomeBody(),
+          ],
+        ),
+      ),
+    );
+    /*return Container(
         color: whiteColor,
         child: PagedListView<int, CategoryModel>(
           pagingController: pagingController,
@@ -164,6 +197,33 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-        ));
+        ));*/
+  }
+
+  getHomeBody() {
+    return BlocBuilder<ClinicsBloc, ClinicsState>(
+        bloc: clinicsBloc,
+        builder: (context, state) {
+          if (state.states == ActionStates.success) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      bottom: 128.h,
+                    ),
+                    itemCount: state.clinics?.items?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return NegotiationCard(state.clinics!.items![index]);
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+          return Container();
+        });
   }
 }

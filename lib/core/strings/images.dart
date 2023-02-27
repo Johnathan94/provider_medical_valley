@@ -39,3 +39,8 @@ const locationGreenIcon = "${svgImagesPath}location.svg";
 const ratingIcon = "${svgImagesPath}rating.svg";
 const notificationIconDeactivated =
     "${svgImagesPath}notification_icon_deactivated.svg";
+const calendarIcon = "${svgImagesPath}calendar_icon.svg";
+const cardIconOne = "${svgImagesPath}card_icon_one.svg";
+const cardIconTwo = "${svgImagesPath}card_icon_two.svg";
+const phoneIcon = "${svgImagesPath}phone_icon.svg";
+const infoIcon = "${svgImagesPath}info_icon.svg";

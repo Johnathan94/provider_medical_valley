@@ -51,21 +51,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ];
 
   @override
-  void initState() {//close dialog
+  void initState() {
+    //close dialog
     super.initState();
   }
-@override
+
+  @override
   void didChangeDependencies() {
-  genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
-  optionDisplayed
-      .sink.add(AppLocalizations.of(context)!.yes);
-  super.didChangeDependencies();
+    genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
+    optionDisplayed.sink.add(AppLocalizations.of(context)!.yes);
+    super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider<RegisterBloc>(
-      create:(c)=> registerBloc,
+      create: (c) => registerBloc,
       child: Scaffold(
         appBar: CustomAppBar(
           header: AppLocalizations.of(context)!.sign_up,
@@ -75,8 +76,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
         body: Stack(
-          children: [const PrimaryBg(), buildRegisterView(),
-
+          children: [
+            const PrimaryBg(),
+            buildRegisterView(),
           ],
         ),
       ),
@@ -98,24 +100,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
-              child: BlocListener <RegisterBloc , RegisterState>(
+              child: BlocListener<RegisterBloc, RegisterState>(
                 bloc: registerBloc,
-                listener: (context, state) async{
-                  if(state is RegisterStateLoading){
-                   await LoadingDialogs.showLoadingDialog(context);
+                listener: (context, state) async {
+                  if (state is RegisterStateLoading) {
+                    await LoadingDialogs.showLoadingDialog(context);
+                  } else if (state is RegisterStateSuccess) {
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      context: context,
+                      onConfirmBtnTap: () {
+                        navigateToLoginScreen();
+                      },
+                      type: CoolAlertType.success,
+                      text: AppLocalizations.of(context)!.success_registered,
+                    );
                   }
-                  else if (state is RegisterStateSuccess)
-                    {
-                       LoadingDialogs.hideLoadingDialog();
-                       CoolAlert.show(
-                         context: context,
-                         onConfirmBtnTap: (){
-                           navigateToLoginScreen();
-                         },
-                         type: CoolAlertType.success,
-                         text: AppLocalizations.of(context)!.success_registered,
-                       );
-                    }
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,9 +135,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: emailIcon,
                       hintText: AppLocalizations.of(context)!.email,
                       hintStyle: AppStyles.headlineStyle,
-                      onValidator: (String? x){
-                        if(!x!.isEmailValid()){
-                          return AppLocalizations.of(context)!.email_invalid ;
+                      onValidator: (String? x) {
+                        if (!x!.isEmailValid()) {
+                          return AppLocalizations.of(context)!.email_invalid;
                         }
                       },
                     ),
@@ -149,16 +149,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       prefixIcon: emailIcon,
                       hintText: AppLocalizations.of(context)!.fullname,
                       hintStyle: AppStyles.headlineStyle,
-                      onValidator: (String? x){
-                        if(x!.isEmpty){
-                          return AppLocalizations.of(context)!.empty_field ;
+                      onValidator: (String? x) {
+                        if (x!.isEmpty) {
+                          return AppLocalizations.of(context)!.empty_field;
                         }
                       },
                     ),
                     SizedBox(
                       height: 16.h,
                     ),
-                    PhoneIntlWidgetField(phoneController,(Country country){
+                    PhoneIntlWidgetField(phoneController, (Country country) {
                       dialCode = country.dialCode;
                     }),
                     SizedBox(
@@ -172,10 +172,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: DropdownButton2<String>(
                               isExpanded: true,
                               hint: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!.insurance_question,
+                                    AppLocalizations.of(context)!
+                                        .insurance_question,
                                     style: AppStyles.headlineStyle,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -184,46 +186,48 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     style: AppStyles.headlineStyle,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-
                                 ],
                               ),
-                              items:
-                              AppInitializer.optionsList
+                              items: AppInitializer.optionsList
                                   .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      item,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    optionDisplayed.value == item ?
-                                    const  Icon(Icons.check_circle, color: primaryColor,size: 15,):
-                                    const SizedBox()
-                                  ],
-                                ),
-                              ))
+                                        value: item,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            optionDisplayed.value == item
+                                                ? const Icon(
+                                                    Icons.check_circle,
+                                                    color: primaryColor,
+                                                    size: 15,
+                                                  )
+                                                : const SizedBox()
+                                          ],
+                                        ),
+                                      ))
                                   .toList(),
                               onChanged: (String? value) {
                                 optionDisplayed.sink.add(value!);
                               },
                               icon: const Padding(
-                                padding:  EdgeInsetsDirectional.only(end: 8.0),
-                                child:  Icon(Icons.arrow_drop_down_outlined),
+                                padding: EdgeInsetsDirectional.only(end: 8.0),
+                                child: Icon(Icons.arrow_drop_down_outlined),
                               ),
                               buttonHeight: 60,
                               underline: const SizedBox(),
                               buttonDecoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: whiteRed100,
-                                  border: Border.all(color: primaryColor)
-                              ),
+                                  border: Border.all(color: primaryColor)),
                               buttonElevation: 2,
                               itemHeight: 45,
                               dropdownDecoration: BoxDecoration(
@@ -235,8 +239,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               scrollbarAlwaysShow: true,
                             ),
                           );
-                        }
-                    ),
+                        }),
                     SizedBox(
                       height: 16.h,
                     ),
@@ -248,7 +251,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: DropdownButton2<String>(
                               isExpanded: true,
                               hint: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     AppLocalizations.of(context)!.gender,
@@ -260,49 +264,51 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     style: AppStyles.headlineStyle,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-
                                 ],
                               ),
-                              items:
-                              [
+                              items: [
                                 AppLocalizations.of(context)!.male,
                                 AppLocalizations.of(context)!.female,
                               ]
                                   .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      item,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    optionDisplayed.value == item ?
-                                    const  Icon(Icons.check_circle, color: primaryColor,size: 15,):
-                                    const SizedBox()
-                                  ],
-                                ),
-                              ))
+                                        value: item,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            optionDisplayed.value == item
+                                                ? const Icon(
+                                                    Icons.check_circle,
+                                                    color: primaryColor,
+                                                    size: 15,
+                                                  )
+                                                : const SizedBox()
+                                          ],
+                                        ),
+                                      ))
                                   .toList(),
                               onChanged: (String? value) {
                                 genderDisplayed.sink.add(value!);
                               },
                               icon: const Padding(
-                                padding:  EdgeInsetsDirectional.only(end: 8.0),
-                                child:  Icon(Icons.arrow_drop_down_outlined),
+                                padding: EdgeInsetsDirectional.only(end: 8.0),
+                                child: Icon(Icons.arrow_drop_down_outlined),
                               ),
                               buttonHeight: 60,
                               underline: const SizedBox(),
                               buttonDecoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: whiteRed100,
-                                  border: Border.all(color: primaryColor)
-                              ),
+                                  border: Border.all(color: primaryColor)),
                               buttonElevation: 2,
                               itemHeight: 45,
                               dropdownDecoration: BoxDecoration(
@@ -314,19 +320,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               scrollbarAlwaysShow: true,
                             ),
                           );
-                        }
-                    ),
+                        }),
                     SizedBox(
                       height: 10.h,
                     ),
                     PrimaryButton(
                       onPressed: () {
-                        if(_formKey.currentState!.validate()){
-                          registerBloc.registerUser(RegisterEvent(RegisterRequestModel(
-
-                            email: controller.text , mobile: phoneController.text,fullName: fullNameController.text ,haveInsurance: optionDisplayed.value == AppLocalizations.of(context)!.yes ,rememberMe: true, genderStr: genderDisplayed.value , genderId: 0, )));
-                        }else {
-                          context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);
+                        if (_formKey.currentState!.validate()) {
+                          registerBloc
+                              .registerUser(RegisterEvent(RegisterRequestModel(
+                            email: controller.text,
+                            mobile: phoneController.text,
+                            fullName: fullNameController.text,
+                            haveInsurance: optionDisplayed.value ==
+                                AppLocalizations.of(context)!.yes,
+                            rememberMe: true,
+                            genderStr: genderDisplayed.value,
+                            genderId: 0,
+                          )));
+                        } else {
+                          context.showSnackBar(AppLocalizations.of(context)!
+                              .please_fill_all_data);
                         }
                       },
                       text: AppLocalizations.of(context)!.sign_up,
@@ -355,8 +369,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: <InlineSpan>[
               TextSpan(
                 text: AppLocalizations.of(context)!.sign_in,
-                style:
-                    AppStyles.baloo2FontWith700WeightAnd15SizeWithPrimaryColor,
+                style: AppStyles.baloo2FontWith700WeightAnd15Size
+                    .copyWith(color: primaryColor),
               )
             ])),
       ),
@@ -405,5 +419,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 }
 
-class Gender {
-}
+class Gender {}

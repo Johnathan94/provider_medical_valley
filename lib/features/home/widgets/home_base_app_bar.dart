@@ -138,7 +138,8 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                                           AppLocalizations.of(context)!
                                               .auto_replay,
                                           style: AppStyles
-                                              .baloo2FontWith400WeightAnd14SizeAndWhite,
+                                              .baloo2FontWith400WeightAnd14Size
+                                              .copyWith(color: whiteColor),
                                         )
                                       ],
                                     ),
@@ -158,7 +159,8 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                                           AppLocalizations.of(context)!
                                               .within_three_hours,
                                           style: AppStyles
-                                              .baloo2FontWith400WeightAnd14SizeAndWhite,
+                                              .baloo2FontWith400WeightAnd14Size
+                                              .copyWith(color: whiteColor),
                                         )
                                       ],
                                     )
