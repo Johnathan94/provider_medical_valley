@@ -89,7 +89,7 @@ class NegotiationCard extends StatelessWidget {
                       Row(
                         children: [
                           SvgPicture.asset(cardIconOne),
-                          SizedBox(width: 5.h),
+                          SizedBox(width: 5.w),
                           Text(
                             items.clinicName.toString(),
                             style: AppStyles.baloo2FontWith400WeightAnd16Size
@@ -101,7 +101,7 @@ class NegotiationCard extends StatelessWidget {
                       Row(
                         children: [
                           SvgPicture.asset(cardIconTwo),
-                          SizedBox(width: 5.h),
+                          SizedBox(width: 5.w),
                           Text(
                             items.clinicName.toString(),
                             style: AppStyles.baloo2FontWith400WeightAnd16Size
@@ -113,7 +113,7 @@ class NegotiationCard extends StatelessWidget {
                       Row(
                         children: [
                           SvgPicture.asset(phoneIcon),
-                          SizedBox(width: 5.h),
+                          SizedBox(width: 5.w),
                           Text(
                             items.clinicName.toString(),
                             style: AppStyles.baloo2FontWith400WeightAnd12Size,
@@ -125,7 +125,7 @@ class NegotiationCard extends StatelessWidget {
                         child: Row(
                           children: [
                             SvgPicture.asset(infoIcon),
-                            SizedBox(width: 5.h),
+                            SizedBox(width: 5.w),
                             Text(
                               items.clinicName.toString(),
                               style: AppStyles.baloo2FontWith400WeightAnd12Size

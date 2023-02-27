@@ -7,9 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
-import 'package:provider_medical_valley/core/app_styles.dart';
 
 import '../../../../../core/app_sizes.dart';
+import '../../../../../core/app_styles.dart';
 import '../../../../../core/medical_injection.dart';
 import '../../../../../core/strings/images.dart';
 import '../../../history/presentation/bloc/clinics_bloc.dart';
@@ -94,6 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
       length: 3,
       child: Scaffold(
         appBar: TabBar(
+          labelColor: primaryColor,
+          unselectedLabelColor: blackColor,
           indicatorColor: primaryColor,
           automaticIndicatorColorAdjustment: false,
           labelPadding: const EdgeInsets.all(12),
@@ -104,8 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
             const Text("Immediate ( 16  )"),
             const Text("Earliest Date ( 7 )"),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(calendarIcon),
+                SizedBox(
+                  width: 5.w,
+                ),
                 const Text("( 32 )"),
               ],
             ),
