@@ -3,19 +3,20 @@ import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 
-
 class PrimaryButton extends StatelessWidget {
   final Function()? onPressed;
   final String text;
   final bool isWidgetButton;
   final Widget? body;
-   double? buttonCornerRadius ;
-   PrimaryButton(
+  final Color backgroundColor;
+  double? buttonCornerRadius;
+  PrimaryButton(
       {this.onPressed,
       required this.text,
       this.isWidgetButton = false,
       this.body,
       this.buttonCornerRadius,
+      this.backgroundColor = primaryColor,
       Key? key})
       : super(key: key);
 
@@ -25,10 +26,11 @@ class PrimaryButton extends StatelessWidget {
         style: ButtonStyle(
             textStyle: MaterialStateProperty.all(
                 AppStyles.baloo2FontWith400WeightAnd22Size),
-            backgroundColor: MaterialStateProperty.all(primaryColor),
+            backgroundColor: MaterialStateProperty.all(backgroundColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(buttonCornerRadius ?? loginButtonRadius),
+              borderRadius: BorderRadius.circular(
+                  buttonCornerRadius ?? loginButtonRadius),
             ))),
         onPressed: onPressed,
         child: Center(

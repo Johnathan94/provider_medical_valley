@@ -133,6 +133,12 @@ class AppStyles {
     fontWeight: FontWeight.w600,
   );
 
+  static var baloo2FontWith600WeightAnd30Size = GoogleFonts.baloo2(
+    color: whiteColor,
+    fontSize: text30.sp,
+    fontWeight: FontWeight.w600,
+  );
+
   static var hintStyle = GoogleFonts.baloo2(
     color: grayW100,
     fontSize: text16.sp,

@@ -28,4 +28,5 @@ const gray900 = Color(0xFF5F5F5F);
 const whiteRed100 = Color(0xFFFFFAF9);
 const dividerColor = Color(0xFFC7C7CC);
 const greenCheckBox = Color(0xFF1F7546);
+const greenLoading = Color(0x8A23804D);
 Color grayW100 = Colors.grey.shade100;

@@ -11,7 +11,6 @@ import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
-import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/loginState_state.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -95,10 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 BlocListener<LoginBloc, LoginState>(
                     bloc: loginBloc,
                     listener: (context, state) async {
-                       if (state is LoginStateLoading) {
+                      if (state is LoginStateLoading) {
                         await LoadingDialogs.showLoadingDialog(context);
-                      }
-                       else if (state is LoginStateSuccess) {
+                      } else if (state is LoginStateSuccess) {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           barrierDismissible: false,
@@ -110,8 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           text:
                               AppLocalizations.of(context)!.success_registered,
                         );
-                      }
-                       else {
+                      } else {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           context: context,
@@ -135,12 +132,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      navigateToOtpScreen();
+                      /*    if (_formKey.currentState!.validate()) {
                         loginBloc.loginUser(LoginEvent(phoneController.text));
                       } else {
                         context.showSnackBar(
                             AppLocalizations.of(context)!.please_fill_all_data);
-                      }
+                      }*/
                     },
                     text: AppLocalizations.of(context)!.sign_in,
                   ),
@@ -256,8 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <InlineSpan>[
               TextSpan(
                 text: AppLocalizations.of(context)!.sign_up,
-                style:
-                    AppStyles.baloo2FontWith700WeightAnd15SizeWithPrimaryColor,
+                style: AppStyles.baloo2FontWith700WeightAnd15Size
+                    .copyWith(color: primaryColor),
               )
             ])),
       ),

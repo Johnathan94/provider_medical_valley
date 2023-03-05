@@ -109,7 +109,11 @@
   "arabic_sub_title": "السعوديه",
   "reply_to_customers": "الرد على العملاء",
   "auto_replay": "رد آلي",
-  "within_three_hours": "خلال 3 ساعات"
+  "within_three_hours": "خلال 3 ساعات",
+  "loading_screen_text": "تم إرسال التفاوض إلى العميل",
+  "cancel": "الغا،"
+
+
 
 
 

@@ -107,7 +107,9 @@
     "arabic_sub_title": "Arabic",
     "reply_to_customers": "Reply to customers",
     "auto_replay": "auto reply",
-    "within_three_hours": "within 3 hours"
+    "within_three_hours": "within 3 hours",
+    "loading_screen_text": "The negotiation has been sent to the customer",
+    "cancel": "Cancel"
 
 
 }
