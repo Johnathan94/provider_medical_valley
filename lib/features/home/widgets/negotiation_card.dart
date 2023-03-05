@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/app_styles.dart';
 import '../../../core/strings/images.dart';
-import '../history/data/clinic_model.dart';
 import 'negotiation_options_button.dart';
 
 class NegotiationCard extends StatelessWidget {
-  final Items items;
+  final BookRequest items;
 
   const NegotiationCard(this.items, {Key? key}) : super(key: key);
 
@@ -19,7 +19,7 @@ class NegotiationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 170.h,
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: const EdgeInsets.symmetric( vertical: 8),
       decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(21),
@@ -33,9 +33,9 @@ class NegotiationCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
+            flex: 8,
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 12, right: 12, top: 12, bottom: 12),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -43,7 +43,7 @@ class NegotiationCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${items.timeAgo.toString()} ${items.timeUnit.toString()}",
+                        "Hello Hello}",
                         style: AppStyles.baloo2FontWith400WeightAnd14Size
                             .copyWith(color: blackColor),
                       ),
@@ -53,8 +53,8 @@ class NegotiationCard extends StatelessWidget {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.grey.shade300),
-                            image: DecorationImage(
-                              image: NetworkImage(items.image!),
+                            image: const DecorationImage(
+                              image: AssetImage(personImage),
                             )),
                       ),
                       Row(
@@ -65,7 +65,7 @@ class NegotiationCard extends StatelessWidget {
                             size: 16,
                           ),
                           Text(
-                            " ${items.rate}",
+                            " ",
                             style: AppStyles.baloo2FontWith400WeightAnd12Size
                                 .copyWith(color: lightGrey),
                           ),
@@ -73,25 +73,29 @@ class NegotiationCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 8),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        items.clinicName ?? "",
+                        items.userStr ?? "",
                         style: AppStyles.baloo2FontWith400WeightAnd18Size
                             .copyWith(
                                 color: blackColor,
                                 decoration: TextDecoration.none),
+                      maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 3.h),
                       Row(
                         children: [
-                          SvgPicture.asset(cardIconOne),
+                          SvgPicture.asset(cardIconOne,),
                           SizedBox(width: 5.w),
                           Text(
-                            items.clinicName.toString(),
+                            items.categoryStr.toString(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: AppStyles.baloo2FontWith400WeightAnd16Size
                                 .copyWith(color: blackColor),
                           ),
@@ -103,7 +107,9 @@ class NegotiationCard extends StatelessWidget {
                           SvgPicture.asset(cardIconTwo),
                           SizedBox(width: 5.w),
                           Text(
-                            items.clinicName.toString(),
+                            items.serviceStr.toString(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: AppStyles.baloo2FontWith400WeightAnd16Size
                                 .copyWith(color: blackColor),
                           ),
@@ -115,7 +121,9 @@ class NegotiationCard extends StatelessWidget {
                           SvgPicture.asset(phoneIcon),
                           SizedBox(width: 5.w),
                           Text(
-                            items.clinicName.toString(),
+                            items.mobileStr.toString(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: AppStyles.baloo2FontWith400WeightAnd12Size,
                           ),
                         ],
@@ -127,7 +135,9 @@ class NegotiationCard extends StatelessWidget {
                             SvgPicture.asset(infoIcon),
                             SizedBox(width: 5.w),
                             Text(
-                              items.clinicName.toString(),
+                              items.haveInsurance.toString(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: AppStyles.baloo2FontWith400WeightAnd12Size
                                   .copyWith(color: primaryColor),
                             ),
@@ -140,7 +150,9 @@ class NegotiationCard extends StatelessWidget {
               ),
             ),
           ),
-          NegotiationOptionButton(AppLocalizations.of(context)!.negotiate_again)
+          Expanded(
+              flex: 4,
+              child: NegotiationOptionButton(AppLocalizations.of(context)!.negotiate_again))
         ],
       ),
     );

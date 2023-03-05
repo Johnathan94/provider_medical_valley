@@ -24,6 +24,7 @@ class NegotiationOptionButton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
+            textAlign: TextAlign.center,
             style: AppStyles.baloo2FontWith400WeightAnd18Size
                 .copyWith(color: whiteColor, decoration: TextDecoration.none),
           ),

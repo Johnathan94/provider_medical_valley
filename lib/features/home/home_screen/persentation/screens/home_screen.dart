@@ -7,16 +7,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
+import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/app_styles.dart';
-import '../../../../../core/medical_injection.dart';
 import '../../../../../core/strings/images.dart';
-import '../../../history/presentation/bloc/clinics_bloc.dart';
-import '../../../history/presentation/bloc/clinics_state.dart';
 import '../../../widgets/home_base_app_bar.dart';
 import '../../../widgets/negotiation_card.dart';
-import '../../data/models/categories_model.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_state.dart';
 
@@ -29,19 +27,42 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
-  final PagingController<int, CategoryModel> pagingController =
+  EarliestBloc earliestBloc = GetIt.I<EarliestBloc>();
+  ScheduledBloc scheduledBloc = GetIt.I<ScheduledBloc>();
+  final PagingController<int, BookRequest> immediatePagingController =
       PagingController(firstPageKey: 1);
-  ClinicsBloc clinicsBloc = getIt.get<ClinicsBloc>();
-  int nextPage = 1;
-  int nextPageKey = 1;
+  final PagingController<int, BookRequest> earliestPagingController =
+      PagingController(firstPageKey: 1);
+  final PagingController<int, BookRequest> scheduledPagingController =
+      PagingController(firstPageKey: 1);
+  int immediateNextPage = 1;
+  int earliestNextPage = 1;
+  int scheduledNextPage = 1;
+  int earliestNextPageKey = 1;
+  int immediateNextPageKey = 1;
+  int scheduledNextPageKey = 1;
+  BehaviorSubject<int> immediateSubjectCounter = BehaviorSubject.seeded(0);
+  BehaviorSubject<int> earliestSubjectCounter = BehaviorSubject.seeded(0);
+  BehaviorSubject<int> scheduledSubjectCounter = BehaviorSubject.seeded(0);
   @override
   initState() {
-    clinicsBloc.getAllClinics();
-    homeBloc.getCategories(nextPage, 10);
-    pagingController.addPageRequestListener((pageKey) {
-      nextPageKey = 10 + nextPage;
-      nextPage = pageKey + 1;
-      homeBloc.getCategories(nextPage, 10);
+    homeBloc.getImmediateRequests( immediateNextPage, 10);
+    earliestBloc.getEarliestRequests( earliestNextPage, 10);
+    scheduledBloc.getScheduledRequests( scheduledNextPage, 10);
+    immediatePagingController.addPageRequestListener((pageKey) {
+      immediateNextPageKey = 10 + immediateNextPage;
+      immediateNextPage = pageKey + 1;
+      homeBloc.getImmediateRequests(immediateNextPage, 10);
+    });
+    earliestPagingController.addPageRequestListener((pageKey) {
+      earliestNextPageKey = 10 + earliestNextPage;
+      earliestNextPage = pageKey + 1;
+      earliestBloc.getEarliestRequests(earliestNextPage, 10);
+    });
+    scheduledPagingController.addPageRequestListener((pageKey) {
+      scheduledNextPageKey = 10 + scheduledNextPage;
+      scheduledNextPage = pageKey + 1;
+      scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
     });
     super.initState();
   }
@@ -50,28 +71,85 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: BlocListener<HomeBloc, MyHomeState>(
-        bloc: homeBloc,
-        listener: (c, state) {
-          if (state is SuccessHomeState) {
-            if (state.category.data!.results!.length == 10) {
-              pagingController.appendPage(
-                  state.category.data!.results!, nextPageKey);
-            } else {
-              pagingController.appendLastPage(state.category.data!.results!);
-            }
-          } else if (state is ErrorHomeState) {
-            CoolAlert.show(
-              context: context,
-              onConfirmBtnTap: () {
-                Navigator.pop(context);
-              },
-              type: CoolAlertType.error,
-              text: AppLocalizations.of(context)!.server_error,
-            );
-          }
-        },
-        child: getBody(),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<HomeBloc, MyHomeState>(
+            bloc: homeBloc,
+            listener: (c, state) {
+              if (state is SuccessHomeState) {
+                immediateSubjectCounter.sink.add(immediateSubjectCounter.value+state.category.data!.results!.length);
+                  if (state.category.data!.results!.length == 10) {
+                    immediatePagingController.appendPage(
+                        state.category.data!.results!, immediateNextPage);
+                  } else {
+                    immediatePagingController.appendLastPage(state.category.data!.results!);
+                  }
+
+              } else if (state is ErrorHomeState) {
+                CoolAlert.show(
+                  context: context,
+                  onConfirmBtnTap: () {
+                    Navigator.pop(context);
+                  },
+                  type: CoolAlertType.error,
+                  text: AppLocalizations.of(context)!.server_error,
+                );
+              }
+            },
+
+          ),
+          BlocListener<EarliestBloc, MyHomeState>(
+            bloc: earliestBloc,
+            listener: (c,MyHomeState state) {
+              if (state is SuccessHomeState) {
+                earliestSubjectCounter.sink.add(earliestSubjectCounter.value+state.category.data!.results!.length );
+                if (state.category.data!.results!.length == 10) {
+                    earliestPagingController.appendPage(
+                        state.category.data!.results!, earliestNextPage);
+                  } else {
+                    earliestPagingController.appendLastPage(state.category.data!.results!);
+                  }
+              }
+              else if (state is ErrorHomeState) {
+                CoolAlert.show(
+                  context: context,
+                  onConfirmBtnTap: () {
+                    Navigator.pop(context);
+                  },
+                  type: CoolAlertType.error,
+                  text: AppLocalizations.of(context)!.server_error,
+                );
+              }
+            },
+
+          ),
+          BlocListener<ScheduledBloc, MyHomeState>(
+            bloc: scheduledBloc,
+            listener: (c, state) {
+              if (state is SuccessHomeState) {
+                scheduledSubjectCounter.sink.add(scheduledSubjectCounter.value+state.category.data!.results!.length );
+
+                if (state.category.data!.results!.length == 10) {
+                    scheduledPagingController.appendPage(
+                        state.category.data!.results!, scheduledNextPage);
+                  } else {
+                    scheduledPagingController.appendLastPage(state.category.data!.results!);
+                  }
+              }
+              else if (state is ErrorHomeState) {
+                CoolAlert.show(
+                  context: context,
+                  onConfirmBtnTap: () {
+                    Navigator.pop(context);
+                  },
+                  type: CoolAlertType.error,
+                  text: AppLocalizations.of(context)!.server_error,
+                );
+              }
+            },
+
+          ),
+        ], child: getBody(),
       ),
     );
   }
@@ -103,8 +181,18 @@ class _HomeScreenState extends State<HomeScreen> {
           unselectedLabelStyle: AppStyles.baloo2FontWith400WeightAnd16Size
               .copyWith(color: blackColor),
           tabs: [
-            const Text("Immediate ( 16  )"),
-            const Text("Earliest Date ( 7 )"),
+            StreamBuilder<int>(
+              stream: immediateSubjectCounter.stream,
+              builder: (context, snapshot) {
+                return  Text("Immediate (${immediateSubjectCounter.value})");
+              }
+            ),
+             StreamBuilder<int>(
+               stream: earliestSubjectCounter.stream,
+               builder: (context, snapshot) {
+                 return Text("Earliest Date  (${earliestSubjectCounter.value})");
+               }
+             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -112,121 +200,89 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 5.w,
                 ),
-                const Text("( 32 )"),
+                StreamBuilder<int>(
+                  stream: scheduledSubjectCounter.stream,
+                  builder: (context, snapshot) {
+                    return Text(" (${scheduledSubjectCounter.value})");
+                  }
+                ),
               ],
             ),
           ],
         ),
         body: TabBarView(
           children: [
-            getHomeBody(),
-            getHomeBody(),
-            getHomeBody(),
+            getImmediate(),
+            getEarliest(),
+            getScheduled(),
           ],
         ),
       ),
     );
-    /*return Container(
-        color: whiteColor,
-        child: PagedListView<int, CategoryModel>(
-          pagingController: pagingController,
-          padding:
-              const EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
-          builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, CategoryModel item, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2(
-                    isExpanded: true,
-                    hint: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item.name ?? "",
-                            style: AppStyles.headlineStyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    items: item.services!
-                        .map((item) => DropdownMenuItem<Services>(
-                              value: item,
-                              child: RadioListTile(
-                                  activeColor: blackColor,
-                                  value: index,
-                                  groupValue: value,
-                                  onChanged: (newValue) {
-                                    Navigator.pop(context);
-                                    showBottomSheet(
-                                        context: context,
-                                        builder: (context) =>
-                                            const AppointmentsBottomSheet());
-                                  },
-                                  title: Text(
-                                    item.englishName!,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
-                            ))
-                        .toList(),
-                    onChanged: (value) {},
-                    icon: SvgPicture.asset(arrowRightIcon),
-                    buttonHeight: 50,
-                    buttonWidth: 160,
-                    buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-                    buttonDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: whiteColor,
-                    ),
-                    buttonElevation: 2,
-                    itemHeight: 45,
-                    itemPadding: const EdgeInsets.only(left: 14, right: 14),
-                    dropdownMaxHeight: 200,
-                    dropdownWidth: (MediaQuery.of(context).size.width - 54),
-                    dropdownPadding: null,
-                    dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: whiteColor,
-                    ),
-                    dropdownElevation: 8,
-                    scrollbarRadius: const Radius.circular(40),
-                    scrollbarThickness: 6,
-                    scrollbarAlwaysShow: true,
-                  ),
-                ),
-              );
-            },
-          ),
-        ));*/
+
   }
 
-  getHomeBody() {
-    return BlocBuilder<ClinicsBloc, ClinicsState>(
-        bloc: clinicsBloc,
+  getImmediate() {
+    return BlocBuilder<HomeBloc, MyHomeState>(
+        bloc: homeBloc,
         builder: (context, state) {
-          if (state.states == ActionStates.success) {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(
-                      bottom: 128.h,
-                    ),
-                    itemCount: state.clinics?.items?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return NegotiationCard(state.clinics!.items![index]);
-                    },
-                  ),
-                ),
-              ],
+          if (state is SuccessHomeState) {
+            return PagedListView<int, BookRequest>(
+              pagingController: immediatePagingController,
+              padding:
+              const EdgeInsetsDirectional.only(top: 22,start: 12, end: 12),
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, BookRequest item, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: NegotiationCard(item),
+                );
+              },
+            ),
+            );
+          }
+          return Container();
+        });
+  }
+  getEarliest() {
+    return BlocBuilder<HomeBloc, MyHomeState>(
+        bloc: homeBloc,
+        builder: (context, state) {
+          if (state is SuccessHomeState) {
+            return PagedListView<int, BookRequest>(
+              pagingController: earliestPagingController,
+              padding:
+              const EdgeInsetsDirectional.only(top: 22,start: 12, end: 12),
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, BookRequest item, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: NegotiationCard(item),
+                );
+              },
+            ),
+            );
+          }
+          return Container();
+        });
+  }
+  getScheduled() {
+    return BlocBuilder<HomeBloc, MyHomeState>(
+        bloc: homeBloc,
+        builder: (context, state) {
+          if (state is SuccessHomeState) {
+            return PagedListView<int, BookRequest>(
+              pagingController: scheduledPagingController,
+              padding:
+              const EdgeInsetsDirectional.only(top: 22,start: 12, end: 12),
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, BookRequest item, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: NegotiationCard(item),
+                );
+              },
+            ),
             );
           }
           return Container();

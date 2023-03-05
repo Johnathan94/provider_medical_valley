@@ -15,9 +15,7 @@ import '../features/home/history/data/source/json_data.dart';
 import '../features/home/history/domain/get_clinic_usecase.dart';
 import '../features/home/history/presentation/bloc/clinics_bloc.dart';
 import '../features/home/home_screen/data/api/categories_client.dart';
-import '../features/home/home_screen/data/api/search_client.dart';
-import '../features/home/home_screen/domain/get_categories_use_case.dart';
-import '../features/home/home_screen/domain/search_with_keyword.dart';
+import '../features/home/home_screen/domain/get_requests_use_case.dart';
 import '../features/home/home_screen/persentation/bloc/home_bloc.dart';
 import 'base_service/dio_manager.dart';
 
@@ -33,6 +31,12 @@ configureDependencies() {
   getIt.registerFactory(
       () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => HomeBloc(
-      GetCategoriesUseCase(CategoriesClient(DioManager.getDio())),
-      SearchWithKeyboard(SearchClient(DioManager.getDio()))));
+      GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+  ));
+  getIt.registerFactory(() => EarliestBloc(
+      GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+  ));
+  getIt.registerFactory(() => ScheduledBloc(
+      GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+  ));
 }

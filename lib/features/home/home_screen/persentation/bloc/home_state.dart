@@ -1,12 +1,12 @@
 import 'package:provider_medical_valley/core/base_service/network_error.dart';
+import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 
-import '../../data/models/categories_model.dart';
 import '../../data/models/search_result.dart';
 
 abstract class MyHomeState {}
 
 class SuccessHomeState extends MyHomeState {
-  CategoryResponse category;
+  RequestsResponse category;
 
   SuccessHomeState(this.category);
 }
