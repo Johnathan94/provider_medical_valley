@@ -7,11 +7,30 @@ import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 
+import '../../features/calendar/persentation/screens/calendar_screen.dart';
+import '../../features/home/home_screen/data/models/categories_model.dart';
+
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Services myService = Services(
+        id: 1,
+        englishName: "englishName",
+        arabicName: "arabicName",
+        price: 50.0,
+        dateFrom: "dateFrom",
+        dateTo: "dateTo",
+        discount1: 10,
+        discount2: 20,
+        discount3: 30,
+        description: "description",
+        statusId: 4,
+        autoReply: true,
+        isActive: true,
+        categoryId: 30,
+        categoryStr: "categoryStr");
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -20,7 +39,7 @@ class LoadingScreen extends StatelessWidget {
         child: Column(
           children: [
             Stack(
-              children: [
+              children: const [
                 SpinKitRipple(
                   color: greenLoading,
                   borderWidth: 60.0,
@@ -42,6 +61,12 @@ class LoadingScreen extends StatelessWidget {
               child: PrimaryButton(
                 text: AppLocalizations.of(context)!.cancel,
                 backgroundColor: secondaryColor,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CalenderScreen(
+                            services: myService,
+                          )));
+                },
               ),
             )
           ],

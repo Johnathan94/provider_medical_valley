@@ -111,19 +111,7 @@
   "auto_replay": "رد آلي",
   "within_three_hours": "خلال 3 ساعات",
   "loading_screen_text": "تم إرسال التفاوض إلى العميل",
-  "cancel": "الغا،"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "cancel": "الغا،",
+  "booked_successed": "لقد قمت بارسال طلب بحجز موعد",
+  "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق"
 }

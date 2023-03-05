@@ -1,15 +1,15 @@
 import 'package:get_it/get_it.dart';
-import 'package:provider_medical_valley/features/auth/register/domain/register_usecase.dart';
-import 'package:provider_medical_valley/features/profile/data/edit_profile.dart';
-import 'package:provider_medical_valley/features/profile/domain/edit_profile_repo.dart';
-import 'package:provider_medical_valley/features/profile/presentation/bloc/edit_profile_bloc.dart';
 
 import '../features/auth/login/data/api_service/login_client.dart';
 import '../features/auth/login/data/repo/login_repo.dart';
 import '../features/auth/login/presentation/bloc/login_bloc.dart';
 import '../features/auth/register/data/api_service/register_client.dart';
 import '../features/auth/register/data/repo/register_repo.dart';
+import '../features/auth/register/domain/register_usecase.dart';
 import '../features/auth/register/presentation/register_bloc/register_bloc.dart';
+import '../features/calendar/data/book_request_client.dart';
+import '../features/calendar/data/repo/book_request_repo.dart';
+import '../features/calendar/persentation/bloc/book_request_bloc.dart';
 import '../features/home/history/data/get_clinic_repo.dart';
 import '../features/home/history/data/source/json_data.dart';
 import '../features/home/history/domain/get_clinic_usecase.dart';
@@ -29,9 +29,9 @@ configureDependencies() {
   getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(
       RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
   getIt.registerFactory(
-      () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
+      () => BookRequestBloc(BookRequestRepo(BookRequestClient())));
   getIt.registerFactory(
-      () => EditProfileBloc(EditProfileRepoImpl(EditProfileClient(DioManager.getDio()))));
+      () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => HomeBloc(
       GetCategoriesUseCase(CategoriesClient(DioManager.getDio())),
       SearchWithKeyboard(SearchClient(DioManager.getDio()))));
