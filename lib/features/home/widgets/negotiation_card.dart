@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +11,7 @@ import 'negotiation_options_button.dart';
 
 class NegotiationCard extends StatelessWidget {
   final BookRequest items;
-
-  const NegotiationCard(this.items, {Key? key}) : super(key: key);
+  const NegotiationCard(this.items,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +41,7 @@ class NegotiationCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Hello Hello}",
+                        "3 min",
                         style: AppStyles.baloo2FontWith400WeightAnd14Size
                             .copyWith(color: blackColor),
                       ),
@@ -152,7 +150,7 @@ class NegotiationCard extends StatelessWidget {
           ),
           Expanded(
               flex: 4,
-              child: NegotiationOptionButton(AppLocalizations.of(context)!.negotiate_again))
+              child: NegotiationOptionButton( AppLocalizations.of(context)!.negotiate_again,items ,))
         ],
       ),
     );

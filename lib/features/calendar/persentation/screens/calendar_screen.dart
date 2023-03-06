@@ -124,96 +124,98 @@ class _CalenderScreenState extends State<CalenderScreen> {
           .difference(DateTime.now().subtract(const Duration(days: 3)))
           .isNegative,
     );
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        const SizedBox(height: 10),
-        CalendarDatePicker2(
-          config: config,
-          initialValue: _singleDatePickerValueWithDefaultValue,
-          onValueChanged: (values) =>
-              setState(() => _singleDatePickerValueWithDefaultValue = values),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(width: 20.w),
-            Text(
-              _getValueText(
-                config.calendarType,
-                _singleDatePickerValueWithDefaultValue,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const SizedBox(height: 10),
+          CalendarDatePicker2(
+            config: config,
+            initialValue: _singleDatePickerValueWithDefaultValue,
+            onValueChanged: (values) =>
+                setState(() => _singleDatePickerValueWithDefaultValue = values),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 20.w),
+              Text(
+                _getValueText(
+                  config.calendarType,
+                  _singleDatePickerValueWithDefaultValue,
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Wrap(
-          children: slots
-              .map((String e) => StreamBuilder<String>(
-                  stream: selectedSlot.stream,
-                  builder: (context, snapshot) {
-                    return GestureDetector(
-                      onTap: () => selectedSlot.sink.add(e),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: selectedSlot.value == e
-                                ? primaryColor
-                                : textFieldBg,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                          child: Text(
-                            e,
-                            style: AppStyles.baloo2FontWith700WeightAnd15Size
-                                .copyWith(
-                                    color: selectedSlot.value == e
-                                        ? textFieldBg
-                                        : Colors.black),
+            ],
+          ),
+          const SizedBox(height: 25),
+          Wrap(
+            children: slots
+                .map((String e) => StreamBuilder<String>(
+                    stream: selectedSlot.stream,
+                    builder: (context, snapshot) {
+                      return GestureDetector(
+                        onTap: () => selectedSlot.sink.add(e),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: selectedSlot.value == e
+                                  ? primaryColor
+                                  : textFieldBg,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16))),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            child: Text(
+                              e,
+                              style: AppStyles.baloo2FontWith700WeightAnd15Size
+                                  .copyWith(
+                                      color: selectedSlot.value == e
+                                          ? textFieldBg
+                                          : Colors.black),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }))
-              .toList(),
-        ),
-        const SizedBox(height: 25),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: TextFormField(
-            minLines: 3,
-            maxLines: 10,
-            // user keyboard will have a button to move cursor to next line
-            controller: notesController,
-            decoration:
-                InputDecoration(hintText: AppLocalizations.of(context)!.notes),
+                      );
+                    }))
+                .toList(),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
-          child: PrimaryButton(
-            onPressed: () {
-              String user = LocalStorageManager.getUser();
-              Map<String, dynamic> result = jsonDecode(user);
-              bookRequestBloc.requestBook(BookRequestModel(
-                  serviceId: widget.services.id!,
-                  categoryId: widget.services.categoryId!,
-                  bookingTypeId: 3,
-                  userId: result["id"],
-                  appointmentDate: _getValueText(
-                    config.calendarType,
-                    _singleDatePickerValueWithDefaultValue,
-                  ),
-                  appointmentTime: selectedSlot.value,
-                  notes: notesController.text));
-            },
-            text: AppLocalizations.of(context)!.confirm,
+          const SizedBox(height: 25),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: TextFormField(
+              minLines: 3,
+              maxLines: 10,
+              // user keyboard will have a button to move cursor to next line
+              controller: notesController,
+              decoration:
+                  InputDecoration(hintText: AppLocalizations.of(context)!.notes),
+            ),
           ),
-        ),
-      ],
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
+            child: PrimaryButton(
+              onPressed: () {
+                String user = LocalStorageManager.getUser();
+                Map<String, dynamic> result = jsonDecode(user);
+                bookRequestBloc.requestBook(BookRequestModel(
+                    serviceId: widget.services.id!,
+                    categoryId: widget.services.categoryId!,
+                    bookingTypeId: 3,
+                    userId: result["id"],
+                    appointmentDate: _getValueText(
+                      config.calendarType,
+                      _singleDatePickerValueWithDefaultValue,
+                    ),
+                    appointmentTime: selectedSlot.value,
+                    notes: notesController.text));
+              },
+              text: AppLocalizations.of(context)!.confirm,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

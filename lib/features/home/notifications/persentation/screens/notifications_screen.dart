@@ -39,7 +39,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return MyCustomAppBar(
       header: AppLocalizations.of(context)!.notifications,
       leadingIcon: Container(),
-
     );
   }
 

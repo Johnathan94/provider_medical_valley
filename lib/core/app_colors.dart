@@ -20,6 +20,7 @@ const lightGrey = Color(0xFFD1D1D1);
 const greyWith80Percentage = Color(0x80D1D1D1);
 const textFieldBg = Color(0xffFAFAFA);
 const darkGrey = Color(0xFF6C6C6C);
+const borderGrey = Color(0xFFE4E5E5);
 const textGrey = Color(0xFF8A8A8A);
 const shadowColor = Color(0x40000000);
 const grey = Color(0xFF7E7E7E);

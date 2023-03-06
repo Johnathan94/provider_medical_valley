@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, BookRequest item, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: NegotiationCard(item),
+                  child: NegotiationCard(item,),
                 );
               },
             ),
