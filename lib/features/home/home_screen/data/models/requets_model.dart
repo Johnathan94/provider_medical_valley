@@ -86,6 +86,8 @@ class Data {
 }
 
 class BookRequest {
+  int? id;
+  int? userId;
   String? userStr;
   String? categoryStr;
   String? serviceStr;
@@ -94,7 +96,9 @@ class BookRequest {
   bool? haveInsurance;
 
   BookRequest(
-      {this.userStr,
+      {this.id,
+        this.userId,
+        this.userStr,
         this.categoryStr,
         this.serviceStr,
         this.bookingTypeStr,
@@ -102,6 +106,8 @@ class BookRequest {
         this.haveInsurance});
 
   BookRequest.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
     userStr = json['userStr'];
     categoryStr = json['categoryStr'];
     serviceStr = json['serviceStr'];
@@ -111,7 +117,9 @@ class BookRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data ={};
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['userId'] = userId;
     data['userStr'] = userStr;
     data['categoryStr'] = categoryStr;
     data['serviceStr'] = serviceStr;

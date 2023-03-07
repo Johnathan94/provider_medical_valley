@@ -18,6 +18,8 @@
          "enter_price": "Enter the price",
          "price": "Price",
          "send": "Send",
+         "offer_sent_success": "Offer Sent Successfully",
+         "price_invalid": "Invalid price",
   "profile_edited_successfully": "Profile edited successfully",
   "license": "License",
   "branch_manager_name": "Branch manager name",

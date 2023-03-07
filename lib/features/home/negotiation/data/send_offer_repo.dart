@@ -16,11 +16,8 @@ class SendOfferRepoImpl extends SendOfferRepo{
   Future<Either<Failure , Unit>> sendOffer(SendOffer model) async {
     try
     {
-      var result = await client.sendOffer(model);
-      if(result["responseCode"]==200){
+      await client.sendOffer(model);
         return const Right(unit);
-      }
-      return Left(ServerFailure());
     }
     catch(e){
       return Left(ServerFailure());

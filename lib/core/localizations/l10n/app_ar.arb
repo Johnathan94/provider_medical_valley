@@ -51,6 +51,10 @@
           "female": "آنثى",
           "price": "السعر",
           "send": "ارسل",
+             "price_invalid": "سعر غير صالح",
+                      "offer_sent_success": "تم ارسال العرض بنجاح",
+
+
           "server_error": "هناك خطآ من الخادم",
               "success_login": "لقد قمت بتجسيل الدخوب بنجاح ",
         "invalid_phone_number": "رقم الهاتف غير مسجل",

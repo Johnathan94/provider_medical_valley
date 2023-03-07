@@ -15,10 +15,10 @@ class SendOffer {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = this.id;
-    data['requestId'] = this.requestId;
-    data['userId'] = this.userId;
-    data['price'] = this.price;
+    data['id'] = id;
+    data['requestId'] = requestId;
+    data['userId'] = userId;
+    data['price'] = price;
     return data;
   }
 }
