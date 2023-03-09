@@ -126,14 +126,28 @@ class NegotiationCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 6.h),
+                      /*SizedBox(height: 6.h),
+                      Row(
+                        children: [
+                          SvgPicture.asset(calendarIcon),
+                          SizedBox(width: 5.w),
+                          Text(
+                            items.,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppStyles.baloo2FontWith400WeightAnd12Size
+                                .copyWith(color: primaryColor),
+                          ),
+                        ],
+                      ),*/
+                       SizedBox(height: 6.h),
                       Expanded(
                         child: Row(
                           children: [
                             SvgPicture.asset(infoIcon),
                             SizedBox(width: 5.w),
                             Text(
-                              items.haveInsurance.toString(),
+                              items.haveInsurance == true ? AppLocalizations.of(context)!.has_insurrance:  AppLocalizations.of(context)!.has_no_insurrance,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppStyles.baloo2FontWith400WeightAnd12Size

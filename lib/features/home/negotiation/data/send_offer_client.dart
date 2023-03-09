@@ -7,7 +7,7 @@ class SendOfferClient{
   SendOfferClient(this.dio);
 
   sendOffer(SendOffer offer)async{
-    Response response =  await dio.post("${dio.options.baseUrl}/Provider/SendOffer",data: offer.toJson());
+    Response response =  await dio.post("${dio.options.baseUrl}/Request/SendOffer",data: offer.toJson());
     return response.data;
   }
 

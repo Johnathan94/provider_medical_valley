@@ -122,5 +122,7 @@
   "loading_screen_text": "تم إرسال التفاوض إلى العميل",
   "cancel": "الغا،",
   "booked_successed": "لقد قمت بارسال طلب بحجز موعد",
-  "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق"
+  "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق",
+    "has_insurrance": "لديه تأمين",
+    "has_no_insurrance": "ليس لديه تأمين"
 }

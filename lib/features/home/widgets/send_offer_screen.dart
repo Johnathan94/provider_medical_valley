@@ -233,6 +233,7 @@ class SendOfferScreen extends StatelessWidget {
                       requestId: result.id,
                       id: user["data"]["id"],
                       userId: result.userId,
+                      slot: slots[selectedBorder.value],
                     ));
                   }else {
                     context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);

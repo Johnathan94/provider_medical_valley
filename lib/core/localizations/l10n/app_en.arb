@@ -117,5 +117,7 @@
   "loading_screen_text": "The negotiation has been sent to the customer",
   "cancel": "Cancel",
   "something_went_wrong": "Something went wrong",
-  "booked_successed": "You send booking request successfully"
+  "booked_successed": "You send booking request successfully",
+  "has_insurrance": "Has insurance",
+  "has_no_insurrance": "Has no insurance"
 }
