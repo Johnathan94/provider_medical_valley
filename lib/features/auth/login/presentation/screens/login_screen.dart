@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                         if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         loginBloc.loginUser(LoginEvent(phoneController.text));
                       } else {
                         context.showSnackBar(

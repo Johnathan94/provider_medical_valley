@@ -11,13 +11,15 @@ import 'negotiation_options_button.dart';
 
 class NegotiationCard extends StatelessWidget {
   final BookRequest items;
-  const NegotiationCard(this.items,{Key? key}) : super(key: key);
+  final bool isCalendarRowShown;
+  const NegotiationCard(this.items, {Key? key, this.isCalendarRowShown = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170.h,
-      margin: const EdgeInsets.symmetric( vertical: 8),
+      height: isCalendarRowShown ? 190.h : 170.h,
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(21),
@@ -82,13 +84,15 @@ class NegotiationCard extends StatelessWidget {
                             .copyWith(
                                 color: blackColor,
                                 decoration: TextDecoration.none),
-                      maxLines: 1,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 3.h),
                       Row(
                         children: [
-                          SvgPicture.asset(cardIconOne,),
+                          SvgPicture.asset(
+                            cardIconOne,
+                          ),
                           SizedBox(width: 5.w),
                           Text(
                             items.categoryStr.toString(),
@@ -126,28 +130,37 @@ class NegotiationCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      /*SizedBox(height: 6.h),
-                      Row(
-                        children: [
-                          SvgPicture.asset(calendarIcon),
-                          SizedBox(width: 5.w),
-                          Text(
-                            items.,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.baloo2FontWith400WeightAnd12Size
-                                .copyWith(color: primaryColor),
-                          ),
-                        ],
-                      ),*/
-                       SizedBox(height: 6.h),
+                      isCalendarRowShown ? SizedBox(height: 6.h) : Container(),
+                      isCalendarRowShown
+                          ? Row(
+                              children: [
+                                SvgPicture.asset(
+                                  calendarIcon,
+                                  width: 20.w,
+                                  height: 15.h,
+                                ),
+                                SizedBox(width: 5.w),
+                                Text(
+                                  "30 sep 2023",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd12Size,
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      SizedBox(height: 6.h),
                       Expanded(
                         child: Row(
                           children: [
                             SvgPicture.asset(infoIcon),
                             SizedBox(width: 5.w),
                             Text(
-                              items.haveInsurance == true ? AppLocalizations.of(context)!.has_insurrance:  AppLocalizations.of(context)!.has_no_insurrance,
+                              items.haveInsurance == true
+                                  ? AppLocalizations.of(context)!.has_insurrance
+                                  : AppLocalizations.of(context)!
+                                      .has_no_insurrance,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppStyles.baloo2FontWith400WeightAnd12Size
@@ -164,7 +177,10 @@ class NegotiationCard extends StatelessWidget {
           ),
           Expanded(
               flex: 4,
-              child: NegotiationOptionButton( AppLocalizations.of(context)!.negotiate_again,items ,))
+              child: NegotiationOptionButton(
+                AppLocalizations.of(context)!.negotiate_again,
+                items,
+              ))
         ],
       ),
     );

@@ -46,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
   BehaviorSubject<int> scheduledSubjectCounter = BehaviorSubject.seeded(0);
   @override
   initState() {
-    homeBloc.getImmediateRequests( immediateNextPage, 10);
-    earliestBloc.getEarliestRequests( earliestNextPage, 10);
-    scheduledBloc.getScheduledRequests( scheduledNextPage, 10);
+    homeBloc.getImmediateRequests(immediateNextPage, 10);
+    earliestBloc.getEarliestRequests(earliestNextPage, 10);
+    scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
     immediatePagingController.addPageRequestListener((pageKey) {
       immediateNextPageKey = 10 + immediateNextPage;
       immediateNextPage = pageKey + 1;
@@ -77,14 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
             bloc: homeBloc,
             listener: (c, state) {
               if (state is SuccessHomeState) {
-                immediateSubjectCounter.sink.add(immediateSubjectCounter.value+state.category.data!.results!.length);
-                  if (state.category.data!.results!.length == 10) {
-                    immediatePagingController.appendPage(
-                        state.category.data!.results!, immediateNextPage);
-                  } else {
-                    immediatePagingController.appendLastPage(state.category.data!.results!);
-                  }
-
+                immediateSubjectCounter.sink.add(immediateSubjectCounter.value +
+                    state.category.data!.results!.length);
+                if (state.category.data!.results!.length == 10) {
+                  immediatePagingController.appendPage(
+                      state.category.data!.results!, immediateNextPage);
+                } else {
+                  immediatePagingController
+                      .appendLastPage(state.category.data!.results!);
+                }
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
@@ -96,21 +97,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
             },
-
           ),
           BlocListener<EarliestBloc, MyHomeState>(
             bloc: earliestBloc,
-            listener: (c,MyHomeState state) {
+            listener: (c, MyHomeState state) {
               if (state is SuccessHomeState) {
-                earliestSubjectCounter.sink.add(earliestSubjectCounter.value+state.category.data!.results!.length );
+                earliestSubjectCounter.sink.add(earliestSubjectCounter.value +
+                    state.category.data!.results!.length);
                 if (state.category.data!.results!.length == 10) {
-                    earliestPagingController.appendPage(
-                        state.category.data!.results!, earliestNextPage);
-                  } else {
-                    earliestPagingController.appendLastPage(state.category.data!.results!);
-                  }
-              }
-              else if (state is ErrorHomeState) {
+                  earliestPagingController.appendPage(
+                      state.category.data!.results!, earliestNextPage);
+                } else {
+                  earliestPagingController
+                      .appendLastPage(state.category.data!.results!);
+                }
+              } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
                   onConfirmBtnTap: () {
@@ -121,22 +122,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
             },
-
           ),
           BlocListener<ScheduledBloc, MyHomeState>(
             bloc: scheduledBloc,
             listener: (c, state) {
               if (state is SuccessHomeState) {
-                scheduledSubjectCounter.sink.add(scheduledSubjectCounter.value+state.category.data!.results!.length );
+                scheduledSubjectCounter.sink.add(scheduledSubjectCounter.value +
+                    state.category.data!.results!.length);
 
                 if (state.category.data!.results!.length == 10) {
-                    scheduledPagingController.appendPage(
-                        state.category.data!.results!, scheduledNextPage);
-                  } else {
-                    scheduledPagingController.appendLastPage(state.category.data!.results!);
-                  }
-              }
-              else if (state is ErrorHomeState) {
+                  scheduledPagingController.appendPage(
+                      state.category.data!.results!, scheduledNextPage);
+                } else {
+                  scheduledPagingController
+                      .appendLastPage(state.category.data!.results!);
+                }
+              } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
                   onConfirmBtnTap: () {
@@ -147,9 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
             },
-
           ),
-        ], child: getBody(),
+        ],
+        child: getBody(),
       ),
     );
   }
@@ -182,17 +183,16 @@ class _HomeScreenState extends State<HomeScreen> {
               .copyWith(color: blackColor),
           tabs: [
             StreamBuilder<int>(
-              stream: immediateSubjectCounter.stream,
-              builder: (context, snapshot) {
-                return  Text("Immediate (${immediateSubjectCounter.value})");
-              }
-            ),
-             StreamBuilder<int>(
-               stream: earliestSubjectCounter.stream,
-               builder: (context, snapshot) {
-                 return Text("Earliest Date  (${earliestSubjectCounter.value})");
-               }
-             ),
+                stream: immediateSubjectCounter.stream,
+                builder: (context, snapshot) {
+                  return Text("Immediate (${immediateSubjectCounter.value})");
+                }),
+            StreamBuilder<int>(
+                stream: earliestSubjectCounter.stream,
+                builder: (context, snapshot) {
+                  return Text(
+                      "Earliest Date  (${earliestSubjectCounter.value})");
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -201,11 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 5.w,
                 ),
                 StreamBuilder<int>(
-                  stream: scheduledSubjectCounter.stream,
-                  builder: (context, snapshot) {
-                    return Text(" (${scheduledSubjectCounter.value})");
-                  }
-                ),
+                    stream: scheduledSubjectCounter.stream,
+                    builder: (context, snapshot) {
+                      return Text(" (${scheduledSubjectCounter.value})");
+                    }),
               ],
             ),
           ],
@@ -219,7 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-
   }
 
   getImmediate() {
@@ -230,20 +228,21 @@ class _HomeScreenState extends State<HomeScreen> {
             return PagedListView<int, BookRequest>(
               pagingController: immediatePagingController,
               padding:
-              const EdgeInsetsDirectional.only(top: 22,start: 12, end: 12),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, BookRequest item, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: NegotiationCard(item),
-                );
-              },
-            ),
+                  const EdgeInsetsDirectional.only(top: 22, start: 12, end: 12),
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, BookRequest item, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: NegotiationCard(item),
+                  );
+                },
+              ),
             );
           }
           return Container();
         });
   }
+
   getEarliest() {
     return BlocBuilder<HomeBloc, MyHomeState>(
         bloc: homeBloc,
@@ -252,20 +251,23 @@ class _HomeScreenState extends State<HomeScreen> {
             return PagedListView<int, BookRequest>(
               pagingController: earliestPagingController,
               padding:
-              const EdgeInsetsDirectional.only(top: 22,start: 12, end: 12),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, BookRequest item, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: NegotiationCard(item,),
-                );
-              },
-            ),
+                  const EdgeInsetsDirectional.only(top: 22, start: 12, end: 12),
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, BookRequest item, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: NegotiationCard(
+                      item,
+                    ),
+                  );
+                },
+              ),
             );
           }
           return Container();
         });
   }
+
   getScheduled() {
     return BlocBuilder<HomeBloc, MyHomeState>(
         bloc: homeBloc,
@@ -274,15 +276,18 @@ class _HomeScreenState extends State<HomeScreen> {
             return PagedListView<int, BookRequest>(
               pagingController: scheduledPagingController,
               padding:
-              const EdgeInsetsDirectional.only(top: 22,start: 12, end: 12),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, BookRequest item, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: NegotiationCard(item),
-                );
-              },
-            ),
+                  const EdgeInsetsDirectional.only(top: 22, start: 12, end: 12),
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, BookRequest item, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: NegotiationCard(
+                      item,
+                      isCalendarRowShown: true,
+                    ),
+                  );
+                },
+              ),
             );
           }
           return Container();
