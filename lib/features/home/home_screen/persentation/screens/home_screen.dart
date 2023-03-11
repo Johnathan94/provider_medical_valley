@@ -228,12 +228,12 @@ class _HomeScreenState extends State<HomeScreen> {
             return PagedListView<int, BookRequest>(
               pagingController: immediatePagingController,
               padding:
-                  const EdgeInsetsDirectional.only(top: 22, start: 12, end: 12),
+                  const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, BookRequest item, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: NegotiationCard(item),
+                  return NegotiationCard(
+                    item,
+                    immediateCard: true,
                   );
                 },
               ),
@@ -251,14 +251,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return PagedListView<int, BookRequest>(
               pagingController: earliestPagingController,
               padding:
-                  const EdgeInsetsDirectional.only(top: 22, start: 12, end: 12),
+                  const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, BookRequest item, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: NegotiationCard(
-                      item,
-                    ),
+                  return NegotiationCard(
+                    item,
                   );
                 },
               ),
@@ -276,15 +273,13 @@ class _HomeScreenState extends State<HomeScreen> {
             return PagedListView<int, BookRequest>(
               pagingController: scheduledPagingController,
               padding:
-                  const EdgeInsetsDirectional.only(top: 22, start: 12, end: 12),
+                  const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, BookRequest item, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: NegotiationCard(
-                      item,
-                      isCalendarRowShown: true,
-                    ),
+                  return NegotiationCard(
+                    item,
+                    isCalendarRowShown: true,
+                    otherCard: true,
                   );
                 },
               ),

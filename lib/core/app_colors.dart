@@ -24,6 +24,7 @@ const borderGrey = Color(0xFFE4E5E5);
 const textGrey = Color(0xFF8A8A8A);
 const shadowColor = Color(0x40000000);
 const grey = Color(0xFF7E7E7E);
+const lightGreyColor = Color(0xFFD8D8D8);
 const headerGrey = Color(0xFF636363);
 const gray900 = Color(0xFF5F5F5F);
 const whiteRed100 = Color(0xFFFFFAF9);

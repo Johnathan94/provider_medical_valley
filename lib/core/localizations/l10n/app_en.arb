@@ -119,5 +119,9 @@
   "something_went_wrong": "Something went wrong",
   "booked_successed": "You send booking request successfully",
   "has_insurrance": "Has insurance",
-  "has_no_insurrance": "Has no insurance"
+  "has_no_insurrance": "Has no insurance",
+  "negotiate": "Negotiate",
+  "another_date": "Another Date",
+  "consultant": "Consultant",
+  "specialist": "Specialist"
 }

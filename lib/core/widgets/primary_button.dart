@@ -7,6 +7,7 @@ class PrimaryButton extends StatelessWidget {
   final Function()? onPressed;
   final String text;
   final bool isWidgetButton;
+  final bool isLightButton;
   final Widget? body;
   final Color backgroundColor;
   double? buttonCornerRadius;
@@ -14,6 +15,7 @@ class PrimaryButton extends StatelessWidget {
       {this.onPressed,
       required this.text,
       this.isWidgetButton = false,
+      this.isLightButton = false,
       this.body,
       this.buttonCornerRadius,
       this.backgroundColor = primaryColor,
@@ -38,7 +40,10 @@ class PrimaryButton extends StatelessWidget {
               ? body
               : Text(
                   text,
-                  style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                  style: isLightButton
+                      ? AppStyles.baloo2FontWith400WeightAnd22Size
+                          .copyWith(color: blackColor)
+                      : AppStyles.baloo2FontWith400WeightAnd22Size,
                 ),
         ));
   }

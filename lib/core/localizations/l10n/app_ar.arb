@@ -124,5 +124,10 @@
   "booked_successed": "لقد قمت بارسال طلب بحجز موعد",
   "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق",
     "has_insurrance": "لديه تأمين",
-    "has_no_insurrance": "ليس لديه تأمين"
+    "has_no_insurrance": "ليس لديه تأمين",
+  "negotiate": "تفاوض",
+  "another_date": "تاريخ اخر",
+  "consultant": "مستشار",
+  "specialist": "متخصص"
+
 }

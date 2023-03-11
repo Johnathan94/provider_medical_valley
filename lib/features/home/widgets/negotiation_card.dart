@@ -12,7 +12,13 @@ import 'negotiation_options_button.dart';
 class NegotiationCard extends StatelessWidget {
   final BookRequest items;
   final bool isCalendarRowShown;
-  const NegotiationCard(this.items, {Key? key, this.isCalendarRowShown = false})
+  final bool immediateCard;
+  final bool otherCard;
+  const NegotiationCard(this.items,
+      {Key? key,
+      this.isCalendarRowShown = false,
+      this.immediateCard = false,
+      this.otherCard = false})
       : super(key: key);
 
   @override
@@ -178,8 +184,10 @@ class NegotiationCard extends StatelessWidget {
           Expanded(
               flex: 4,
               child: NegotiationOptionButton(
-                AppLocalizations.of(context)!.negotiate_again,
+                AppLocalizations.of(context)!.negotiate,
                 items,
+                immediateCard: immediateCard,
+                otherCard: otherCard,
               ))
         ],
       ),
