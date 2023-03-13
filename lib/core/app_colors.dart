@@ -27,6 +27,7 @@ const grey = Color(0xFF7E7E7E);
 const lightGreyColor = Color(0xFFD8D8D8);
 const headerGrey = Color(0xFF636363);
 const gray900 = Color(0xFF5F5F5F);
+const greyButton = Color(0xFFB2B6B4);
 const whiteRed100 = Color(0xFFFFFAF9);
 const dividerColor = Color(0xFFC7C7CC);
 const greenCheckBox = Color(0xFF1F7546);

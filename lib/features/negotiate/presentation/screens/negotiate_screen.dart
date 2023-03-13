@@ -58,9 +58,11 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
   TextEditingController controller = TextEditingController();
 
   BehaviorSubject<int> selectedBorder = BehaviorSubject.seeded(0);
+  BehaviorSubject<bool> isButtonEnabled = BehaviorSubject.seeded(false);
 
   final _formKey = GlobalKey<FormState>();
   late List<SpecialistModel> models;
+  BehaviorSubject<SpecialistModel> selectedModel = BehaviorSubject();
 
   Services myService = Services(
       id: 1,
@@ -79,12 +81,18 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
       categoryId: 30,
       categoryStr: "categoryStr");
 
+
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
     models = [
       SpecialistModel(1, AppLocalizations.of(context)!.consultant, false),
       SpecialistModel(2, AppLocalizations.of(context)!.specialist, false),
     ];
+    super.didChangeDependencies();
+
+  }
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyCustomAppBar(
         header: AppLocalizations.of(context)!.negotiation,
@@ -96,7 +104,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Stack(
+          child: Column(
             children: [
               BlocListener<NegotiationBloc, NegotiationState>(
                 bloc: negotiationBloc,
@@ -245,43 +253,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                             .copyWith(color: blackColor),
                       ),
                     ),
-                    widget.otherCard
-                        ? Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 30, end: 30, top: 15),
-                                child: PrimaryButton(text: "15,Sep,2023"),
-                              ),
-                              SizedBox(
-                                height: 24.h,
-                              ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 30, end: 30),
-                                child: PrimaryButton(
-                                  text: AppLocalizations.of(context)!
-                                      .another_date,
-                                  backgroundColor: lightGreyColor,
-                                  isLightButton: true,
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CalenderScreen(
-                                                    services: myService)));
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
-                        : Wrap(
-                            children: slots
-                                .map((e) =>
-                                    _buildSlot(context, slots.indexOf(e)))
-                                .toList(),
-                          ),
+                    middleWidget(context),
                     SizedBox(
                       height: 32.h,
                     ),
@@ -317,43 +289,61 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                               enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: grey)),
                               focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor))),
+                                  borderSide: BorderSide(color: primaryColor)),
+                          ),
+                          onEditingComplete: (){
+                            isButtonEnabled.sink.add(true);
+                          },
                         ),
                       ),
                     ),
                     SizedBox(
                       height: 15.h,
                     ),
-                    widget.immediateCard
-                        ? ListView.builder(
-                            itemCount: models.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
+                    immediateWidget(),
+                  ],
+                ),
+              ),
+              continueButton(context)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget immediateWidget() {
+    return widget.immediateCard
+                      ? StreamBuilder<SpecialistModel>(
+                        stream: selectedModel.stream,
+                        builder: (context, snapshot) {
+                          return Column(
+                              children: models.map((model) => Container(
                                 margin: const EdgeInsetsDirectional.only(
                                     start: 30, end: 30, top: 15),
                                 decoration: const BoxDecoration(
                                     color: whiteColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(13)),
+                                    BorderRadius.all(Radius.circular(13)),
                                     boxShadow: [
                                       BoxShadow(
                                           spreadRadius: 1,
                                           blurRadius: 8,
                                           color: shadowColor)
                                     ]),
-                                child: RadioListTile(
+                                child: RadioListTile<SpecialistModel>(
                                     controlAffinity:
-                                        ListTileControlAffinity.trailing,
+                                    ListTileControlAffinity.trailing,
                                     activeColor: blackColor,
-                                    value: models[index].selected,
-                                    groupValue: models[index],
+                                    value: selectedModel.hasValue ?
+                                    selectedModel.value :
+                                    model,
+                                    groupValue: model,
                                     onChanged: (newValue) {
-                                      models[index].selected =
-                                          !models[index].selected;
+                                      selectedModel.sink.add(model);
                                     },
                                     title: Text(
-                                      models[index].name.toString(),
+                                      model.name.toString(),
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -361,18 +351,60 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     )),
-                              );
-                            })
-                        : Container(),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: widget.immediateCard ? 30 : 150,
-                left: 25,
-                right: 25,
-                child: SizedBox(
+                              )).toList()
+                                );
+                        }
+                      )
+                      : Container();
+  }
+
+  MultiChildRenderObjectWidget middleWidget(BuildContext context) {
+    return widget.otherCard
+                      ? Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 30, end: 30, top: 15),
+                              child: PrimaryButton(text: "15,Sep,2023"),
+                            ),
+                            SizedBox(
+                              height: 24.h,
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 30, end: 30),
+                              child: PrimaryButton(
+                                text: AppLocalizations.of(context)!
+                                    .another_date,
+                                backgroundColor: lightGreyColor,
+                                isLightButton: true,
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CalenderScreen(
+                                                  services: myService)));
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      : Wrap(
+                          children: slots
+                              .map((e) =>
+                                  _buildSlot(context, slots.indexOf(e)))
+                              .toList(),
+                        );
+  }
+
+  continueButton(BuildContext context) {
+    return StreamBuilder<bool>(
+      stream: isButtonEnabled,
+      builder: (context, snapshot) {
+        return Container(
                   width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsetsDirectional.only(start: 25 , end: 25, top: 30),
                   child: PrimaryButton(
                     onPressed: () {
                       String userEncoded = LocalStorageManager.getUser();
@@ -391,13 +423,13 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                       }
                     },
                     text: AppLocalizations.of(context)!.send,
+                    backgroundColor: snapshot.hasData && snapshot.data == true?
+                    primaryColor: greyButton,
+                      isLightButton: snapshot.hasData && snapshot.data == true?
+                      false: true
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+                );
+      }
     );
   }
 
@@ -412,7 +444,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
               height: 52.h,
               alignment: Alignment.center,
               margin:
-                  const EdgeInsetsDirectional.only(start: 15, end: 10, top: 30),
+                  const EdgeInsetsDirectional.only(start: 12, end: 5, top: 30),
               decoration: BoxDecoration(
                   color:
                       selectedBorder.value != index ? whiteColor : primaryColor,
@@ -424,8 +456,8 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                     BoxShadow(
                         color: shadowColor,
                         offset: Offset(2, 2),
-                        blurRadius: 3,
-                        spreadRadius: 2)
+                      blurRadius: 9,
+                      spreadRadius: -1,)
                   ]),
               child: Text(
                 slots[index],
