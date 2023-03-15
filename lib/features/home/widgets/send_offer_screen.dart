@@ -184,13 +184,18 @@ class SendOfferScreen extends StatelessWidget {
                       Text(AppLocalizations.of(context)!.choose_time, style: AppStyles.baloo2FontWith500WeightAnd16Size.copyWith(color: blackColor),),
 
                       SizedBox(height: 16.h,),
-                      SizedBox(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                          itemCount: slots.length,
-                            scrollDirection :Axis.horizontal,
-                            itemBuilder: _buildSlot),
+                      BlocBuilder<NegotiationBloc, NegotiationState>(
+                        bloc: negotiationBloc,
+                        builder: (context, snapshot) {
+                          return SizedBox(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                              itemCount: slots.length,
+                                scrollDirection :Axis.horizontal,
+                                itemBuilder: _buildSlot),
+                          );
+                        }
                       ),
 
                       SizedBox(height: 32.h,),
@@ -233,7 +238,7 @@ class SendOfferScreen extends StatelessWidget {
                       requestId: result.id,
                       id: user["data"]["id"],
                       userId: result.userId,
-                      slot: slots[selectedBorder.value],
+                      slotStartTime: SlotStartTime(),
                     ));
                   }else {
                     context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);

@@ -188,7 +188,8 @@ class NegotiationCard extends StatelessWidget {
                 items,
                 immediateCard: immediateCard,
                 otherCard: otherCard,
-              ))
+              )
+          )
         ],
       ),
     );

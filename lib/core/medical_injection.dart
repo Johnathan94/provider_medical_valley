@@ -1,7 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_client.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/send_offer_repo.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/send_offer_client.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/send_offer_repo.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_client.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_repo.dart';
 
 import '../features/auth/login/data/api_service/login_client.dart';
 import '../features/auth/login/data/repo/login_repo.dart';
@@ -44,5 +48,7 @@ configureDependencies() {
   ));
   getIt.registerFactory(() => NegotiationBloc(
       SendOfferRepoImpl(SendOfferClient(DioManager.getDio())),
+      SlotRepoImpl(SlotClient(DioManager.getDio())),
+      NegotiateRepoImpl(NegotiateClient(DioManager.getDio()),),
   ));
 }

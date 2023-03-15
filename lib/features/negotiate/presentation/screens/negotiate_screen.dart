@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -9,19 +8,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/calendar/persentation/screens/calendar_screen.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_request.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_styles.dart';
 import '../../../../core/dialogs/loading_dialog.dart';
-import '../../../../core/shared_pref/shared_pref.dart';
 import '../../../../core/strings/images.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../home/home_screen/data/models/categories_model.dart';
 import '../../../home/home_screen/data/models/requets_model.dart';
 import '../../../home/negotiation/bloc/negotiation_bloc.dart';
-import '../../../home/negotiation/data/offer_model.dart';
 
 class NegotiateScreen extends StatefulWidget {
   final BookRequest result;
@@ -62,7 +60,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
 
   final _formKey = GlobalKey<FormState>();
   late List<SpecialistModel> models;
-  BehaviorSubject<SpecialistModel> selectedModel = BehaviorSubject();
+  BehaviorSubject<int> selectedModel = BehaviorSubject();
 
   Services myService = Services(
       id: 1,
@@ -291,8 +289,10 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                               focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: primaryColor)),
                           ),
-                          onEditingComplete: (){
-                            isButtonEnabled.sink.add(true);
+                          onChanged: (text){
+                            text.isNotEmpty ?
+                            isButtonEnabled.sink.add(true) :
+                            isButtonEnabled.sink.add(false) ;
                           },
                         ),
                       ),
@@ -314,13 +314,15 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
 
   Widget immediateWidget() {
     return widget.immediateCard
-                      ? StreamBuilder<SpecialistModel>(
+                      ? StreamBuilder<int>(
                         stream: selectedModel.stream,
                         builder: (context, snapshot) {
                           return Column(
                               children: models.map((model) => Container(
                                 margin: const EdgeInsetsDirectional.only(
                                     start: 30, end: 30, top: 15),
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 15, end: 15, top: 15,bottom: 15),
                                 decoration: const BoxDecoration(
                                     color: whiteColor,
                                     borderRadius:
@@ -331,18 +333,11 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                                           blurRadius: 8,
                                           color: shadowColor)
                                     ]),
-                                child: RadioListTile<SpecialistModel>(
-                                    controlAffinity:
-                                    ListTileControlAffinity.trailing,
-                                    activeColor: blackColor,
-                                    value: selectedModel.hasValue ?
-                                    selectedModel.value :
-                                    model,
-                                    groupValue: model,
-                                    onChanged: (newValue) {
-                                      selectedModel.sink.add(model);
-                                    },
-                                    title: Text(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    Text(
                                       model.name.toString(),
                                       style: const TextStyle(
                                         fontSize: 14,
@@ -350,7 +345,22 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                                         color: Colors.black,
                                       ),
                                       overflow: TextOverflow.ellipsis,
-                                    )),
+                                    ),
+                                    GestureDetector(
+                                      onTap : ()
+                                      {
+                                        selectedModel.sink.add(models.indexOf(model));
+                                      },
+                                      child: Icon(
+                                        selectedModel.hasValue ?
+                                        selectedModel.value ==
+                                            models.indexOf(model)?
+                                         Icons.check_circle : Icons.circle_outlined :Icons.circle_outlined
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
                               )).toList()
                                 );
                         }
@@ -407,15 +417,16 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   margin: const EdgeInsetsDirectional.only(start: 25 , end: 25, top: 30),
                   child: PrimaryButton(
                     onPressed: () {
-                      String userEncoded = LocalStorageManager.getUser();
-                      Map<String, dynamic> user = jsonDecode(userEncoded);
                       if (_formKey.currentState!.validate()) {
-                        negotiationBloc.sendOffer(SendOffer(
+                        negotiationBloc.negotiate(NegotiateRequest(
                           price: int.parse(controller.text),
-                          requestId: widget.result.id,
-                          id: user["data"]["id"],
-                          userId: widget.result.userId,
-                          slot: slots[selectedBorder.value],
+                          negotiateId: widget.result.id,
+                          time: Time(
+                            ticks: 10,
+                            hours: 10,
+                            minutes: 10,
+                            milliseconds: 10
+                          ),
                         ));
                       } else {
                         context.showSnackBar(
