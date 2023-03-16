@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:provider_medical_valley/core/failures/failures.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/features/auth/login/data/api_service/login_client.dart';
+import 'package:provider_medical_valley/features/auth/login/data/login_response-model.dart';
 
 abstract class LoginRepo {
   Future<Either<Failure , Unit>> login (String mobile);
@@ -17,7 +18,9 @@ abstract class LoginRepo {
     try
      {
        var result = await client.login(mobile);
-       if(result["responseCode"]==200){
+       LoginResponse response = LoginResponse.fromJson(result);
+       if(response.provider?.responseCode == 200){
+          LocalStorageManager.saveToken(response.token!);
           LocalStorageManager.saveUser(result);
          return const Right(unit);
        }
