@@ -4,6 +4,7 @@ import 'package:provider_medical_valley/features/home/negotiation/data/negotiate
 import 'package:provider_medical_valley/features/home/negotiation/data/offer_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/send_offer_repo.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_repo.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 
 class NegotiationBloc extends Cubit<NegotiationState>{
   NegotiationBloc(
@@ -20,7 +21,7 @@ class NegotiationBloc extends Cubit<NegotiationState>{
             (l) {
           emit(ErrorSlotState());
         }, (r) {
-      emit(SuccessSlotState());
+      emit(SuccessSlotState(r));
     }
     );
   }
@@ -35,7 +36,7 @@ class NegotiationBloc extends Cubit<NegotiationState>{
     }
     );
   }
-  negotiate (NegotiateRequest request)async{
+  negotiate (NegotiationRequest request)async{
     emit(LoadingNegotiationState());
     var negotiate = await negotiateRepo.negotiate(request);
     negotiate.fold(
@@ -52,5 +53,9 @@ class LoadingNegotiationState extends NegotiationState{}
 class SuccessNegotiationState extends NegotiationState{}
 class ErrorNegotiationState extends NegotiationState{}
 class LoadingSlotState extends NegotiationState{}
-class SuccessSlotState extends NegotiationState{}
+class SuccessSlotState extends NegotiationState{
+  SlotResponse slotResponse ;
+
+  SuccessSlotState(this.slotResponse);
+}
 class ErrorSlotState extends NegotiationState{}

@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/calendar/persentation/screens/calendar_screen.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_request.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/app_colors.dart';
@@ -37,19 +38,7 @@ class NegotiateScreen extends StatefulWidget {
 }
 
 class _NegotiateScreenState extends State<NegotiateScreen> {
-  List<String> slots = [
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "01:00",
-    "01:30",
-    "02:00",
-  ];
+
 
   NegotiationBloc negotiationBloc = GetIt.instance<NegotiationBloc>();
 
@@ -79,7 +68,11 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
       categoryId: 30,
       categoryStr: "categoryStr");
 
-
+  @override
+  void initState() {
+    negotiationBloc.getSlot(24509);
+    super.initState();
+  }
   @override
   void didChangeDependencies() {
     models = [
@@ -99,214 +92,211 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
             child: const Icon(Icons.arrow_back_ios)),
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              BlocListener<NegotiationBloc, NegotiationState>(
-                bloc: negotiationBloc,
-                listener: (context, state) {
-                  if (state is LoadingNegotiationState) {
-                    LoadingDialogs.showLoadingDialog(context);
-                  } else if (state is SuccessNegotiationState) {
-                    LoadingDialogs.hideLoadingDialog();
-                    CoolAlert.show(
-                      barrierDismissible: false,
-                      context: context,
-                      onConfirmBtnTap: () async {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                      type: CoolAlertType.success,
-                      text: AppLocalizations.of(context)!.offer_sent_success,
-                    );
-                  } else {
-                    LoadingDialogs.hideLoadingDialog();
-                    CoolAlert.show(
-                      barrierDismissible: false,
-                      context: context,
-                      onConfirmBtnTap: () async {
-                        Navigator.pop(context);
-                      },
-                      type: CoolAlertType.error,
-                      text: AppLocalizations.of(context)!.something_went_wrong,
-                    );
-                  }
-                },
-                child: Container(),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.grey.shade300),
-                                image: const DecorationImage(
-                                  image: AssetImage(personImage),
-                                )),
-                          ),
-                          const SizedBox(
-                            width: 22,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.result.userStr.toString(),
-                                style: AppStyles
-                                    .baloo2FontWith500WeightAnd22Size
-                                    .copyWith(color: blackColor, fontSize: 18),
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.star,
-                                    color: Color(0xffEB8B17),
-                                    size: 16,
-                                  ),
-                                  Text(
-                                    "4.2",
-                                    style: AppStyles
-                                        .baloo2FontWith400WeightAnd12Size
-                                        .copyWith(color: lightGrey),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 3.h),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    cardIconOne,
-                                  ),
-                                  SizedBox(width: 5.w),
-                                  Text(
-                                    widget.result.categoryStr.toString(),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppStyles
-                                        .baloo2FontWith400WeightAnd16Size
-                                        .copyWith(color: blackColor),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5.h),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(cardIconTwo),
-                                  SizedBox(width: 5.w),
-                                  Text(
-                                    widget.result.serviceStr.toString(),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppStyles
-                                        .baloo2FontWith400WeightAnd16Size
-                                        .copyWith(color: blackColor),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    const Divider(
-                      thickness: 2,
-                    ),
-                    SizedBox(
-                      height: 18.h,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(start: 16, end: 16),
-                      child: Text(
-                        AppLocalizations.of(context)!.send_negotiation,
-                        style: AppStyles.baloo2FontWith500WeightAnd16Size
-                            .copyWith(color: blackColor),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(start: 16, end: 16),
-                      child: Text(
-                        widget.otherCard
-                            ? AppLocalizations.of(context)!
-                                .schedule_an_appointment
-                            : AppLocalizations.of(context)!.choose_time,
-                        style: AppStyles.baloo2FontWith500WeightAnd16Size
-                            .copyWith(color: blackColor),
-                      ),
-                    ),
-                    middleWidget(context),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(start: 16, end: 16),
-                      child: Text(
-                        AppLocalizations.of(context)!.enter_price,
-                        style: AppStyles.baloo2FontWith400WeightAnd14Size
-                            .copyWith(color: blackColor),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(start: 16, end: 16),
-                      child: SizedBox(
-                        width: 220.w,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          controller: controller,
-                          validator: (text) => text!.isEmpty
-                              ? AppLocalizations.of(context)!.price_invalid
-                              : null,
-                          decoration: InputDecoration(
-                              suffix: Text(
-                                "SR",
-                                style:
-                                    AppStyles.baloo2FontWith400WeightAnd14Size,
-                              ),
-                              enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: grey)),
-                              focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor)),
-                          ),
-                          onChanged: (text){
-                            text.isNotEmpty ?
-                            isButtonEnabled.sink.add(true) :
-                            isButtonEnabled.sink.add(false) ;
-                          },
+        child: Column(
+          children: [
+            BlocListener<NegotiationBloc, NegotiationState>(
+              bloc: negotiationBloc,
+              listener: (context, state) {
+                if (state is LoadingNegotiationState) {
+                  LoadingDialogs.showLoadingDialog(context);
+                } else if (state is SuccessNegotiationState) {
+                  LoadingDialogs.hideLoadingDialog();
+                  CoolAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    onConfirmBtnTap: () async {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    type: CoolAlertType.success,
+                    text: AppLocalizations.of(context)!.offer_sent_success,
+                  );
+                } else if (state is ErrorNegotiationState){
+                  LoadingDialogs.hideLoadingDialog();
+                  CoolAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    onConfirmBtnTap: () async {
+                      Navigator.pop(context);
+                    },
+                    type: CoolAlertType.error,
+                    text: AppLocalizations.of(context)!.something_went_wrong,
+                  );
+                }
+              },
+              child: Container(),
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.grey.shade300),
+                              image: const DecorationImage(
+                                image: AssetImage(personImage),
+                              )),
                         ),
+                        const SizedBox(
+                          width: 22,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.result.userStr.toString(),
+                              style: AppStyles
+                                  .baloo2FontWith500WeightAnd22Size
+                                  .copyWith(color: blackColor, fontSize: 18),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: Color(0xffEB8B17),
+                                  size: 16,
+                                ),
+                                Text(
+                                  "4.2",
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd12Size
+                                      .copyWith(color: lightGrey),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 3.h),
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  cardIconOne,
+                                ),
+                                SizedBox(width: 5.w),
+                                Text(
+                                  widget.result.categoryStr.toString(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd16Size
+                                      .copyWith(color: blackColor),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5.h),
+                            Row(
+                              children: [
+                                SvgPicture.asset(cardIconTwo),
+                                SizedBox(width: 5.w),
+                                Text(
+                                  widget.result.serviceStr.toString(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd16Size
+                                      .copyWith(color: blackColor),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    thickness: 2,
+                  ),
+                  SizedBox(
+                    height: 18.h,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.only(start: 16, end: 16),
+                    child: Text(
+                      AppLocalizations.of(context)!.send_negotiation,
+                      style: AppStyles.baloo2FontWith500WeightAnd16Size
+                          .copyWith(color: blackColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.only(start: 16, end: 16),
+                    child: Text(
+                      widget.otherCard
+                          ? AppLocalizations.of(context)!
+                              .schedule_an_appointment
+                          : AppLocalizations.of(context)!.choose_time,
+                      style: AppStyles.baloo2FontWith500WeightAnd16Size
+                          .copyWith(color: blackColor),
+                    ),
+                  ),
+                  middleWidget(context),
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                  Padding(
+                    padding:
+                    const EdgeInsetsDirectional.only(start: 16, end: 16),
+                    child: Text(
+                      AppLocalizations.of(context)!.enter_price,
+                      style: AppStyles.baloo2FontWith400WeightAnd14Size
+                          .copyWith(color: blackColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  Padding(
+                    padding:
+                    const EdgeInsetsDirectional.only(start: 16, end: 16),
+                    child: SizedBox(
+                      width: 220.w,
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: controller,
+                        validator: (text) => text!.isEmpty
+                            ? AppLocalizations.of(context)!.price_invalid
+                            : null,
+                        decoration: InputDecoration(
+                          suffix: Text(
+                            "SR",
+                            style:
+                            AppStyles.baloo2FontWith400WeightAnd14Size,
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: grey)),
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: primaryColor)),
+                        ),
+                        onChanged: (text){
+                          text.isNotEmpty ?
+                          isButtonEnabled.sink.add(true) :
+                          isButtonEnabled.sink.add(false) ;
+                        },
                       ),
                     ),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    immediateWidget(),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  immediateWidget(),
+                ],
               ),
-              continueButton(context)
-            ],
-          ),
+            ),
+            continueButton(context),
+            SizedBox(height: 20,)
+          ],
         ),
       ),
     );
@@ -368,7 +358,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                       : Container();
   }
 
-  MultiChildRenderObjectWidget middleWidget(BuildContext context) {
+  Widget middleWidget(BuildContext context) {
     return widget.otherCard
                       ? Column(
                           children: [
@@ -400,12 +390,29 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                             ),
                           ],
                         )
-                      : Wrap(
-                          children: slots
-                              .map((e) =>
-                                  _buildSlot(context, slots.indexOf(e)))
-                              .toList(),
-                        );
+                      : BlocBuilder<NegotiationBloc, NegotiationState>(
+                                buildWhen: (prev, cur)=>
+                                cur is SuccessSlotState || cur is ErrorSlotState || cur is LoadingSlotState,
+                                bloc: negotiationBloc,
+                                builder: (context, state) {
+                                  if(state is SuccessSlotState){
+                                    List<Periods>? periods = state.slotResponse.serviceDaySlots?.first.periods;
+                                    return Wrap(
+                                      children: periods!
+                                          .map((e) =>
+                                          _buildSlot(context, e))
+                                          .toList(),
+                                    );
+                                  }
+                                  else if(state is ErrorSlotState){
+                                    return const Text("There is an error ");
+                                  }
+                                  else if (state is LoadingSlotState){
+                                    return const CircularProgressIndicator();
+                                  }
+                                  return Container();
+                                }
+                            );
   }
 
   continueButton(BuildContext context) {
@@ -417,16 +424,11 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   margin: const EdgeInsetsDirectional.only(start: 25 , end: 25, top: 30),
                   child: PrimaryButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        negotiationBloc.negotiate(NegotiateRequest(
+                      if (_formKey.currentState!.validate() && selectedBorder.value != 0 ) {
+                        negotiationBloc.negotiate(NegotiationRequest(
                           price: int.parse(controller.text),
                           negotiateId: widget.result.id,
-                          time: Time(
-                            ticks: 10,
-                            hours: 10,
-                            minutes: 10,
-                            milliseconds: 10
-                          ),
+                          periodId: selectedBorder.value,
                         ));
                       } else {
                         context.showSnackBar(
@@ -444,23 +446,23 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
     );
   }
 
-  Widget _buildSlot(BuildContext context, int index) {
+  Widget _buildSlot(BuildContext context, Periods item) {
     return StreamBuilder<int>(
         stream: selectedBorder.stream,
         builder: (context, snapshot) {
           return GestureDetector(
-            onTap: () => selectedBorder.sink.add(index),
+            onTap: () => selectedBorder.sink.add(item.id!),
             child: Container(
-              width: 80.w,
               height: 52.h,
+              width: 140.w,
               alignment: Alignment.center,
               margin:
                   const EdgeInsetsDirectional.only(start: 12, end: 5, top: 30),
               decoration: BoxDecoration(
                   color:
-                      selectedBorder.value != index ? whiteColor : primaryColor,
+                      selectedBorder.value != item.id ? whiteColor : primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(7)),
-                  border: selectedBorder.value != index
+                  border: selectedBorder.value != item.id
                       ? Border.all(color: borderGrey)
                       : null,
                   boxShadow: const [
@@ -471,10 +473,10 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                       spreadRadius: -1,)
                   ]),
               child: Text(
-                slots[index],
+                "${item.from} : ${item.to}",
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                     color:
-                        selectedBorder.value != index ? blackColor : whiteColor,
+                        selectedBorder.value != item.id ? blackColor : whiteColor,
                     decoration: TextDecoration.none),
               ),
             ),

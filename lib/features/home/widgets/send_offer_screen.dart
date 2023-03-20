@@ -18,30 +18,36 @@ import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/offer_model.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
+import 'package:provider_medical_valley/features/negotiate/presentation/screens/negotiate_screen.dart';
 import 'package:rxdart/rxdart.dart';
-class SendOfferScreen extends StatelessWidget {
-  BookRequest result ;
-  List<String> slots = [
-  "09:00",
-  "09:30",
-  "10:00",
-  "10:30",
-  "11:00",
-  "11:30",
-  "12:00",
-  "12:30",
-  "01:00",
-  "01:30",
-  "02:00",
-  ];
-   SendOfferScreen({
-     required this.result ,
-     Key? key}) : super(key: key);
+
+class SendOfferScreen extends StatefulWidget {
+  final BookRequest result ;
+  final bool immediateCard;
+  final bool otherCard;
+  const SendOfferScreen({
+    required this.result ,
+    required this.immediateCard ,
+    required this.otherCard ,
+    Key? key}) : super(key: key);
+
+  @override
+  State<SendOfferScreen> createState() => _SendOfferScreenState();
+}
+
+class _SendOfferScreenState extends State<SendOfferScreen> {
+
    var _formKey = GlobalKey<FormState>();
   NegotiationBloc negotiationBloc = GetIt.instance<NegotiationBloc>();
   TextEditingController controller = TextEditingController();
   @override
+  void initState() {
+    negotiationBloc.getSlot(widget.result.id!);super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: MyCustomAppBar(
         header: AppLocalizations.of(context)!.negotiation,
@@ -67,13 +73,19 @@ class SendOfferScreen extends StatelessWidget {
                       context: context,
                       onConfirmBtnTap: () async {
                         Navigator.pop(context);
-                        Navigator.pop(context);
+                         Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => NegotiateScreen(
+                              result: widget.result,
+                              immediateCard: widget.immediateCard,
+                              otherCard: widget.otherCard,
+                            )));
+
 
                       },
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.offer_sent_success,
                     );
-                  } else {
+                  } else if (state is ErrorNegotiationState){
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       barrierDismissible: false,
@@ -135,7 +147,7 @@ class SendOfferScreen extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                "name",
+                                widget.result.userStr ?? "",
                                 style: AppStyles.baloo2FontWith400WeightAnd18Size
                                     .copyWith(
                                     color: blackColor,
@@ -149,7 +161,7 @@ class SendOfferScreen extends StatelessWidget {
                                   SvgPicture.asset(cardIconOne,),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    "category",
+                                    widget.result.categoryStr ?? "",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppStyles.baloo2FontWith400WeightAnd16Size
@@ -163,7 +175,7 @@ class SendOfferScreen extends StatelessWidget {
                                   SvgPicture.asset(cardIconTwo),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    "service",
+                                    widget.result.serviceStr ?? "",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppStyles.baloo2FontWith400WeightAnd16Size
@@ -185,16 +197,47 @@ class SendOfferScreen extends StatelessWidget {
 
                       SizedBox(height: 16.h,),
                       BlocBuilder<NegotiationBloc, NegotiationState>(
+                        buildWhen: (prev, cur)=>
+                        cur is SuccessSlotState || cur is ErrorSlotState || cur is LoadingSlotState,
                         bloc: negotiationBloc,
-                        builder: (context, snapshot) {
-                          return SizedBox(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
-                              itemCount: slots.length,
-                                scrollDirection :Axis.horizontal,
-                                itemBuilder: _buildSlot),
-                          );
+                        builder: (context, state) {
+                          if(state is SuccessSlotState){
+                            return SizedBox(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                  itemCount: state.slotResponse.serviceDaySlots?.first.periods?.length,
+                                  scrollDirection :Axis.horizontal,
+                                  itemBuilder: (c , index ) => StreamBuilder<int>(
+                              stream: selectedBorder.stream,
+                                  builder: (context, snapshot) {
+                                    List<Periods>? periods = state.slotResponse.serviceDaySlots?.first.periods;
+                                    return GestureDetector(
+                                      onTap: ()=> selectedBorder.sink.add(periods![index].id!),
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                                        decoration:  BoxDecoration(
+                                            color: selectedBorder.value != periods![index].id!  ? whiteColor : primaryColor,
+                                            border: Border.all(
+                                                color: selectedBorder.value != periods[index].id!  ? borderGrey : whiteColor
+                                            )
+                                        ),
+                                        child: Text("${periods[index].from} : ${periods[index].to}" , style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: selectedBorder.value != periods[index].id! ? blackColor : whiteColor,decoration: TextDecoration.none),),
+                                      ),
+                                    );
+                                  }
+                              )),
+                            );
+                          }
+                          else if(state is ErrorSlotState){
+                            return const Text("There is an error ");
+                          }
+                          else if (state is LoadingSlotState){
+                            return const CircularProgressIndicator();
+                          }
+                          return Container();
                         }
                       ),
 
@@ -235,10 +278,10 @@ class SendOfferScreen extends StatelessWidget {
                   if(_formKey.currentState!.validate()){
                     negotiationBloc.sendOffer(SendOffer(
                       price: int.parse(controller.text),
-                      requestId: result.id,
-                      id: user["data"]["id"],
-                      userId: result.userId,
-                      slotStartTime: SlotStartTime(),
+                      requestId: widget.result.id,
+                      id: user["provider"]["data"]["id"],
+                      userId: widget.result.userId,
+                      periodId: selectedBorder.value,
                     ));
                   }else {
                     context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);
@@ -254,27 +297,5 @@ class SendOfferScreen extends StatelessWidget {
     );
   }
   BehaviorSubject<int> selectedBorder = BehaviorSubject.seeded(0);
-  Widget _buildSlot(BuildContext context, int index) {
-    return StreamBuilder<int>(
-      stream: selectedBorder.stream,
-      builder: (context, snapshot) {
-        return GestureDetector(
-          onTap: ()=> selectedBorder.sink.add(index),
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            decoration:  BoxDecoration(
-              color: selectedBorder.value != index  ? whiteColor : primaryColor,
-              border: Border.all(
-                color: selectedBorder.value != index  ? borderGrey : whiteColor
-              )
-            ),
-            child: Text(slots[index] , style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: selectedBorder.value != index ? blackColor : whiteColor,decoration: TextDecoration.none),),
-          ),
-        );
-      }
-    );
 
-  }
 }

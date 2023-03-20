@@ -5,7 +5,7 @@ import 'package:provider_medical_valley/features/home/negotiation/data/negotiate
 import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_request.dart';
 
 abstract class NegotiateRepo {
-  Future<Either<Failure , Unit>> negotiate (NegotiateRequest model);
+  Future<Either<Failure , Unit>> negotiate (NegotiationRequest model);
 }
 class NegotiateRepoImpl extends NegotiateRepo{
   NegotiateClient client ;
@@ -13,7 +13,7 @@ class NegotiateRepoImpl extends NegotiateRepo{
   NegotiateRepoImpl(this.client);
 
   @override
-  Future<Either<Failure , Unit>> negotiate(NegotiateRequest model) async {
+  Future<Either<Failure , Unit>> negotiate(NegotiationRequest model) async {
     try
     {
       await client.negotiate(model);

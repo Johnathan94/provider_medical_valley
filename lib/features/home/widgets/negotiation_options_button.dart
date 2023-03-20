@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+import 'package:provider_medical_valley/features/home/widgets/send_offer_screen.dart';
 
-import '../../negotiate/presentation/screens/negotiate_screen.dart';
 
 class NegotiationOptionButton extends StatelessWidget {
   final String title;
@@ -18,12 +18,8 @@ class NegotiationOptionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => NegotiateScreen(
-                result: result,
-                immediateCard: immediateCard,
-                otherCard: otherCard,
-              ))),
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) =>  SendOfferScreen(result: result,immediateCard: immediateCard,otherCard: otherCard,))),
       child: Container(
         padding: const EdgeInsetsDirectional.only(start: 23, end: 23),
         decoration: const BoxDecoration(

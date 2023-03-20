@@ -6,7 +6,7 @@ class SlotClient{
   SlotClient(this.dio);
 
   getSlot(int  serviceId)async{
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/Slots?serviceId=24509");
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/Slots?dayId=1&serviceId=24645");
     return response.data;
   }
 

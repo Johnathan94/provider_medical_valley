@@ -1,98 +1,77 @@
 class SlotResponse {
-  bool? succeeded;
-  String? message;
-  String? messageCode;
-  int? responseCode;
-  String? validationIssue;
-  SlotData? data;
+  List<ServiceDaySlots>? serviceDaySlots;
 
-  SlotResponse(
-      {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+  SlotResponse({this.serviceDaySlots});
 
   SlotResponse.fromJson(Map<String, dynamic> json) {
-    succeeded = json['succeeded'];
-    message = json['message'];
-    messageCode = json['messageCode'];
-    responseCode = json['responseCode'];
-    validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  SlotData.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
-    data['succeeded'] = succeeded;
-    data['message'] = message;
-    data['messageCode'] = messageCode;
-    data['responseCode'] = responseCode;
-    data['validationIssue'] = validationIssue;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class SlotData {
-  List<ServiceDays>? serviceDays;
-
-  SlotData({this.serviceDays});
-
-  SlotData.fromJson(Map<String, dynamic> json) {
-    if (json['serviceDays'] != null) {
-      serviceDays = <ServiceDays>[];
-      json['serviceDays'].forEach((v) {
-        serviceDays!.add( ServiceDays.fromJson(v));
+    if (json['serviceDaySlots'] != null) {
+      serviceDaySlots = <ServiceDaySlots>[];
+      json['serviceDaySlots'].forEach((v) {
+        serviceDaySlots!.add( ServiceDaySlots.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =  {};
-    if (serviceDays != null) {
-      data['serviceDays'] = serviceDays!.map((v) => v.toJson()).toList();
+    if (serviceDaySlots != null) {
+      data['serviceDaySlots'] =
+          serviceDaySlots!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class ServiceDays {
-  int? dayId;
-  int? serviceId;
-  String? dayName;
-  int? serviceMaxCountInDay;
+class ServiceDaySlots {
   String? slotStartTime;
   String? slotEndTime;
+  List<Periods>? periods;
 
-  ServiceDays(
-      {this.dayId,
-        this.serviceId,
-        this.dayName,
-        this.serviceMaxCountInDay,
-        this.slotStartTime,
-        this.slotEndTime});
+  ServiceDaySlots({this.slotStartTime, this.slotEndTime, this.periods});
 
-  ServiceDays.fromJson(Map<String, dynamic> json) {
-    dayId = json['dayId'];
-    serviceId = json['serviceId'];
-    dayName = json['dayName'];
-    serviceMaxCountInDay = json['serviceMaxCountInDay'];
+  ServiceDaySlots.fromJson(Map<String, dynamic> json) {
     slotStartTime = json['slotStartTime'];
     slotEndTime = json['slotEndTime'];
+    if (json['periods'] != null) {
+      periods = <Periods>[];
+      json['periods'].forEach((v) {
+        periods!.add( Periods.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =  {};
-    data['dayId'] = dayId;
-    data['serviceId'] = serviceId;
-    data['dayName'] = dayName;
-    data['serviceMaxCountInDay'] = serviceMaxCountInDay;
     data['slotStartTime'] = slotStartTime;
     data['slotEndTime'] = slotEndTime;
+    if (periods != null) {
+      data['periods'] = periods!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Periods {
+  int? id;
+  String? from;
+  String? to;
+  int? serviceDaySlotId;
+
+  Periods({this.id, this.from, this.to, this.serviceDaySlotId});
+
+  Periods.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    from = json['from'];
+    to = json['to'];
+    serviceDaySlotId = json['serviceDaySlotId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  {};
+    data['id'] = id;
+    data['from'] = from;
+    data['to'] = to;
+    data['serviceDaySlotId'] = serviceDaySlotId;
     return data;
   }
 }

@@ -6,7 +6,7 @@ class NegotiateClient{
 
   NegotiateClient(this.dio);
 
-  negotiate(NegotiateRequest request)async{
+  negotiate(NegotiationRequest request)async{
     Response response =  await dio.post("${dio.options.baseUrl}/Request/AddNegotiation",data: request.toJson());
     return response.data;
   }
