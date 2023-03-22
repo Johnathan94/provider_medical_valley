@@ -43,7 +43,14 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
   TextEditingController controller = TextEditingController();
   @override
   void initState() {
-    negotiationBloc.getSlot(widget.result.id!);super.initState();
+   DateTime now =  DateTime.now();
+    negotiationBloc.getSlot(getDayId(now.weekday), widget.result.id!);super.initState();
+  }
+
+  int getDayId(int weedDay) {
+    return weedDay == 6 ? 1 :
+    weedDay== 7 ? 2:
+    weedDay+2;
   }
   @override
   Widget build(BuildContext context) {

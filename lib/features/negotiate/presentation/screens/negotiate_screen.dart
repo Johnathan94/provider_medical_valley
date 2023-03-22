@@ -70,8 +70,14 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
 
   @override
   void initState() {
-    negotiationBloc.getSlot(24509);
+    DateTime now = DateTime.now();
+    negotiationBloc.getSlot(getDayId(now.weekday) , widget.result.id!);
     super.initState();
+  }
+  int getDayId(int weedDay) {
+    return weedDay == 6 ? 1 :
+    weedDay== 7 ? 2:
+    weedDay+2;
   }
   @override
   void didChangeDependencies() {
