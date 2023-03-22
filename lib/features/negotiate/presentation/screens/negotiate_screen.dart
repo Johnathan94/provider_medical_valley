@@ -301,7 +301,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
               ),
             ),
             continueButton(context),
-            SizedBox(height: 20,)
+            const SizedBox(height: 20,)
           ],
         ),
       ),
@@ -319,16 +319,13 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                                     start: 30, end: 30, top: 15),
                                 padding: const EdgeInsetsDirectional.only(
                                     start: 15, end: 15, top: 15,bottom: 15),
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                     color: whiteColor,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(13)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          blurRadius: 8,
-                                          color: shadowColor)
-                                    ]),
+                                    const BorderRadius.all(Radius.circular(13)),
+                                    border: Border.all(color: greyButton)
+
+                                ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -460,10 +457,12 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
             onTap: () => selectedBorder.sink.add(item.id!),
             child: Container(
               height: 52.h,
-              width: 140.w,
+              width: 155.w,
               alignment: Alignment.center,
               margin:
                   const EdgeInsetsDirectional.only(start: 12, end: 5, top: 30),
+              padding:
+                  const EdgeInsetsDirectional.only(start: 5, top: 5),
               decoration: BoxDecoration(
                   color:
                       selectedBorder.value != item.id ? whiteColor : primaryColor,
@@ -471,13 +470,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   border: selectedBorder.value != item.id
                       ? Border.all(color: borderGrey)
                       : null,
-                  boxShadow: const [
-                    BoxShadow(
-                        color: shadowColor,
-                        offset: Offset(2, 2),
-                      blurRadius: 9,
-                      spreadRadius: -1,)
-                  ]),
+                  ),
               child: Text(
                 "${item.from} : ${item.to}",
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
