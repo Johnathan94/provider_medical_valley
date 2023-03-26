@@ -54,7 +54,7 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
       onTap: () => optionDisplayed.sink.add(false),
       child: Scaffold(
         appBar:  MyCustomAppBar(
-          header: AppLocalizations.of(context)!.request_price,
+          header: AppLocalizations.of(context)!.negotiation,
           leadingIcon: GestureDetector(
               onTap: (){
                 Navigator.pop(context);
