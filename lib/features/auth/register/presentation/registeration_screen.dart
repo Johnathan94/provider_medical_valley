@@ -109,12 +109,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
-                      onConfirmBtnTap: () {
-                        navigateToLoginScreen();
-                      },
+                      autoCloseDuration: const Duration(seconds: 1),
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.success_registered,
                     );
+                    navigateToLoginScreen();
+
                   }
                 },
                 child: Column(

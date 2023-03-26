@@ -128,6 +128,7 @@
   "negotiate": "تفاوض",
   "another_date": "تاريخ اخر",
   "consultant": "مستشار",
-  "specialist": "متخصص"
+  "specialist": "متخصص",
+  "there_is_no_slots": "لا يوجد فترات متاحه للحجز"
 
 }

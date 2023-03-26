@@ -8,13 +8,13 @@ import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+import 'package:provider_medical_valley/features/home/widgets/request_card.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/app_styles.dart';
 import '../../../../../core/strings/images.dart';
 import '../../../widgets/home_base_app_bar.dart';
-import '../../../widgets/negotiation_card.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_state.dart';
 
@@ -89,9 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  onConfirmBtnTap: () {
-                    Navigator.pop(context);
-                  },
+                  autoCloseDuration:const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -114,9 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  onConfirmBtnTap: () {
-                    Navigator.pop(context);
-                  },
+                  autoCloseDuration:const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -140,9 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  onConfirmBtnTap: () {
-                    Navigator.pop(context);
-                  },
+                  autoCloseDuration:const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -231,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, BookRequest item, index) {
-                  return NegotiationCard(
+                  return RequestCard(
                     item,
                     immediateCard: true,
                   );
@@ -254,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, BookRequest item, index) {
-                  return NegotiationCard(
+                  return RequestCard(
                     item,
                   );
                 },
@@ -276,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
               builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, BookRequest item, index) {
-                  return NegotiationCard(
+                  return RequestCard(
                     item,
                     isCalendarRowShown: true,
                     otherCard: true,

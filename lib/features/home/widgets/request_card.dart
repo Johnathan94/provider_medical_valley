@@ -3,18 +3,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+import 'package:provider_medical_valley/features/home/widgets/request_options_button.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/app_styles.dart';
 import '../../../core/strings/images.dart';
-import 'negotiation_options_button.dart';
 
-class NegotiationCard extends StatelessWidget {
+class RequestCard extends StatelessWidget {
   final BookRequest items;
   final bool isCalendarRowShown;
   final bool immediateCard;
   final bool otherCard;
-  const NegotiationCard(this.items,
+  const RequestCard(this.items,
       {Key? key,
       this.isCalendarRowShown = false,
       this.immediateCard = false,
@@ -183,7 +183,7 @@ class NegotiationCard extends StatelessWidget {
           ),
           Expanded(
               flex: 4,
-              child: NegotiationOptionButton(
+              child: RequestsOptionButton(
                 AppLocalizations.of(context)!.negotiate,
                 items,
                 immediateCard: immediateCard,

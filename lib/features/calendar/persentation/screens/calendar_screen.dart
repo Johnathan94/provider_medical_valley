@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
+import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/widgets/primary_button.dart';
@@ -14,14 +17,13 @@ import '../../../../core/app_colors.dart';
 import '../../../../core/app_styles.dart';
 import '../../../../core/dialogs/loading_dialog.dart';
 import '../../../../core/shared_pref/shared_pref.dart';
-import '../../../home/home_screen/data/models/categories_model.dart';
 import '../../../offers/presentation/offers_screen.dart';
 import '../../data/book_request_model.dart';
 import '../bloc/book_request_bloc.dart';
 
 class CalenderScreen extends StatefulWidget {
-  final Services services;
-  const CalenderScreen({required this.services, Key? key}) : super(key: key);
+  final BookRequest request;
+  const CalenderScreen({required this.request, Key? key}) : super(key: key);
 
   @override
   State<CalenderScreen> createState() => _CalenderScreenState();
@@ -31,24 +33,24 @@ class _CalenderScreenState extends State<CalenderScreen> {
   List<DateTime?> _singleDatePickerValueWithDefaultValue = [
     DateTime.now(),
   ];
-  BehaviorSubject<String> selectedSlot =
-      BehaviorSubject<String>.seeded("09:00");
-  List<String> slots = [
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "01:00",
-    "01:30",
-    "02:00",
-  ];
+  BehaviorSubject<int> selectedSlot =
+      BehaviorSubject<int>.seeded(0);
+
   TextEditingController notesController = TextEditingController();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
+  NegotiationBloc negotiationBloc = GetIt.instance<NegotiationBloc>();
+  int getDayId(int weedDay) {
+    return weedDay == 6 ? 1 :
+    weedDay== 7 ? 2:
+    weedDay+2;
+  }
+  @override
+  void initState() {
 
+    DateTime now = DateTime.now();
+    negotiationBloc.getSlot(getDayId(now.weekday) , widget.request.id!);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,22 +73,19 @@ class _CalenderScreenState extends State<CalenderScreen> {
               CoolAlert.show(
                 barrierDismissible: false,
                 context: context,
-                onConfirmBtnTap: () async {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (c) => const OffersScreen()));
-                },
+                autoCloseDuration: const Duration(seconds: 1),
                 type: CoolAlertType.success,
                 text: AppLocalizations.of(context)!.booked_successed,
               );
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (c) => const OffersScreen()));
+
             } else {
               LoadingDialogs.hideLoadingDialog();
               CoolAlert.show(
                 barrierDismissible: false,
                 context: context,
-                onConfirmBtnTap: () async {
-                  Navigator.pop(context);
-                },
+                autoCloseDuration:const Duration(seconds: 1),
                 type: CoolAlertType.error,
                 text: AppLocalizations.of(context)!.something_went_wrong,
               );
@@ -150,36 +149,53 @@ class _CalenderScreenState extends State<CalenderScreen> {
             ],
           ),
           const SizedBox(height: 25),
-          Wrap(
-            children: slots
-                .map((String e) => StreamBuilder<String>(
-                    stream: selectedSlot.stream,
-                    builder: (context, snapshot) {
-                      return GestureDetector(
-                        onTap: () => selectedSlot.sink.add(e),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: selectedSlot.value == e
-                                  ? primaryColor
-                                  : textFieldBg,
-                              borderRadius:
+          BlocBuilder<NegotiationBloc, NegotiationState>(
+              buildWhen: (prev, cur)=>
+              cur is SuccessSlotState || cur is ErrorSlotState || cur is LoadingSlotState,
+              bloc: negotiationBloc,
+              builder: (context, state) {
+                if(state is SuccessSlotState){
+                  List<Periods>? periods = state.slotResponse.serviceDaySlots?.first.periods;
+                  return Wrap(
+                    children: periods!
+                        .map((Periods e) => StreamBuilder<int>(
+                        stream: selectedSlot.stream,
+                        builder: (context, snapshot) {
+                          return GestureDetector(
+                            onTap: () => selectedSlot.sink.add(e.id!),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: selectedSlot.value == e.id
+                                      ? primaryColor
+                                      : textFieldBg,
+                                  borderRadius:
                                   const BorderRadius.all(Radius.circular(16))),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            child: Text(
-                              e,
-                              style: AppStyles.baloo2FontWith700WeightAnd15Size
-                                  .copyWith(
-                                      color: selectedSlot.value == e
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                child: Text(
+                                   "${e.from}:${e.to}",
+                                  style: AppStyles.baloo2FontWith700WeightAnd15Size
+                                      .copyWith(
+                                      color: selectedSlot.value == e.id
                                           ? textFieldBg
                                           : Colors.black),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }))
-                .toList(),
+                          );
+                        }))
+                        .toList(),
+                  );
+                }
+                else if(state is ErrorSlotState){
+                  return  Text(AppLocalizations.of(context)!.there_is_no_slots);
+                }
+                else if (state is LoadingSlotState){
+                  return const CircularProgressIndicator();
+                }
+                return Container();
+              }
           ),
           const SizedBox(height: 25),
           Padding(
@@ -200,15 +216,15 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 String user = LocalStorageManager.getUser();
                 Map<String, dynamic> result = jsonDecode(user);
                 bookRequestBloc.requestBook(BookRequestModel(
-                    serviceId: widget.services.id!,
-                    categoryId: widget.services.categoryId!,
+                    serviceId: widget.request.id!,
+                    categoryId: widget.request.id!,
                     bookingTypeId: 3,
                     userId: result["id"],
                     appointmentDate: _getValueText(
                       config.calendarType,
                       _singleDatePickerValueWithDefaultValue,
                     ),
-                    appointmentTime: selectedSlot.value,
+                    appointmentTime: selectedSlot.value.toString(),
                     notes: notesController.text));
               },
               text: AppLocalizations.of(context)!.confirm,

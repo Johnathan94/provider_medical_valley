@@ -74,10 +74,7 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                   CoolAlert.show(
                     barrierDismissible: false,
                     context: context,
-                    onConfirmBtnTap: () {
-                      Navigator.pop(context);
-                     // Navigator.pop(context);
-                    },
+                    autoCloseDuration:const Duration(seconds: 1),
                     type: CoolAlertType.success,
                     text:
                     AppLocalizations.of(context)!.profile_edited_successfully,
@@ -87,9 +84,7 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     context: context,
-                    onConfirmBtnTap: () {
-                      Navigator.pop(context);
-                    },
+                    autoCloseDuration:const Duration(seconds: 1),
                     type: CoolAlertType.error,
                     text: AppLocalizations.of(context)!
                         .invalid_phone_number,

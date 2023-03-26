@@ -10,7 +10,9 @@ import 'package:provider_medical_valley/core/base_service/flavors.dart';
 import 'package:provider_medical_valley/core/medical_injection.dart';
 import 'package:provider_medical_valley/core/strings/urls.dart';
 import 'package:provider_medical_valley/features/splash/presentation/screens/splash_screen.dart';
-import 'package:provider_medical_valley/core/base_service/flavors.dart';
+import 'package:rxdart/rxdart.dart';
+BehaviorSubject <int> negoNumber = BehaviorSubject.seeded(0);
+
 class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){
@@ -20,7 +22,6 @@ class MyHttpOverrides extends HttpOverrides{
 }
 void main() {
   HttpOverrides.global = MyHttpOverrides();
-
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
   configureDependencies();

@@ -78,28 +78,26 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                     CoolAlert.show(
                       barrierDismissible: false,
                       context: context,
-                      onConfirmBtnTap: () async {
-                        Navigator.pop(context);
-                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => NegotiateScreen(
-                              result: widget.result,
-                              immediateCard: widget.immediateCard,
-                              otherCard: widget.otherCard,
-                            )));
-
-
-                      },
+                      autoCloseDuration: const Duration(seconds: 1),
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.offer_sent_success,
                     );
+                    Future.delayed(const Duration(seconds: 1), (){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => NegotiateScreen(
+                            result: widget.result,
+                            immediateCard: widget.immediateCard,
+                            otherCard: widget.otherCard,
+                          )
+                      ));
+                    });
+
                   } else if (state is ErrorNegotiationState){
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       barrierDismissible: false,
                       context: context,
-                      onConfirmBtnTap: () async {
-                        Navigator.pop(context);
-                      },
+                        autoCloseDuration:const Duration(seconds: 1),
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.something_went_wrong,
                     );
@@ -239,7 +237,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                             );
                           }
                           else if(state is ErrorSlotState){
-                            return const Text("There is an error ");
+                            return  Text(AppLocalizations.of(context)!.there_is_no_slots);
                           }
                           else if (state is LoadingSlotState){
                             return const CircularProgressIndicator();

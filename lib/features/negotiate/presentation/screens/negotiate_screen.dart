@@ -18,7 +18,6 @@ import '../../../../core/dialogs/loading_dialog.dart';
 import '../../../../core/strings/images.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
 import '../../../../core/widgets/primary_button.dart';
-import '../../../home/home_screen/data/models/categories_model.dart';
 import '../../../home/home_screen/data/models/requets_model.dart';
 import '../../../home/negotiation/bloc/negotiation_bloc.dart';
 
@@ -51,22 +50,6 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
   late List<SpecialistModel> models;
   BehaviorSubject<int> selectedModel = BehaviorSubject();
 
-  Services myService = Services(
-      id: 1,
-      englishName: "englishName",
-      arabicName: "arabicName",
-      price: 50.0,
-      dateFrom: "dateFrom",
-      dateTo: "dateTo",
-      discount1: 10,
-      discount2: 20,
-      discount3: 30,
-      description: "description",
-      statusId: 4,
-      autoReply: true,
-      isActive: true,
-      categoryId: 30,
-      categoryStr: "categoryStr");
 
   @override
   void initState() {
@@ -110,21 +93,18 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   CoolAlert.show(
                     barrierDismissible: false,
                     context: context,
-                    onConfirmBtnTap: () async {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
+                    autoCloseDuration:const Duration(seconds: 1),
                     type: CoolAlertType.success,
                     text: AppLocalizations.of(context)!.offer_sent_success,
+                    confirmBtnText:"",
                   );
+                  Navigator.pop(context);
                 } else if (state is ErrorNegotiationState){
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     barrierDismissible: false,
                     context: context,
-                    onConfirmBtnTap: () async {
-                      Navigator.pop(context);
-                    },
+                    autoCloseDuration: const Duration(seconds: 1),
                     type: CoolAlertType.error,
                     text: AppLocalizations.of(context)!.something_went_wrong,
                   );
@@ -387,7 +367,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               CalenderScreen(
-                                                  services: myService)));
+                                                  request: widget.result)));
                                 },
                               ),
                             ),
@@ -408,7 +388,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                                     );
                                   }
                                   else if(state is ErrorSlotState){
-                                    return const Text("There is an error ");
+                                    return  Text(AppLocalizations.of(context)!.there_is_no_slots);
                                   }
                                   else if (state is LoadingSlotState){
                                     return const CircularProgressIndicator();

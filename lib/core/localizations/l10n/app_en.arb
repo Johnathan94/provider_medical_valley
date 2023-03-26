@@ -122,6 +122,7 @@
   "has_no_insurrance": "Has no insurance",
   "negotiate": "Negotiate",
   "another_date": "Another Date",
+  "there_is_no_slots": "There is no available slots" ,
   "consultant": "Consultant",
   "specialist": "Specialist"
 }

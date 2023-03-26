@@ -2,30 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
-import 'package:provider_medical_valley/features/negotiate/presentation/screens/negotiate_screen.dart';
+import 'package:provider_medical_valley/features/home/widgets/send_offer_screen.dart';
 
 
-class NegotiationOptionButton extends StatelessWidget {
+class RequestsOptionButton extends StatelessWidget {
   final String title;
   final BookRequest result;
   final bool immediateCard;
   final bool otherCard;
 
-  const NegotiationOptionButton(this.title, this.result,
+  const RequestsOptionButton(this.title, this.result,
       {Key? key, this.immediateCard = false, this.otherCard = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => NegotiateScreen(
-            result: result,
-            immediateCard: immediateCard,
-            otherCard: otherCard,
-          )
-      ))
-      ,child: Container(
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) =>  SendOfferScreen(result: result,immediateCard: immediateCard,otherCard: otherCard,))),
+      child: Container(
         padding: const EdgeInsetsDirectional.only(start: 23, end: 23),
         decoration: const BoxDecoration(
             color: primaryColor,
