@@ -9,6 +9,12 @@ import 'package:provider_medical_valley/features/home/negotiation/data/send_offe
 import 'package:provider_medical_valley/features/home/negotiation/data/send_offer_repo.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_client.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_repo.dart';
+import 'package:provider_medical_valley/features/profile/data/edit_profile.dart';
+import 'package:provider_medical_valley/features/profile/domain/edit_profile_repo.dart';
+import 'package:provider_medical_valley/features/profile/presentation/bloc/edit_profile_bloc.dart';
+import 'package:provider_medical_valley/features/services/data/service_clent.dart';
+import 'package:provider_medical_valley/features/services/data/services_repo.dart';
+import 'package:provider_medical_valley/features/services/presentation/services_bloc.dart';
 
 import '../features/auth/login/data/api_service/login_client.dart';
 import '../features/auth/login/data/repo/login_repo.dart';
@@ -55,5 +61,7 @@ configureDependencies() {
       NegotiateRepoImpl(NegotiateClient(DioManager.getDio()),),
   ));
   getIt.registerFactory(() => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
+  getIt.registerFactory(() => EditProfileBloc(EditProfileRepoImpl(EditProfileClient(DioManager.getDio()))));
+  getIt.registerFactory(() => ServicesBloc(ServiceRepo(ServiceClient(DioManager.getDio()))));
 
 }

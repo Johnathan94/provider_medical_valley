@@ -24,6 +24,7 @@ import 'package:provider_medical_valley/features/profile/data/edit_profile_body.
 import 'package:provider_medical_valley/features/profile/presentation/bloc/edit_profile_bloc.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/edit_profile_state.dart';
 import 'package:provider_medical_valley/features/profile/widgets/empty_widget.dart';
+import 'package:provider_medical_valley/features/services/services_screen.dart';
 import 'package:rxdart/rxdart.dart';
 List<Services> services = [];
 class EditProfileScreen extends StatefulWidget {
@@ -136,18 +137,21 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                       SizedBox(height: 16.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset("assets/images/services_icon.svg" ,width: 25,height: 25),
-                              const SizedBox(width: 6,),
-                              Text(AppLocalizations.of(context)!.services ),
-                            ],
-                          ),
-                          const Icon(Icons.arrow_forward_ios ,size: 15, )
-                        ],
+                      GestureDetector(
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ServicesScreen())),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset("assets/images/services_icon.svg" ,width: 25,height: 25),
+                                const SizedBox(width: 6,),
+                                Text(AppLocalizations.of(context)!.services ),
+                              ],
+                            ),
+                            const Icon(Icons.arrow_forward_ios ,size: 15, )
+                          ],
+                        ),
                       ),
                       SizedBox(height: 16.h,),
                       Row(
@@ -190,10 +194,10 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                               String user = LocalStorageManager.getUser();
                               Map<String,dynamic > result = jsonDecode(user) ;
                               editBloc.editProfile(EditProfileBody(
-                                id: result["data"]["id"],
+                                id: result["provider"]["data"]["id"],
                                 fullName: fullNameController.text,
                                 email: emailController.text,
-                                mobile: "966${phoneNumberController.text}",
+                                mobile: phoneNumberController.text,
                               ));
                             }
                             else {

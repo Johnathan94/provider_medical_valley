@@ -19,7 +19,7 @@ class DisabledTextField extends TextFormField{
     keyboardType: keyboardType,
     controller: textController,
     onFieldSubmitted:onFieldSubmit ,
-      style: const TextStyle(fontSize: 16.0, height: 1.1, color: hintTextColor),
+      style: const TextStyle(fontSize: 16.0, height: 1.1, color: blackColor),
     validator: onValidator,
      textAlignVertical: TextAlignVertical.center,
     decoration:  InputDecoration(
