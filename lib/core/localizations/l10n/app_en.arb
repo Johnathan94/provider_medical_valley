@@ -124,5 +124,6 @@
   "another_date": "Another Date",
   "there_is_no_slots": "There is no available slots" ,
   "consultant": "Consultant",
-  "specialist": "Specialist"
+  "specialist": "Specialist",
+  "there_is_no_profile_data": "There is no data for you"
 }

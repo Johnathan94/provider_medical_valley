@@ -10,8 +10,10 @@ import 'package:provider_medical_valley/features/home/negotiation/data/send_offe
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_client.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_repo.dart';
 import 'package:provider_medical_valley/features/profile/data/edit_profile.dart';
+import 'package:provider_medical_valley/features/profile/data/user_profile/get_profile_client.dart';
 import 'package:provider_medical_valley/features/profile/domain/edit_profile_repo.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/edit_profile_bloc.dart';
+import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:provider_medical_valley/features/services/data/service_clent.dart';
 import 'package:provider_medical_valley/features/services/data/services_repo.dart';
 import 'package:provider_medical_valley/features/services/presentation/services_bloc.dart';
@@ -33,6 +35,7 @@ import '../features/home/history/presentation/bloc/clinics_bloc.dart';
 import '../features/home/home_screen/data/api/categories_client.dart';
 import '../features/home/home_screen/domain/get_requests_use_case.dart';
 import '../features/home/home_screen/persentation/bloc/home_bloc.dart';
+import '../features/profile/domain/get_profile/get_profile_repo.dart';
 import 'base_service/dio_manager.dart';
 
 final getIt = GetIt.instance;
@@ -47,21 +50,27 @@ configureDependencies() {
   getIt.registerFactory(
       () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => HomeBloc(
-      GetRequestsUseCase(RequestsClient(DioManager.getDio())),
-  ));
+        GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+      ));
   getIt.registerFactory(() => EarliestBloc(
-      GetRequestsUseCase(RequestsClient(DioManager.getDio())),
-  ));
+        GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+      ));
   getIt.registerFactory(() => ScheduledBloc(
-      GetRequestsUseCase(RequestsClient(DioManager.getDio())),
-  ));
+        GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+      ));
   getIt.registerFactory(() => NegotiationBloc(
-      SendOfferRepoImpl(SendOfferClient(DioManager.getDio())),
-      SlotRepoImpl(SlotClient(DioManager.getDio())),
-      NegotiateRepoImpl(NegotiateClient(DioManager.getDio()),),
-  ));
-  getIt.registerFactory(() => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
-  getIt.registerFactory(() => EditProfileBloc(EditProfileRepoImpl(EditProfileClient(DioManager.getDio()))));
-  getIt.registerFactory(() => ServicesBloc(ServiceRepo(ServiceClient(DioManager.getDio()))));
-
+        SendOfferRepoImpl(SendOfferClient(DioManager.getDio())),
+        SlotRepoImpl(SlotClient(DioManager.getDio())),
+        NegotiateRepoImpl(
+          NegotiateClient(DioManager.getDio()),
+        ),
+      ));
+  getIt.registerFactory(
+      () => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
+  getIt.registerFactory(() => EditProfileBloc(
+      EditProfileRepoImpl(EditProfileClient(DioManager.getDio()))));
+  getIt.registerFactory(
+      () => ServicesBloc(ServiceRepo(ServiceClient(DioManager.getDio()))));
+  getIt.registerFactory(() =>
+      GetProfileBloc(GetProfileImpl(GetProfileClient(DioManager.getDio()))));
 }
