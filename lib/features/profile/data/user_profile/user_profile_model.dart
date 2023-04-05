@@ -1,9 +1,9 @@
 class UserProfileModel {
   bool? succeeded;
   String? message;
-  Null? messageCode;
+  String? messageCode;
   int? responseCode;
-  Null? validationIssue;
+  String? validationIssue;
   Data? data;
 
   UserProfileModel(
@@ -25,11 +25,11 @@ class UserProfileModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['succeeded'] = this.succeeded;
-    data['message'] = this.message;
-    data['messageCode'] = this.messageCode;
-    data['responseCode'] = this.responseCode;
-    data['validationIssue'] = this.validationIssue;
+    data['succeeded'] = succeeded;
+    data['message'] = message;
+    data['messageCode'] = messageCode;
+    data['responseCode'] = responseCode;
+    data['validationIssue'] = validationIssue;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -49,13 +49,19 @@ class Data {
   String? userTypeStr;
   int? statusId;
   String? statusStr;
-  Null? logoImgId;
-  Null? licenseImgId;
-  Null? commercialRecordImgId;
+  String? logoImgId;
+  String? licenseImgId;
+  String? commercialRecordImgId;
+  List<String>? providerBranches;
+  int? providerRequestsCount ;
+  int? providerRating;
 
   Data(
       {this.id,
       this.fullName,
+      this.providerBranches,
+      this.providerRequestsCount,
+      this.providerRating,
       this.arFullName,
       this.email,
       this.mobile,
@@ -67,7 +73,8 @@ class Data {
       this.statusStr,
       this.logoImgId,
       this.licenseImgId,
-      this.commercialRecordImgId});
+      this.commercialRecordImgId
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,25 +90,31 @@ class Data {
     statusStr = json['statusStr'];
     logoImgId = json['logoImgId'];
     licenseImgId = json['licenseImgId'];
+    providerBranches = json['providerBranches'];
     commercialRecordImgId = json['commercialRecordImgId'];
+    providerRequestsCount = json['providerRequestsCount'];
+    providerRating = json['providerRating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullName'] = this.fullName;
-    data['arFullName'] = this.arFullName;
-    data['email'] = this.email;
-    data['mobile'] = this.mobile;
-    data['license'] = this.license;
-    data['commercialRecord'] = this.commercialRecord;
-    data['userTypeId'] = this.userTypeId;
-    data['userTypeStr'] = this.userTypeStr;
-    data['statusId'] = this.statusId;
-    data['statusStr'] = this.statusStr;
-    data['logoImgId'] = this.logoImgId;
-    data['licenseImgId'] = this.licenseImgId;
-    data['commercialRecordImgId'] = this.commercialRecordImgId;
+    data['id'] = id;
+    data['fullName'] = fullName;
+    data['arFullName'] = arFullName;
+    data['email'] = email;
+    data['mobile'] = mobile;
+    data['license'] = license;
+    data['commercialRecord'] = commercialRecord;
+    data['userTypeId'] = userTypeId;
+    data['userTypeStr'] = userTypeStr;
+    data['statusId'] = statusId;
+    data['statusStr'] = statusStr;
+    data['logoImgId'] = logoImgId;
+    data['licenseImgId'] = licenseImgId;
+    data['commercialRecordImgId'] = commercialRecordImgId;
+    data['providerBranches'] = providerBranches;
+    data['providerRequestsCount'] = providerRequestsCount;
+    data['providerRating'] = providerRating;
     return data;
   }
 }

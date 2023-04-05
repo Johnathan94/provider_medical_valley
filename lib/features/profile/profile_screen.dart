@@ -124,15 +124,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 16.h,
+                      height: 20.h,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        SvgPicture.asset(
+                            "assets/images/services_icon.svg",
+                            width: 25,
+                            height: 25),
+                        const SizedBox(
+                          width: 6,
+                        ),
                         Text(
                           AppLocalizations.of(context)!.branches,
                         ),
-                        const Icon(Icons.add),
                       ],
                     ),
                     SizedBox(
@@ -140,8 +146,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Wrap(
                       alignment: WrapAlignment.spaceAround,
-                      children: [1, 2, 3, 4]
-                          .map((e) => Container(
+                      children: state.model.data!.providerBranches != null ?
+                      state.model.data!.providerBranches!.map((e) => Container(
                                 width: MediaQuery.of(context).size.width * .25,
                                 margin: const EdgeInsets.all(16),
                                 padding: const EdgeInsets.symmetric(
@@ -154,11 +160,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     const SizedBox(
                                       width: 4,
                                     ),
-                                    Text("Branch $e"),
+                                    Text(e),
                                   ],
                                 ),
                               ))
-                          .toList(),
+                          .toList() : [],
                     ),
                     SizedBox(
                       height: 16.h,
@@ -194,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Column(
                           children: [
                             Text(
-                              "2525",
+                              state.model.data!.providerRequestsCount != null ?state.model.data!.providerRequestsCount.toString() : "0",
                               style: AppStyles.baloo2FontWith700WeightAnd25Size
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -216,12 +222,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Column(
                           children: [
                             Text(
-                              "(3.5)",
+                              state.model.data!.providerRating!= null ? state.model.data!.providerRating.toString(): "0",
                               style: AppStyles.baloo2FontWith700WeightAnd22Size
                                   .copyWith(color: greyWith80Percentage),
                             ),
                             RatingBar.builder(
-                              initialRating: 3,
+                              initialRating: state.model.data!.providerRating!=null ?state.model.data!.providerRating!.toDouble():0.0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -235,13 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 print(rating);
                               },
                             ),
-                            Text(
-                              "(3.5) users",
-                              style: AppStyles.baloo2FontWith400WeightAnd14Size
-                                  .copyWith(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.normal),
-                            )
+
                           ],
                         )
                       ],

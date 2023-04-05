@@ -72,5 +72,5 @@ configureDependencies() {
   getIt.registerFactory(
       () => ServicesBloc(ServiceRepo(ServiceClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
-      GetProfileBloc(GetProfileImpl(GetProfileClient(DioManager.getDio()))));
+      GetProfileBloc(GetProfileImpl(GetProfileClient(DioManager.getNewDio()))));
 }
