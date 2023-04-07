@@ -36,6 +36,9 @@ import '../features/home/home_screen/data/api/categories_client.dart';
 import '../features/home/home_screen/domain/get_requests_use_case.dart';
 import '../features/home/home_screen/persentation/bloc/home_bloc.dart';
 import '../features/profile/domain/get_profile/get_profile_repo.dart';
+import '../features/terms_and_conditions/data/terms_and_conditions_client.dart';
+import '../features/terms_and_conditions/domain/terms_and_conditions_repo.dart';
+import '../features/terms_and_conditions/persentation/bloc/terms_and_conditions_bloc.dart';
 import 'base_service/dio_manager.dart';
 
 final getIt = GetIt.instance;
@@ -73,4 +76,7 @@ configureDependencies() {
       () => ServicesBloc(ServiceRepo(ServiceClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
       GetProfileBloc(GetProfileImpl(GetProfileClient(DioManager.getNewDio()))));
+  getIt.registerFactory(() =>
+      TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getNewDio()))));
+
 }

@@ -256,7 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           } else {
             return Center(
                 child: Text(
-                    AppLocalizations.of(context)!.there_is_no_profile_data));
+                    AppLocalizations.of(context)!.there_is_no_data));
           }
         },
       ),

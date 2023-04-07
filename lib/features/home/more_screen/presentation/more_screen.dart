@@ -15,6 +15,7 @@ import 'package:provider_medical_valley/features/home/more_screen/widget/profile
 import 'package:provider_medical_valley/features/profile/profile_screen.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
+import '../../../terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -156,6 +157,13 @@ class MoreScreen extends StatelessWidget {
                       Icons.arrow_forward_ios,
                       color: greyWith80Percentage,
                     ),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => /*BlocProvider(
+                            create: (context) => LanguageBloc(),
+                            child:*/ const TermsAndConditionsScreen(),
+                         /* )*/));
+                    },
                   ),
                   const Divider(
                     color: dividerGrey,
