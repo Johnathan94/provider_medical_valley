@@ -125,5 +125,9 @@
   "there_is_no_slots": "There is no available slots" ,
   "consultant": "Consultant",
   "specialist": "Specialist",
-  "there_is_no_data": "There is no data for you"
+  "there_is_no_data": "There is no data for you",
+  "input_your_problem": "Input Your Problem",
+  "input": "Input",
+  "facebook_page": "facebook page",
+  "twitter_page": "twitter page"
 }

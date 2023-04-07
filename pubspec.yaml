@@ -102,8 +102,6 @@ flutter:
     - assets/icons/
     - assets/icons/app_icon.svg
     - assets/images/google_icon.png
-    - assets/images/facebook_icon.png
-    - assets/images/twitter_icon.png
     - assets/images/location_icon.png
     - assets/images/hand_icon.png
     - assets/images/home_model_one.png

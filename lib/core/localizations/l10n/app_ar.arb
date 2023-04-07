@@ -131,7 +131,13 @@
   "specialist": "متخصص",
   "there_is_no_slots": "لا يوجد فترات متاحه للحجز",
 
-  "there_is_no_data": "لا يوجد بيانات"
+  "there_is_no_data": "لا يوجد بيانات",
+  "input_your_problem": "أدخل مشكلتك",
+  "input": "إدخال",
+  "facebook_page": "صفحة الفيسبوك",
+  "twitter_page": "صفحة تويتر"
+
+
 
 
 }

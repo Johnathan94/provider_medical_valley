@@ -21,10 +21,6 @@ import 'package:provider_medical_valley/features/services/presentation/services_
 import '../features/auth/login/data/api_service/login_client.dart';
 import '../features/auth/login/data/repo/login_repo.dart';
 import '../features/auth/login/presentation/bloc/login_bloc.dart';
-import '../features/auth/register/data/api_service/register_client.dart';
-import '../features/auth/register/data/repo/register_repo.dart';
-import '../features/auth/register/domain/register_usecase.dart';
-import '../features/auth/register/presentation/register_bloc/register_bloc.dart';
 import '../features/calendar/data/book_request_client.dart';
 import '../features/calendar/data/repo/book_request_repo.dart';
 import '../features/calendar/persentation/bloc/book_request_bloc.dart';
@@ -46,8 +42,6 @@ final getIt = GetIt.instance;
 configureDependencies() {
   getIt.registerFactory(() =>
       ClinicsBloc(GetClinicUseCaseImpl(GetClinicRepoImpl(JsonDataSrc()))));
-  getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(
-      RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
   getIt.registerFactory(
       () => BookRequestBloc(BookRequestRepo(BookRequestClient())));
   getIt.registerFactory(

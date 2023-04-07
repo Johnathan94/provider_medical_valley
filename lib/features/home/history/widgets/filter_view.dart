@@ -17,7 +17,7 @@ class FilterView extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset("${iconsPath}filter.svg"),
+              SvgPicture.asset("${svgImagesPath}filter.svg"),
               const SizedBox(width: 8,),
               Text("12 Booked" , style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: headerGrey, decoration: TextDecoration.none),)
             ],
@@ -27,7 +27,7 @@ class FilterView extends StatelessWidget {
               Text("Sort" , style: AppStyles.baloo2FontWith400WeightAnd12Size.copyWith(),),
               InkWell(
                   onTap: onSortTapped,
-                  child: SvgPicture.asset("${iconsPath}sort.svg")),
+                  child: SvgPicture.asset("${svgImagesPath}sort.svg")),
 
             ],
           ),

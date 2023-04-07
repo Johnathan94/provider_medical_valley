@@ -20,7 +20,6 @@ import '../../../../../core/app_colors.dart';
 import '../../../../../core/app_paddings.dart';
 import '../../../../../core/app_sizes.dart';
 import '../../../phone_verification/persentation/screens/phone_verification.dart';
-import '../../../register/presentation/registeration_screen.dart';
 import '../../../widgets/authentication_app_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -231,9 +230,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 AuthenticationAppWidget(
                   appIcon: facebookIcon,
+                  isSvg: true,
                 ),
                 AuthenticationAppWidget(
                   appIcon: twitterIcon,
+                  isSvg: true,
                 ),
               ],
             ),
@@ -243,30 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  buildSignUp() {
-    return Container(
-      margin: EdgeInsets.only(top: loginASignUpTextMarginTop.r),
-      alignment: AlignmentDirectional.center,
-      child: InkWell(
-        onTap: () => navigateToRegisterScreen(),
-        child: Text.rich(TextSpan(
-            style: AppStyles.baloo2FontWith500WeightAnd15Size,
-            text: AppLocalizations.of(context)!.donT_have_account,
-            children: <InlineSpan>[
-              TextSpan(
-                text: AppLocalizations.of(context)!.sign_up,
-                style: AppStyles.baloo2FontWith700WeightAnd15Size
-                    .copyWith(color: primaryColor),
-              )
-            ])),
-      ),
-    );
-  }
 
-  void navigateToRegisterScreen() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const RegistrationScreen()));
-  }
 
   navigateToOtpScreen() {
     Navigator.of(context).push(MaterialPageRoute(
