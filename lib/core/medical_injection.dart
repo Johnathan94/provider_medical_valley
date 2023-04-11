@@ -1,4 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/features/contact_us/data/api/contact_us_client.dart';
+import 'package:provider_medical_valley/features/contact_us/domain/contact_us_repo.dart';
+import 'package:provider_medical_valley/features/contact_us/presentation/contact_us_bloc.dart';
 import 'package:provider_medical_valley/features/home/history/offers/data/api_service/offers_client.dart';
 import 'package:provider_medical_valley/features/home/history/offers/data/repo/offers_repo.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
@@ -72,5 +75,7 @@ configureDependencies() {
       GetProfileBloc(GetProfileImpl(GetProfileClient(DioManager.getNewDio()))));
   getIt.registerFactory(() =>
       TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getNewDio()))));
+ getIt.registerFactory(() =>
+      ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getNewDio()))));
 
 }

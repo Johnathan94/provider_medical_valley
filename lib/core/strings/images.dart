@@ -18,6 +18,9 @@ const personImage = "${imagesPath}person.png";
 const insuranceIcon = "${imagesPath}insurance.png";
 const saudiArabiaIcon = "${imagesPath}saudi-arabia.png";
 
+const saudiIcon = "${imagesPath}saudi.png";
+const emailGreyIcon = "${imagesPath}email.png";
+
 const planIcon = "${svgImagesPath}plan_upper_icon.svg";
 const planIconDown = "${svgImagesPath}plan_down_icon.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";

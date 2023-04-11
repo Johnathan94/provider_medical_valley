@@ -11,11 +11,11 @@ import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_block.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
+import 'package:provider_medical_valley/features/contact_us/contact_us.dart';
 import 'package:provider_medical_valley/features/home/more_screen/widget/profile_image.dart';
 import 'package:provider_medical_valley/features/profile/profile_screen.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
-import '../../../contact_us/persentation/screens/contact_us_screen.dart';
 import '../../../terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 
 class MoreScreen extends StatelessWidget {
