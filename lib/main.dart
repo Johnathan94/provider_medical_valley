@@ -23,7 +23,7 @@ class MyHttpOverrides extends HttpOverrides{
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
+  FlavorManager.setCurrentFlavor(Flavor(Strings.newBaseUrl, Strings.v_1));
   configureDependencies();
   runApp(const MyApp());
 }

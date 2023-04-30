@@ -12,7 +12,7 @@ class RequestsClient {
   getRequests(int bookingTypeId , int page , int pageSize)async{
     String userEncoded = LocalStorageManager.getUser();
     Map<String, dynamic> user = jsonDecode(userEncoded);
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/Requests?PageNumber=$page&PageSize=$pageSize&providerId=${user["provider"]["data"]["id"]}&BookingTypeId=$bookingTypeId",);
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/Requests?PageNumber=$page&PageSize=$pageSize&ProviderId=${user["data"]["data"]["id"]}&BookingTypeId=$bookingTypeId",);
     return response.data;
   }
 }

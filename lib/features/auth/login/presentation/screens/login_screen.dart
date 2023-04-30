@@ -105,7 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           context: context,
                           autoCloseDuration:const Duration(seconds: 1),
                           type: CoolAlertType.success,
-
                           text:
                               AppLocalizations.of(context)!.success_login,
                         );
@@ -248,6 +247,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   navigateToOtpScreen() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const PhoneVerificationScreen()));
+        builder: (context) =>  PhoneVerificationScreen(phoneController.text)));
   }
 }

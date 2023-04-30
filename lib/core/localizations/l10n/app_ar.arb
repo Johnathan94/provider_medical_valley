@@ -51,6 +51,7 @@
           "female": "آنثى",
           "price": "السعر",
           "send": "ارسل",
+                   "no_notification": "لا يوجد اشعارات",
              "price_invalid": "سعر غير صالح",
                       "offer_sent_success": "تم ارسال العرض بنجاح",
 

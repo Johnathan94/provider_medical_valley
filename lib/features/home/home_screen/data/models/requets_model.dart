@@ -87,6 +87,7 @@ class Data {
 
 class BookRequest {
   int? id;
+  int? providerServiceId;
   int? userId;
   String? userStr;
   String? categoryStr;
@@ -100,6 +101,7 @@ class BookRequest {
         this.userId,
         this.userStr,
         this.categoryStr,
+        this.providerServiceId,
         this.serviceStr,
         this.bookingTypeStr,
         this.mobileStr,
@@ -114,6 +116,7 @@ class BookRequest {
     bookingTypeStr = json['bookingTypeStr'];
     mobileStr = json['mobileStr'];
     haveInsurance = json['haveInsurance'];
+    providerServiceId = json['providerServiceId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +129,7 @@ class BookRequest {
     data['bookingTypeStr'] = bookingTypeStr;
     data['mobileStr'] = mobileStr;
     data['haveInsurance'] = haveInsurance;
+    data['providerServiceId'] = providerServiceId;
     return data;
   }
 }

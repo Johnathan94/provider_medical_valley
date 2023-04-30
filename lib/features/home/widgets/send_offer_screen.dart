@@ -44,7 +44,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
   @override
   void initState() {
    DateTime now =  DateTime.now();
-    negotiationBloc.getSlot(getDayId(now.weekday), widget.result.id!);super.initState();
+    negotiationBloc.getSlot(getDayId(now.weekday), widget.result.providerServiceId!);super.initState();
   }
 
   int getDayId(int weedDay) {
@@ -213,7 +213,8 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                               child: ListView.builder(
                                   itemCount: state.slotResponse.serviceDaySlots?.first.periods?.length,
                                   scrollDirection :Axis.horizontal,
-                                  itemBuilder: (c , index ) => StreamBuilder<int>(
+                                  itemBuilder: (c , index ) =>
+                                      StreamBuilder<int>(
                               stream: selectedBorder.stream,
                                   builder: (context, snapshot) {
                                     List<Periods>? periods = state.slotResponse.serviceDaySlots?.first.periods;

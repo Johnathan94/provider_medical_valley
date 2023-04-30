@@ -18,10 +18,7 @@ abstract class LoginRepo {
     try
      {
        var result = await client.login(mobile);
-       LoginResponse response = LoginResponse.fromJson(result);
-       if(response.provider?.responseCode == 200){
-          LocalStorageManager.saveToken(response.token!);
-          LocalStorageManager.saveUser(result);
+       if(result["phone"] != null){
          return const Right(unit);
        }
        return Left(ServerFailure());

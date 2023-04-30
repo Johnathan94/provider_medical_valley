@@ -41,13 +41,13 @@ class NotificationView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(notificationModel.statusName , style: AppStyles.baloo2FontWith600WeightAnd18Size.copyWith(color: blackColor),),
-                    Text(notificationModel.notificationTime , style: AppStyles.baloo2FontWith400WeightAnd12Size,),
+                    Text(notificationModel.userName ?? "", style: AppStyles.baloo2FontWith600WeightAnd18Size.copyWith(color: blackColor),),
+                    Text(notificationModel.notificationActionStr ?? "" , style: AppStyles.baloo2FontWith400WeightAnd12Size,),
 
                   ],
                 ),
                 SizedBox(height: 0.h,),
-                Text(notificationModel.description ,overflow: TextOverflow.ellipsis,
+                Text(notificationModel.englishText ?? "" ,overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: AppStyles.baloo2FontWith500WeightAnd15Size.copyWith(color: textGrey),),
 

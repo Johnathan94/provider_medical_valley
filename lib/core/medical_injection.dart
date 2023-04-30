@@ -1,4 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/otp_client.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/domain/verify_otp_use_case.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 import 'package:provider_medical_valley/features/contact_us/data/api/contact_us_client.dart';
 import 'package:provider_medical_valley/features/contact_us/domain/contact_us_repo.dart';
 import 'package:provider_medical_valley/features/contact_us/presentation/contact_us_bloc.dart';
@@ -12,6 +15,9 @@ import 'package:provider_medical_valley/features/home/negotiation/data/send_offe
 import 'package:provider_medical_valley/features/home/negotiation/data/send_offer_repo.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_client.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_repo.dart';
+import 'package:provider_medical_valley/features/home/notifications/data/api/categories_client.dart';
+import 'package:provider_medical_valley/features/home/notifications/domain/get_notification_use_case.dart';
+import 'package:provider_medical_valley/features/home/notifications/persentation/screens/bloc/notification_bloc.dart';
 import 'package:provider_medical_valley/features/profile/data/edit_profile.dart';
 import 'package:provider_medical_valley/features/profile/data/user_profile/get_profile_client.dart';
 import 'package:provider_medical_valley/features/profile/domain/edit_profile_repo.dart';
@@ -77,5 +83,9 @@ configureDependencies() {
       TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getNewDio()))));
  getIt.registerFactory(() =>
       ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getNewDio()))));
+ getIt.registerFactory(() =>
+      OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getNewDio()))));
+getIt.registerFactory(() =>
+      NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getNewDio()))));
 
 }

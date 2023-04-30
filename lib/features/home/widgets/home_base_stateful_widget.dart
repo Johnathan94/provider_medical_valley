@@ -26,7 +26,6 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   @override
   initState() {
     _index.sink.add(0);
-
     super.initState();
   }
 

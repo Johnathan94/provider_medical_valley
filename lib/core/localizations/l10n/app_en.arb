@@ -17,6 +17,7 @@
          "choose_time": "Choose time",
          "enter_price": "Enter the price",
          "price": "Price",
+         "no_notification": ""There is no Notifications"",
          "send": "Send",
          "offer_sent_success": "Offer Sent Successfully",
          "price_invalid": "Invalid price",

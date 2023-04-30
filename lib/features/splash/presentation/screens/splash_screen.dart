@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         goToLoginScreen(context);
       }else {
         Map<String, dynamic> user = jsonDecode(userEncoded);
-        GetIt.instance<OffersBloc>().getOffers(NegotiationsEvent(1, 10, user["provider"]["data"]["id"]));
+        GetIt.instance<OffersBloc>().getOffers(NegotiationsEvent(1, 10, user["data"]["data"]["id"]));
         goToHomeScreen(context);
       }
     });

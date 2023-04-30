@@ -21,7 +21,11 @@ class NegotiationBloc extends Cubit<NegotiationState>{
             (l) {
           emit(ErrorSlotState());
         }, (r) {
-      emit(SuccessSlotState(r));
+              if(r.serviceDaySlots!= null) {
+                emit(SuccessSlotState(r));
+              } else {
+                emit(ErrorSlotState());
+              }
     }
     );
   }
@@ -58,4 +62,5 @@ class SuccessSlotState extends NegotiationState{
 
   SuccessSlotState(this.slotResponse);
 }
-class ErrorSlotState extends NegotiationState{}
+class ErrorSlotState extends NegotiationState{
+}
