@@ -2,6 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/otp_client.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/domain/verify_otp_use_case.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
+import 'package:provider_medical_valley/features/branches/data/api/branches_cleint.dart';
+import 'package:provider_medical_valley/features/branches/domain/get_branches_use_case.dart';
+import 'package:provider_medical_valley/features/branches/presentation/bloc/branches_bloc.dart';
 import 'package:provider_medical_valley/features/contact_us/data/api/contact_us_client.dart';
 import 'package:provider_medical_valley/features/contact_us/domain/contact_us_repo.dart';
 import 'package:provider_medical_valley/features/contact_us/presentation/contact_us_bloc.dart';
@@ -87,5 +90,7 @@ configureDependencies() {
       OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getNewDio()))));
 getIt.registerFactory(() =>
       NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getNewDio()))));
+getIt.registerFactory(() =>
+      BranchesBloc(GetBranchesUseCaseImpl(BranchesClient(DioManager.getNewDio()))));
 
 }

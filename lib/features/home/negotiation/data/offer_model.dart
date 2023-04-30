@@ -4,8 +4,9 @@ class SendOffer {
   int? userId;
   int? price;
   int? periodId;
+  int? branchId;
 
-  SendOffer({this.id, this.requestId, this.userId, this.price, this.periodId});
+  SendOffer({this.id, this.requestId, this.userId, this.price, this.periodId,this.branchId});
 
   SendOffer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -13,6 +14,7 @@ class SendOffer {
     userId = json['userId'];
     price = json['price'];
     periodId = json['periodId'];
+    branchId = json['branchId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class SendOffer {
     data['userId'] = userId;
     data['price'] = price;
     data['periodId'] = periodId;
+    data['branchId'] = branchId;
     return data;
   }
 }

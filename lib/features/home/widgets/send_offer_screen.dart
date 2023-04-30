@@ -15,6 +15,8 @@ import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
+import 'package:provider_medical_valley/features/branches/data/model/branches_response_model.dart';
+import 'package:provider_medical_valley/features/branches/presentation/bloc/branches_bloc.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/offer_model.dart';
@@ -38,13 +40,15 @@ class SendOfferScreen extends StatefulWidget {
 
 class _SendOfferScreenState extends State<SendOfferScreen> {
 
-   var _formKey = GlobalKey<FormState>();
+   final _formKey = GlobalKey<FormState>();
   NegotiationBloc negotiationBloc = GetIt.instance<NegotiationBloc>();
+   BranchesBloc branchesBloc = GetIt.instance<BranchesBloc>();
   TextEditingController controller = TextEditingController();
   @override
   void initState() {
    DateTime now =  DateTime.now();
     negotiationBloc.getSlot(getDayId(now.weekday), widget.result.providerServiceId!);super.initState();
+    branchesBloc.getBranches();
   }
 
   int getDayId(int weedDay) {
@@ -246,6 +250,57 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                           return Container();
                         }
                       ),
+                      const SizedBox(height: 20,),
+                      Text(AppLocalizations.of(context)!.choose_branch, style: AppStyles.baloo2FontWith500WeightAnd16Size.copyWith(color: blackColor),),
+                      BlocBuilder<BranchesBloc, BranchesState>(
+                        bloc: branchesBloc,
+                        builder: (context, state) {
+                          if(state is BranchesStateSuccess){
+                            if(state.branches.isNotEmpty){
+                              selectedBranch.sink.add(state.branches.first.id!);
+                              return SizedBox(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width,
+                                child: ListView.builder(
+                                    itemCount: state.branches.length,
+                                    scrollDirection :Axis.horizontal,
+                                    itemBuilder: (c , index ) =>
+                                        StreamBuilder<int>(
+                                            stream: selectedBranch.stream,
+                                            builder: (context, snapshot) {
+                                              List<BranchesResponseModel>? branches = state.branches;
+                                              return GestureDetector(
+                                                onTap: ()=> selectedBranch.sink.add(branches[index].id!),
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                  decoration:  BoxDecoration(
+                                                      color: selectedBranch.value != branches[index].id!  ? whiteColor : primaryColor,
+                                                      border: Border.all(
+                                                          color: selectedBranch.value != branches[index].id!  ? borderGrey : whiteColor
+                                                      )
+                                                  ),
+                                                  child: Text("${branches[index].location}" , style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: selectedBranch.value != branches[index].id! ? blackColor : whiteColor,decoration: TextDecoration.none),),
+                                                ),
+                                              );
+                                            }
+                                        )),
+                              ) ;
+                            }
+                            else {
+                              return Text(AppLocalizations.of(context)!.no_branches);
+                            }
+                          }
+                          else if(state is  BranchesStateError){
+                            return  Text(AppLocalizations.of(context)!.no_branches);
+                          }
+                          else if (state is BranchesStateLoading){
+                            return const CircularProgressIndicator();
+                          }
+                          return Container();
+                        }
+                      ),
 
                       SizedBox(height: 32.h,),
                       Text(AppLocalizations.of(context)!.enter_price, style: AppStyles.baloo2FontWith400WeightAnd14Size.copyWith(color: blackColor),),
@@ -288,6 +343,8 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                       id: user["provider"]["data"]["id"],
                       userId: widget.result.userId,
                       periodId: selectedBorder.value,
+                      branchId: selectedBranch.value,
+
                     ));
                   }else {
                     context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);
@@ -303,5 +360,6 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
     );
   }
   BehaviorSubject<int> selectedBorder = BehaviorSubject.seeded(0);
+  BehaviorSubject<int> selectedBranch = BehaviorSubject.seeded(0);
 
 }

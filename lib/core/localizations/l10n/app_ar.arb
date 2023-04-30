@@ -51,7 +51,9 @@
           "female": "آنثى",
           "price": "السعر",
           "send": "ارسل",
+                   "choose_branch": "اختر فرع",
                    "no_notification": "لا يوجد اشعارات",
+                            "no_branches": "لا يوجد فروع",
              "price_invalid": "سعر غير صالح",
                       "offer_sent_success": "تم ارسال العرض بنجاح",
 
