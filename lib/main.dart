@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,53 +15,59 @@ import 'package:provider_medical_valley/core/widgets/change_language_screen/pere
 import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/language_state.dart';
 import 'package:provider_medical_valley/features/splash/presentation/screens/splash_screen.dart';
 import 'package:rxdart/rxdart.dart';
-BehaviorSubject <int> negoNumber = BehaviorSubject.seeded(0);
 
-class MyHttpOverrides extends HttpOverrides{
+import 'firebase_options.dart';
+
+BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
+
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
-void main() {
+
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.newBaseUrl, Strings.v_1));
   configureDependencies();
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (c)=> LanguageBloc(),
+      create: (c) => LanguageBloc(),
       child: DevicePreview(
           builder: (BuildContext context) {
-            return BlocBuilder<LanguageBloc , LanguageState>(
-              builder: (context, state) {
-
-                return ScreenUtilInit(
-                    designSize: const Size(screenWidth, screenHeight),
-                    minTextAdapt: true,
-                    splitScreenMode: true,
-                    builder: (context, child) {
-                      return MaterialApp(
-                        theme: appTheme,
-                        locale:  const Locale("en"),
-                        localizationsDelegates:
-                            AppLocalizations.localizationsDelegates,
-                        supportedLocales: AppLocalizations.supportedLocales,
-                        onGenerateTitle: (context) =>
-                            AppLocalizations.of(context)!.application_title,
-                        debugShowCheckedModeBanner: false,
-                        home: const SplashScreen(),
-                      );
-                    });
-              }
-            );
+            return BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+              return ScreenUtilInit(
+                  designSize: const Size(screenWidth, screenHeight),
+                  minTextAdapt: true,
+                  splitScreenMode: true,
+                  builder: (context, child) {
+                    return MaterialApp(
+                      theme: appTheme,
+                      locale: const Locale("en"),
+                      localizationsDelegates:
+                          AppLocalizations.localizationsDelegates,
+                      supportedLocales: AppLocalizations.supportedLocales,
+                      onGenerateTitle: (context) =>
+                          AppLocalizations.of(context)!.application_title,
+                      debugShowCheckedModeBanner: false,
+                      home: const SplashScreen(),
+                    );
+                  });
+            });
           },
           enabled: false),
     );
