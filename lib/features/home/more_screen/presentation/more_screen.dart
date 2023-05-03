@@ -8,7 +8,7 @@ import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
-import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_block.dart';
+import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_bloc.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:provider_medical_valley/features/contact_us/contact_us.dart';
@@ -133,10 +133,7 @@ class MoreScreen extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                                create: (context) => LanguageBloc(),
-                                child: const ChangeLanguageScreen(),
-                              )));
+                          builder: (context) => const ChangeLanguageScreen()));
                     },
                   ),
                   const Divider(

@@ -1,14 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../result_status.dart';
 
-class LanguageState {
-  Locale? locale;
-  ResultStatus status;
-  List<Object> get props => [locale!];
+class LanguageState extends Equatable{
+  Locale locale;
 
   LanguageState(
-    this.status, {
-    this.locale,
+     {
+    required this.locale,
   });
+  @override
+  List<Object> get props => [locale];
 }

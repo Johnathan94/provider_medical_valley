@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_bloc.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/otp_client.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/domain/verify_otp_use_case.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
