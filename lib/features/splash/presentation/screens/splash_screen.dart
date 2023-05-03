@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +10,7 @@ import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
 import 'package:provider_medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
@@ -29,12 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
     NetworkLoggerOverlay.attachTo(context);
     Future.delayed(const Duration(seconds: 1), () async{
       await AppInitializer.initializeAppWithContext(context);
-      String userEncoded = LocalStorageManager.getUser();
-      if(userEncoded == ""){
+      Map? userEncoded = LocalStorageManager.getUser();
+      if(userEncoded == null){
         goToLoginScreen(context);
       }else {
-        Map<String, dynamic> user = jsonDecode(userEncoded);
-        GetIt.instance<OffersBloc>().getOffers(NegotiationsEvent(1, 10, user["data"]["data"]["id"]));
+        ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
+        GetIt.instance<OffersBloc>().getOffers(NegotiationsEvent(1, 10, user.id!));
         goToHomeScreen(context);
       }
     });

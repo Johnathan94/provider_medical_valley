@@ -5,7 +5,7 @@ abstract class GetProfileState {}
 class InitialGetProfileState extends GetProfileState {}
 
 class SuccessGetProfileState extends GetProfileState {
-  UserProfileModel model;
+  ProviderProfileResponse model;
   SuccessGetProfileState(this.model);
 }
 

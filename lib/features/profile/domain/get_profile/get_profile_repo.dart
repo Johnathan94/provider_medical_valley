@@ -5,7 +5,7 @@ import 'package:provider_medical_valley/features/profile/data/user_profile/user_
 import '../../../../core/failures/failures.dart';
 
 abstract class GetProfileRepo {
-  Future<Either<Failure, UserProfileModel>> getProfile(int id);
+  Future<Either<Failure, ProviderProfileResponse>> getProfile(int id);
 }
 
 class GetProfileImpl extends GetProfileRepo {
@@ -14,11 +14,11 @@ class GetProfileImpl extends GetProfileRepo {
   GetProfileImpl(this.getProfileClient);
 
   @override
-  Future<Either<Failure, UserProfileModel>> getProfile(int id) async {
+  Future<Either<Failure, ProviderProfileResponse>> getProfile(int id) async {
     try {
       var result = await getProfileClient.getMyProfile(id);
       if (result["responseCode"] >= 200 && result["responseCode"] < 300) {
-        return Right(UserProfileModel.fromJson(result));
+        return Right(ProviderProfileResponse.fromJson(result));
       }
       return Left(ServerFailure());
     } catch (e) {

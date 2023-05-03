@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,6 +11,7 @@ import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:provider_medical_valley/core/widgets/disabled_text_field.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/categories_model.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_state.dart';
@@ -37,10 +36,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     optionDisplayed.sink.add("");
-    String user = LocalStorageManager.getUser();
+    ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
 
-    currentUser = jsonDecode(user);
-    getProfileBloc.getMyProfile(currentUser["provider"]["data"]["id"]);
+    getProfileBloc.getMyProfile(user.id!);
 
     super.initState();
   }

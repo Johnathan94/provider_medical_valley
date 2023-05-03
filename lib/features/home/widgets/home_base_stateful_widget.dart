@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -94,10 +93,10 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
                       label: AppLocalizations.of(context)!.notifications),
                   BottomNavigationBarItem(
                       icon: Badge(
-                          badgeContent:  Text(negoNumber.value.toString()),
+                          label:  Text(negoNumber.value.toString()),
                           child: SvgPicture.asset(negotiationIconDeactivated)),
                       activeIcon: Badge(
-                          badgeContent: Text(negoNumber.value.toString()),
+                          label: Text(negoNumber.value.toString()),
                           child: SvgPicture.asset(negotiationIconActive)),
                       backgroundColor: whiteColor,
                       label: AppLocalizations.of(context)!.negotiation),

@@ -1,8 +1,8 @@
 
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 
 class RequestsClient {
   Dio dio ;
@@ -10,9 +10,8 @@ class RequestsClient {
   RequestsClient(this.dio);
 
   getRequests(int bookingTypeId , int page , int pageSize)async{
-    String userEncoded = LocalStorageManager.getUser();
-    Map<String, dynamic> user = jsonDecode(userEncoded);
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/Requests?PageNumber=$page&PageSize=$pageSize&ProviderId=${user["data"]["data"]["id"]}&BookingTypeId=$bookingTypeId",);
+    ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/Requests?PageNumber=$page&PageSize=$pageSize&ProviderId=${user.id}&BookingTypeId=$bookingTypeId",);
     return response.data;
   }
 }

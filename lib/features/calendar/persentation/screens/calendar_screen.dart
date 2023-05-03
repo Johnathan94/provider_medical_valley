@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
@@ -213,13 +212,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
             child: PrimaryButton(
               onPressed: () {
-                String user = LocalStorageManager.getUser();
-                Map<String, dynamic> result = jsonDecode(user);
+                ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
                 bookRequestBloc.requestBook(BookRequestModel(
                     serviceId: widget.request.id!,
                     categoryId: widget.request.id!,
                     bookingTypeId: 3,
-                    userId: result["id"],
+                    userId: user.id,
                     appointmentDate: _getValueText(
                       config.calendarType,
                       _singleDatePickerValueWithDefaultValue,

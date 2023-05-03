@@ -1,12 +1,12 @@
-class UserProfileModel {
+class ProviderProfileResponse {
   bool? succeeded;
   String? message;
   String? messageCode;
   int? responseCode;
   String? validationIssue;
-  Data? data;
+  ProviderInfo? data;
 
-  UserProfileModel(
+  ProviderProfileResponse(
       {this.succeeded,
       this.message,
       this.messageCode,
@@ -14,13 +14,13 @@ class UserProfileModel {
       this.validationIssue,
       this.data});
 
-  UserProfileModel.fromJson(Map<String, dynamic> json) {
+  ProviderProfileResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
     message = json['message'];
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new ProviderInfo.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -37,10 +37,10 @@ class UserProfileModel {
   }
 }
 
-class Data {
+class ProviderInfo {
   int? id;
   String? fullName;
-  Null? arFullName;
+  String? arFullName;
   String? email;
   String? mobile;
   String? license;
@@ -56,7 +56,7 @@ class Data {
   int? providerRequestsCount ;
   int? providerRating;
 
-  Data(
+  ProviderInfo(
       {this.id,
       this.fullName,
       this.providerBranches,
@@ -76,7 +76,7 @@ class Data {
       this.commercialRecordImgId
       });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ProviderInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     fullName = json['fullName'];
     arFullName = json['arFullName'];

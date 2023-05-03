@@ -19,8 +19,15 @@ class LocalStorageManager {
   static deleteUser ()async{
     await sharedPreferences.setString("${_provider}user","");
   }
-  static String getUser (){
-    return sharedPreferences.getString("${_provider}user") ?? "";
+  static Map<String , dynamic >? getUser (){
+    String user = sharedPreferences.getString("${_provider}user") ?? "";
+
+    Map<String , dynamic > currentUser = {} ;
+    if(user != "") {
+      currentUser =  jsonDecode(user);
+      return currentUser;
+    }
+    return null;
   }
 
 }

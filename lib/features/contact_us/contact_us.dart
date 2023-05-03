@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +10,7 @@ import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/contact_us/data/model/contact_us_response_model.dart';
 import 'package:provider_medical_valley/features/contact_us/presentation/contact_us_bloc.dart';
 
@@ -37,11 +36,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   void initState() {
-    String user = LocalStorageManager.getUser();
-    Map<String, dynamic> data = jsonDecode(user);
-   fullNameController.text =  data["provider"]["data"]["fullName"];
-   emailController.text =  data["provider"]["data"]["email"];
-   phoneController.text =  data["provider"]["data"]["mobile"];
+    ProviderData currentUser = ProviderData.fromJson(LocalStorageManager.getUser()!);
+
+   fullNameController.text =  currentUser.fullName ?? "";
+   emailController.text = currentUser.email ?? "";
+   phoneController.text = currentUser.mobile ?? "" ;
     super.initState();
   }
   @override

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/branches/data/model/branches_response_model.dart';
 import 'package:provider_medical_valley/features/branches/presentation/bloc/branches_bloc.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
@@ -334,13 +334,13 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: PrimaryButton(
                 onPressed: () {
-                  String userEncoded = LocalStorageManager.getUser();
-                Map<String, dynamic> user = jsonDecode(userEncoded);
+                  ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
+
                   if(_formKey.currentState!.validate()){
                     negotiationBloc.sendOffer(SendOffer(
                       price: int.parse(controller.text),
                       requestId: widget.result.id,
-                      id: user["provider"]["data"]["id"],
+                      id: user.id,
                       userId: widget.result.userId,
                       periodId: selectedBorder.value,
                       branchId: selectedBranch.value,
