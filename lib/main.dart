@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
                     builder: (context, child) {
                       return MaterialApp(
                         theme: appTheme,
-                        locale: state.locale ?? const Locale("en"),
+                        locale:  const Locale("en"),
                         localizationsDelegates:
                             AppLocalizations.localizationsDelegates,
                         supportedLocales: AppLocalizations.supportedLocales,
