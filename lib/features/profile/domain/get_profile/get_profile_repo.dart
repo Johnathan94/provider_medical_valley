@@ -17,10 +17,11 @@ class GetProfileImpl extends GetProfileRepo {
   Future<Either<Failure, ProviderProfileResponse>> getProfile(int id) async {
     try {
       var result = await getProfileClient.getMyProfile(id);
-      if (result["responseCode"] >= 200 && result["responseCode"] < 300) {
-        return Right(ProviderProfileResponse.fromJson(result));
+      var providerProfileResponse = ProviderProfileResponse.fromJson(result);
+      if (providerProfileResponse.responseCode! >= 200 && providerProfileResponse.responseCode! < 300) {
+        return Right(providerProfileResponse);
       }
-      return Left(ServerFailure());
+      return Left(ServerFailure(error: providerProfileResponse.message));
     } catch (e) {
       return Left(ServerFailure());
     }

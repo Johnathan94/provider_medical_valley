@@ -94,6 +94,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       hintText: state.model.data?.email,
                     ),
                     SizedBox(
+                      height: 27.h,
+                    ),
+                    DisabledTextField(
+                      textController: controller,
+                      hintText: state.model.data?.mobile,
+                      suffixIcon: const Icon(Icons.call, color: hintTextColor),
+                    ),
+                    SizedBox(
                       height: 16.h,
                     ),
                     GestureDetector(
@@ -187,6 +195,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Icons.arrow_forward_ios,
                           size: 15,
                         )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.license_num),
+                        Text(state.model.data?.license ?? "" ),
+                      ],
+                    ), SizedBox(
+                      height: 30.h,
+                    ),Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.commercial_record),
+                        Text(state.model.data?.commercialRecord ?? "" ),
                       ],
                     ),
                     SizedBox(
