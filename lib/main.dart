@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'firebase_options.dart';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,11 +21,9 @@ BehaviorSubject <int> negoNumber = BehaviorSubject.seeded(0);
 LanguageBloc languageBloc = LanguageBloc();
 class MyHttpOverrides extends HttpOverrides{
 
-import 'firebase_options.dart';
 
 BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
 
-class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context){
     return super.createHttpClient(context)
