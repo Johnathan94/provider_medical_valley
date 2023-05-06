@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,6 +19,12 @@ import 'package:rxdart/rxdart.dart';
 BehaviorSubject <int> negoNumber = BehaviorSubject.seeded(0);
 LanguageBloc languageBloc = LanguageBloc();
 class MyHttpOverrides extends HttpOverrides{
+
+import 'firebase_options.dart';
+
+BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
+
+class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context){
     return super.createHttpClient(context)
@@ -25,6 +32,9 @@ class MyHttpOverrides extends HttpOverrides{
   }
 }
 void main() async{
+await Firebase.initializeApp(
+options: DefaultFirebaseOptions.currentPlatform,
+);
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.newBaseUrl, Strings.v_1));

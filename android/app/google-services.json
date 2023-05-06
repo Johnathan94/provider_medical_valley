@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "536370473855",
+    "project_id": "medicalvalleyprovider",
+    "storage_bucket": "medicalvalleyprovider.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536370473855:android:e84c6e80f65c5dd189084a",
+        "android_client_info": {
+          "package_name": "com.example.provider_medical_valley"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536370473855-m1kbci0u20phgs9dpins0pc3uukjh4ho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnaiYWzsWIfKh56eteOzisf_3zlVXmCs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536370473855-m1kbci0u20phgs9dpins0pc3uukjh4ho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
