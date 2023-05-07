@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 import 'package:provider_medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
@@ -108,12 +109,15 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       borderWidth: otpFieldBorderWidth.w,
       enabledBorderColor: greyWith80Percentage,
       focusedBorderColor: primaryColor,
+      onSubmit: (String text){
+        code = text ;
+      },
       borderRadius:
           const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
       showFieldAsBox: true,
     );
   }
-
+  String code = "" ;
   buildConfirmButton(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(
@@ -128,7 +132,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
           onPressed: () {
-            otpBloc.verifyOtp("846579", widget.mobile);
+            code.length == 6 ?
+            otpBloc.verifyOtp(code, widget.mobile) :
+            context.showSnackBar(AppLocalizations.of(context)!.otp_error);
           },
           child: Center(
             child: Text(

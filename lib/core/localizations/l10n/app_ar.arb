@@ -137,6 +137,7 @@
   "there_is_no_data": "لا يوجد بيانات",
   "input_your_problem": "أدخل مشكلتك",
   "input": "إدخال",
+  "otp_error" : "يجب ان تكتب ٦ ارقام",
   "facebook_page": "صفحة الفيسبوك",
   "commercial_record": "رقم السجل التجاري",
     "license_num": "رقم الترخيص",

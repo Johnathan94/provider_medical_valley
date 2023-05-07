@@ -31,7 +31,9 @@ BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
   }
 }
 void main() async{
-await Firebase.initializeApp(
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
 options: DefaultFirebaseOptions.currentPlatform,
 );
   HttpOverrides.global = MyHttpOverrides();
