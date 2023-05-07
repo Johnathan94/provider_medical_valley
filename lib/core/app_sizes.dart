@@ -42,7 +42,7 @@ const double text17 = 17;
 const double text40 = 40;
 const double text30 = 30;
 
-const int otpFieldNumber = 4;
+const int otpFieldNumber = 6;
 const double otpFieldWidth = 83;
 const double otpFieldBorderWidth = 1;
 const double otpFieldBorderRadius = 14;
