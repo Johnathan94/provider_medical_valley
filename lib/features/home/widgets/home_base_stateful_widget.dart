@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as bad;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,45 +71,46 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
         stream: _index,
         builder: (context, snapshot) {
           return StreamBuilder<int>(
-            stream: negoNumber.stream,
-            builder: (context, state) {
-              return BottomNavigationBar(
-                onTap: (newIndex) {
-                  _index.sink.add(newIndex);
-                },
-                currentIndex: snapshot.data ?? 0,
-                type: BottomNavigationBarType.fixed,
-                selectedLabelStyle: AppStyles.baloo2FontWith600WeightAnd18Size,
-                showUnselectedLabels: false,
-                items: [
-                  BottomNavigationBarItem(
-                      icon: SvgPicture.asset(homeIconDeactivated),
-                      activeIcon: SvgPicture.asset(homeIconActive),
-                      backgroundColor: whiteColor,
-                      label: AppLocalizations.of(context)!.home),
-                  BottomNavigationBarItem(
-                      icon: SvgPicture.asset(notificationIconDeactivated),
-                      activeIcon: SvgPicture.asset(notificationIconActive),
-                      backgroundColor: whiteColor,
-                      label: AppLocalizations.of(context)!.notifications),
-                  BottomNavigationBarItem(
-                      icon: Badge(
-                          label:  Text(negoNumber.value.toString()),
-                          child: SvgPicture.asset(negotiationIconDeactivated)),
-                      activeIcon: Badge(
-                          label: Text(negoNumber.value.toString()),
-                          child: SvgPicture.asset(negotiationIconActive)),
-                      backgroundColor: whiteColor,
-                      label: AppLocalizations.of(context)!.negotiation),
-                  BottomNavigationBarItem(
-                      icon: SvgPicture.asset(menuIconDeactivated),
-                      activeIcon: SvgPicture.asset(menuIconActive),
-                      backgroundColor: whiteColor,
-                      label: AppLocalizations.of(context)!.more),
-                ],
-              );
-            }
-          );
+              stream: negoNumber.stream,
+              builder: (context, state) {
+                return BottomNavigationBar(
+                  onTap: (newIndex) {
+                    _index.sink.add(newIndex);
+                  },
+                  currentIndex: snapshot.data ?? 0,
+                  type: BottomNavigationBarType.fixed,
+                  selectedLabelStyle:
+                      AppStyles.baloo2FontWith600WeightAnd18Size,
+                  showUnselectedLabels: false,
+                  items: [
+                    BottomNavigationBarItem(
+                        icon: SvgPicture.asset(homeIconDeactivated),
+                        activeIcon: SvgPicture.asset(homeIconActive),
+                        backgroundColor: whiteColor,
+                        label: AppLocalizations.of(context)!.home),
+                    BottomNavigationBarItem(
+                        icon: SvgPicture.asset(notificationIconDeactivated),
+                        activeIcon: SvgPicture.asset(notificationIconActive),
+                        backgroundColor: whiteColor,
+                        label: AppLocalizations.of(context)!.notifications),
+                    BottomNavigationBarItem(
+                        icon: bad.Badge(
+                            badgeContent: Text(negoNumber.value.toString()),
+                            child:
+                                SvgPicture.asset(negotiationIconDeactivated)),
+                        activeIcon: bad.Badge(
+                            badgeContent: Text(negoNumber.value.toString()),
+                            child: SvgPicture.asset(negotiationIconActive)),
+                        backgroundColor: whiteColor,
+                        label: AppLocalizations.of(context)!.negotiation),
+                    BottomNavigationBarItem(
+                        icon: SvgPicture.asset(menuIconDeactivated),
+                        activeIcon: SvgPicture.asset(menuIconActive),
+                        backgroundColor: whiteColor,
+                        label: AppLocalizations.of(context)!.more),
+                  ],
+                );
+              });
         });
   }
 }
