@@ -13,6 +13,12 @@ class LocalStorageManager {
   static saveToken (String token)async{
     await sharedPreferences.setString("${_provider}token", token);
   }
+  static Future saveCurrentLanguage (String locale)async{
+    await sharedPreferences.setString("${_provider}locale", locale);
+  }
+  static String getCurrentLanguage (){
+    return sharedPreferences.getString("${_provider}locale") ?? "";
+  }
   static String getToken (){
     return sharedPreferences.getString("${_provider}token") ?? "";
   }

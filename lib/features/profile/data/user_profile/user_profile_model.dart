@@ -20,11 +20,11 @@ class ProviderProfileResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ? new ProviderInfo.fromJson(json['data']) : null;
+    data = json['data'] != null ? ProviderInfo.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['succeeded'] = succeeded;
     data['message'] = message;
     data['messageCode'] = messageCode;
@@ -52,9 +52,9 @@ class ProviderInfo {
   String? logoImgId;
   String? licenseImgId;
   String? commercialRecordImgId;
-  List<String>? providerBranches;
+  List<dynamic>? providerBranches;
   int? providerRequestsCount ;
-  int? providerRating;
+  double? providerRating;
 
   ProviderInfo(
       {this.id,
@@ -97,7 +97,7 @@ class ProviderInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['id'] = id;
     data['fullName'] = fullName;
     data['arFullName'] = arFullName;

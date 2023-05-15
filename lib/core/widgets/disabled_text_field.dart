@@ -28,6 +28,7 @@ class DisabledTextField extends TextFormField{
       suffixIcon: suffixIcon ?? const Icon(Icons.mail_outline , color: hintTextColor,),
       filled: true,
       prefixIcon: prefixIcon,
+      enabled: false,
       hintStyle: hintStyle ?? const TextStyle(),
       enabledBorder:  InputBorder.none,
       focusedBorder:  InputBorder.none ,

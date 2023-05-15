@@ -4,13 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'language_state.dart';
 
 class LanguageBloc extends Cubit<LanguageState> {
-  int x = 0;
-  LanguageBloc() : super(LanguageState(locale :const Locale("en"))){
-    x=30;
+  LanguageBloc() : super( LanguageState()){
   }
 
-  Stream<LanguageState> changeLanguage(Locale locale) async* {
-    print(x);
+  changeLanguage(Locale locale)   {
     emit(LanguageState(locale: locale));
   }
 }

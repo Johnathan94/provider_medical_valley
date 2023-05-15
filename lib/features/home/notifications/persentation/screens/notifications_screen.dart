@@ -69,8 +69,11 @@ NotificationBloc notificationBloc = GetIt.instance<NotificationBloc>();
   }
 
   Widget getNotificationsBody() {
-    return _notifications.isEmpty ?
-        Text("There is no Notifications", style: AppStyles.baloo2FontWith400WeightAnd14Size,)
+    return _notifications.isEmpty ?Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        alignment: Alignment.center,
+        child: Text("There is no Notifications", style: AppStyles.baloo2FontWith700WeightAnd15Size,))
         :
       GroupedListView<NotificationModel, String>(
        groupBy: (NotificationModel a){
