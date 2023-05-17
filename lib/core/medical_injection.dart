@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_bloc.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/otp_client.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/domain/verify_otp_use_case.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
@@ -41,7 +40,7 @@ import '../features/home/history/data/get_clinic_repo.dart';
 import '../features/home/history/data/source/json_data.dart';
 import '../features/home/history/domain/get_clinic_usecase.dart';
 import '../features/home/history/presentation/bloc/clinics_bloc.dart';
-import '../features/home/home_screen/data/api/categories_client.dart';
+import '../features/home/home_screen/data/api/requests_client.dart';
 import '../features/home/home_screen/domain/get_requests_use_case.dart';
 import '../features/home/home_screen/persentation/bloc/home_bloc.dart';
 import '../features/profile/domain/get_profile/get_profile_repo.dart';
@@ -83,15 +82,14 @@ configureDependencies() {
       () => ServicesBloc(ServiceRepo(ServiceClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
       GetProfileBloc(GetProfileImpl(GetProfileClient(DioManager.getNewDio()))));
-  getIt.registerFactory(() =>
-      TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getNewDio()))));
- getIt.registerFactory(() =>
-      ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getNewDio()))));
- getIt.registerFactory(() =>
-      OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getNewDio()))));
-getIt.registerFactory(() =>
-      NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getNewDio()))));
-getIt.registerFactory(() =>
-      BranchesBloc(GetBranchesUseCaseImpl(BranchesClient(DioManager.getNewDio()))));
-
+  getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(
+      TermsAndConditionsClient(DioManager.getNewDio()))));
+  getIt.registerFactory(() => ContactUsBloc(
+      ContactUsRepoImpl(ContactUsClient(DioManager.getNewDio()))));
+  getIt.registerFactory(
+      () => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getNewDio()))));
+  getIt.registerFactory(() => NotificationBloc(
+      GetNotificationUseCaseImpl(NotificationClient(DioManager.getNewDio()))));
+  getIt.registerFactory(() => BranchesBloc(
+      GetBranchesUseCaseImpl(BranchesClient(DioManager.getNewDio()))));
 }

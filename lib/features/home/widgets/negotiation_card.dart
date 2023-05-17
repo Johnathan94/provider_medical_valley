@@ -163,7 +163,7 @@ class NegotiationCard extends StatelessWidget {
                             SvgPicture.asset(infoIcon),
                             SizedBox(width: 5.w),
                             Text(
-                              items.haveInsurance == true
+                              items.userHasInsurance == true
                                   ? AppLocalizations.of(context)!.has_insurrance
                                   : AppLocalizations.of(context)!
                                       .has_no_insurrance,
@@ -188,8 +188,7 @@ class NegotiationCard extends StatelessWidget {
                 items,
                 immediateCard: immediateCard,
                 otherCard: otherCard,
-              )
-          )
+              ))
         ],
       ),
     );

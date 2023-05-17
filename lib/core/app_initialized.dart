@@ -2,7 +2,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/change_language_screen/data/models/language_model.dart';
 
-
 import '../features/home/history/data/sortModel.dart';
 import '../features/payment/data/payment_data.dart';
 
@@ -12,6 +11,7 @@ class AppInitializer {
   static List<String> optionsList = [];
   static List<PaymentData> paymentMethods = [];
   static List<LanguageModel> languages = [];
+  static Map<int, String> insuranceOptions = {};
 
   static initializeAppWithContext(context) async {
     sortChoicesHistory.addAll([
@@ -20,6 +20,12 @@ class AppInitializer {
       SortModel(true, AppLocalizations.of(context)!.most_recent),
       SortModel(true, AppLocalizations.of(context)!.oldest),
     ]);
+    insuranceOptions = {
+      0: AppLocalizations.of(context)!.insurance_not_available,
+      1: AppLocalizations.of(context)!.insurance_available_and_covering,
+      2: AppLocalizations.of(context)!
+          .insurance_available_and_but_need_approval,
+    };
     optionsList.addAll([
       AppLocalizations.of(context)!.yes,
       AppLocalizations.of(context)!.no,

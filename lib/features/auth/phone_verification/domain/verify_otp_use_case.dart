@@ -19,7 +19,8 @@ class VerifyOtpUseCaseImpl extends VerifyOtpUseCase {
       var result = await otpClient.verifyOtp(mobile, otp);
       var otpResponse = OtpResponse.fromJson(result);
       if (otpResponse.responseCode! >= 200 && otpResponse.responseCode! < 300) {
-        LocalStorageManager.saveUser(otpResponse.data!.otpData!.userDate!.toJson());
+        LocalStorageManager.saveUser(
+            otpResponse.data!.otpData!.userDate!.toJson());
         LocalStorageManager.saveToken(otpResponse.data!.token!);
         return const Right(unit);
       }

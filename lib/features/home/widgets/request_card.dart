@@ -163,7 +163,8 @@ class RequestCard extends StatelessWidget {
                             SvgPicture.asset(infoIcon),
                             SizedBox(width: 5.w),
                             Text(
-                              items.haveInsurance == true
+                              items.userHasInsurance != null &&
+                                      items.userHasInsurance!
                                   ? AppLocalizations.of(context)!.has_insurrance
                                   : AppLocalizations.of(context)!
                                       .has_no_insurrance,
@@ -188,8 +189,7 @@ class RequestCard extends StatelessWidget {
                 items,
                 immediateCard: immediateCard,
                 otherCard: otherCard,
-              )
-          )
+              ))
         ],
       ),
     );

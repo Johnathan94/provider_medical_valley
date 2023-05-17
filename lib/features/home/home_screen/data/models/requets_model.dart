@@ -8,11 +8,11 @@ class RequestsResponse {
 
   RequestsResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   RequestsResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -20,11 +20,11 @@ class RequestsResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data ={};
+    final Map<String, dynamic> data = {};
     data['succeeded'] = succeeded;
     data['message'] = message;
     data['messageCode'] = messageCode;
@@ -48,12 +48,12 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.totalPages,
-        this.pageSize,
-        this.totalCount,
-        this.hasPrevious,
-        this.hasNext,
-        this.results});
+      this.totalPages,
+      this.pageSize,
+      this.totalCount,
+      this.hasPrevious,
+      this.hasNext,
+      this.results});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['currentPage'];
@@ -65,13 +65,13 @@ class Data {
     if (json['results'] != null) {
       results = <BookRequest>[];
       json['results'].forEach((v) {
-        results!.add( BookRequest.fromJson(v));
+        results!.add(BookRequest.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data ={};
+    final Map<String, dynamic> data = {};
     data['currentPage'] = currentPage;
     data['totalPages'] = totalPages;
     data['pageSize'] = pageSize;
@@ -94,18 +94,18 @@ class BookRequest {
   String? serviceStr;
   String? bookingTypeStr;
   String? mobileStr;
-  bool? haveInsurance;
+  bool? userHasInsurance;
 
   BookRequest(
       {this.id,
-        this.userId,
-        this.userStr,
-        this.categoryStr,
-        this.providerServiceId,
-        this.serviceStr,
-        this.bookingTypeStr,
-        this.mobileStr,
-        this.haveInsurance});
+      this.userId,
+      this.userStr,
+      this.categoryStr,
+      this.providerServiceId,
+      this.serviceStr,
+      this.bookingTypeStr,
+      this.mobileStr,
+      this.userHasInsurance});
 
   BookRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -115,7 +115,7 @@ class BookRequest {
     serviceStr = json['serviceStr'];
     bookingTypeStr = json['bookingTypeStr'];
     mobileStr = json['mobileStr'];
-    haveInsurance = json['haveInsurance'];
+    userHasInsurance = json['userHasInsurance'];
     providerServiceId = json['providerServiceId'];
   }
 
@@ -128,7 +128,7 @@ class BookRequest {
     data['serviceStr'] = serviceStr;
     data['bookingTypeStr'] = bookingTypeStr;
     data['mobileStr'] = mobileStr;
-    data['haveInsurance'] = haveInsurance;
+    data['haveInsurance'] = userHasInsurance;
     data['providerServiceId'] = providerServiceId;
     return data;
   }
