@@ -110,9 +110,9 @@ class BookRequest {
   BookRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
-    userStr = json['userStr'];
+    userStr = json['userName'];
     categoryStr = json['categoryStr'];
-    serviceStr = json['serviceStr'];
+    serviceStr = json['providerServiceName'];
     bookingTypeStr = json['bookingTypeStr'];
     mobileStr = json['mobileStr'];
     userHasInsurance = json['userHasInsurance'];

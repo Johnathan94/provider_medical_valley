@@ -45,138 +45,155 @@ class RequestCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "3 min",
-                        style: AppStyles.baloo2FontWith400WeightAnd14Size
-                            .copyWith(color: blackColor),
-                      ),
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.grey.shade300),
-                            image: const DecorationImage(
-                              image: AssetImage(personImage),
-                            )),
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Color(0xffEB8B17),
-                            size: 16,
-                          ),
-                          Text(
-                            " ",
-                            style: AppStyles.baloo2FontWith400WeightAnd12Size
-                                .copyWith(color: lightGrey),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        items.userStr ?? "",
-                        style: AppStyles.baloo2FontWith400WeightAnd18Size
-                            .copyWith(
-                                color: blackColor,
-                                decoration: TextDecoration.none),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: 3.h),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            cardIconOne,
-                          ),
-                          SizedBox(width: 5.w),
-                          Text(
-                            items.categoryStr.toString(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.baloo2FontWith400WeightAnd16Size
-                                .copyWith(color: blackColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(
-                        children: [
-                          SvgPicture.asset(cardIconTwo),
-                          SizedBox(width: 5.w),
-                          Text(
-                            items.serviceStr.toString(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.baloo2FontWith400WeightAnd16Size
-                                .copyWith(color: blackColor),
-                          ),
-                        ],
-                      ),
-                      //SizedBox(height: 4.h),
-                      /*Row(
-                        children: [
-                          SvgPicture.asset(phoneIcon),
-                          SizedBox(width: 5.w),
-                          Text(
-                            items.mobileStr.toString(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.baloo2FontWith400WeightAnd12Size,
-                          ),
-                        ],
-                      ),*/
-                      isCalendarRowShown ? SizedBox(height: 6.h) : Container(),
-                      isCalendarRowShown
-                          ? Row(
-                              children: [
-                                SvgPicture.asset(
-                                  calendarIcon,
-                                  width: 20.w,
-                                  height: 15.h,
-                                ),
-                                SizedBox(width: 5.w),
-                                Text(
-                                  "30 sep 2023",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppStyles
-                                      .baloo2FontWith400WeightAnd12Size,
-                                ),
-                              ],
-                            )
-                          : Container(),
-                      SizedBox(height: 6.h),
-                      Expanded(
-                        child: Row(
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "3 min",
+                          style: AppStyles.baloo2FontWith400WeightAnd14Size
+                              .copyWith(color: blackColor),
+                        ),
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.grey.shade300),
+                              image: const DecorationImage(
+                                image: AssetImage(personImage),
+                              )),
+                        ),
+                        Row(
                           children: [
-                            SvgPicture.asset(infoIcon),
-                            SizedBox(width: 5.w),
+                            const Icon(
+                              Icons.star,
+                              color: Color(0xffEB8B17),
+                              size: 16,
+                            ),
                             Text(
-                              items.userHasInsurance != null &&
-                                      items.userHasInsurance!
-                                  ? AppLocalizations.of(context)!.has_insurrance
-                                  : AppLocalizations.of(context)!
-                                      .has_no_insurrance,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              " ",
                               style: AppStyles.baloo2FontWith400WeightAnd12Size
-                                  .copyWith(color: primaryColor),
+                                  .copyWith(color: lightGrey),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          items.userStr ?? "",
+                          style: AppStyles.baloo2FontWith400WeightAnd18Size
+                              .copyWith(
+                                  color: blackColor,
+                                  decoration: TextDecoration.none),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 3.h),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                cardIconOne,
+                              ),
+                              SizedBox(width: 5.w),
+                              Expanded(
+                                child: Text(
+                                  items.categoryStr.toString(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd16Size
+                                      .copyWith(color: blackColor),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        Row(
+                          children: [
+                            SvgPicture.asset(cardIconTwo),
+                            SizedBox(width: 5.w),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                items.serviceStr.toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppStyles
+                                    .baloo2FontWith400WeightAnd16Size
+                                    .copyWith(color: blackColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                        //SizedBox(height: 4.h),
+                        /*Row(
+                          children: [
+                            SvgPicture.asset(phoneIcon),
+                            SizedBox(width: 5.w),
+                            Text(
+                              items.mobileStr.toString(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppStyles.baloo2FontWith400WeightAnd12Size,
+                            ),
+                          ],
+                        ),*/
+                        isCalendarRowShown
+                            ? SizedBox(height: 6.h)
+                            : Container(),
+                        isCalendarRowShown
+                            ? Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    calendarIcon,
+                                    width: 20.w,
+                                    height: 15.h,
+                                  ),
+                                  SizedBox(width: 5.w),
+                                  Text(
+                                    "30 sep 2023",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppStyles
+                                        .baloo2FontWith400WeightAnd12Size,
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        SizedBox(height: 6.h),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(infoIcon),
+                              SizedBox(width: 5.w),
+                              Text(
+                                items.userHasInsurance != null &&
+                                        items.userHasInsurance!
+                                    ? AppLocalizations.of(context)!
+                                        .has_insurrance
+                                    : AppLocalizations.of(context)!
+                                        .has_no_insurrance,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppStyles
+                                    .baloo2FontWith400WeightAnd12Size
+                                    .copyWith(color: primaryColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

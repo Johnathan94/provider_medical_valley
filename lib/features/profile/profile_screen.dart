@@ -16,7 +16,6 @@ import 'package:provider_medical_valley/features/home/home_screen/data/models/ca
 import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_state.dart';
 import 'package:provider_medical_valley/features/services/services_screen.dart';
-import 'package:rxdart/rxdart.dart';
 
 List<Services> services = [];
 
@@ -29,13 +28,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController controller = TextEditingController();
-  BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   Map<String, dynamic> currentUser = {};
   GetProfileBloc getProfileBloc = GetIt.instance<GetProfileBloc>();
 
   @override
   void initState() {
-    optionDisplayed.sink.add("");
     ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
 
     getProfileBloc.getMyProfile(user.id!);

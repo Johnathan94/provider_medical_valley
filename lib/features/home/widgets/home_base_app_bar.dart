@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../core/app_colors.dart';
@@ -25,6 +27,9 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProviderData currentUser =
+        ProviderData.fromJson(LocalStorageManager.getUser()!);
+
     _isClicked.sink.add(false);
     return StreamBuilder<bool>(
         stream: _isClicked,
@@ -75,7 +80,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                               ],
                             ),
                             Text(
-                              "اوكسي هيلث",
+                              currentUser.fullName ?? "",
                               style: AppStyles.baloo2FontWith400WeightAnd22Size,
                             ),
                           ],

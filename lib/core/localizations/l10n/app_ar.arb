@@ -90,7 +90,7 @@
                   "lowest_price": "اقل سعر",
                   "highest_price": "اعلى  سعر",
                   "time": "الوقت",
-                      "request_price": "طلب سعر",
+                      "request_price": "العروض",
                       "book": "احجز الآن",
                       "negotiate_again": "اطلب عرض اخر",
 
@@ -128,7 +128,7 @@
   "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق",
     "has_insurrance": "لديه تأمين",
     "has_no_insurrance": "ليس لديه تأمين",
-  "negotiate": "تفاوض",
+  "negotiate": "فاوض",
   "another_date": "تاريخ اخر",
   "consultant": "مستشار",
   "specialist": "متخصص",
