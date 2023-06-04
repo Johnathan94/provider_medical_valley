@@ -196,7 +196,7 @@ class MoreScreen extends StatelessWidget {
               buttonCornerRadius: 22,
               onPressed: () async {
                 await LocalStorageManager.deleteUser();
-                Navigator.push(
+                Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (c) => LoginScreen()));
               },
               text: AppLocalizations.of(context)!.sign_out,

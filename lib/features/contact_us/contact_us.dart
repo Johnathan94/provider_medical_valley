@@ -31,18 +31,20 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
-  final _formKey  = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final ContactUsBloc contactUsBloc = GetIt.instance<ContactUsBloc>();
 
   @override
   void initState() {
-    ProviderData currentUser = ProviderData.fromJson(LocalStorageManager.getUser()!);
+    ProviderData currentUser =
+        ProviderData.fromJson(LocalStorageManager.getUser()!);
 
-   fullNameController.text =  currentUser.fullName ?? "";
-   emailController.text = currentUser.email ?? "";
-   phoneController.text = currentUser.mobile ?? "" ;
+    fullNameController.text = currentUser.fullName ?? "";
+    emailController.text = currentUser.email ?? "";
+    phoneController.text = currentUser.mobile ?? "";
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +81,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 height: 50,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
                     color: whiteRed100,
                     borderRadius: BorderRadius.circular(12),
@@ -98,7 +101,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           height: 8,
                         ),
                         SvgPicture.asset(
-                          facebookIcon,
+                          instagramIcon,
                           width: 15,
                           height: 15,
                         ),
@@ -135,13 +138,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               BlocListener<ContactUsBloc, ContactUsState>(
                 bloc: contactUsBloc,
                 child: const SizedBox(),
-                listener: (BuildContext context, state) async{
-
-                  if(state is ContactUsStateLoading){
+                listener: (BuildContext context, state) async {
+                  if (state is ContactUsStateLoading) {
                     await LoadingDialogs.showLoadingDialog(context);
-                  }
-                  else if (state is ContactUsStateSuccess)
-                  {
+                  } else if (state is ContactUsStateSuccess) {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       barrierDismissible: false,
@@ -150,8 +150,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.success_login,
                     );
-                  }
-                  else {
+                  } else {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
@@ -159,18 +158,16 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.invalid_phone_number,
                     );
-
                   }
                 },
-
               ),
               SizedBox(
                 height: 16.h,
               ),
               TextFormField(
                 validator: (String? x) {
-                  if(!x!.isEmailValid()){
-                    return AppLocalizations.of(context)!.email_invalid ;
+                  if (!x!.isEmailValid()) {
+                    return AppLocalizations.of(context)!.email_invalid;
                   }
                   return null;
                 },
@@ -180,9 +177,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   fillColor: textFieldBg,
                   isDense: true,
                   filled: true,
-                  focusedBorder:  const OutlineInputBorder(
-                      borderSide: BorderSide(color: primaryColor)
-                  ),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor)),
                   enabledBorder: InputBorder.none,
                   hintText: AppLocalizations.of(context)!.email,
                   hintStyle: AppStyles.headlineStyle,
@@ -201,9 +197,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 decoration: InputDecoration(
                   fillColor: textFieldBg,
                   filled: true,
-                  focusedBorder:  const OutlineInputBorder(
-                      borderSide: BorderSide(color: primaryColor)
-                  ),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor)),
                   enabledBorder: InputBorder.none,
                   isDense: true,
                   hintText: AppLocalizations.of(context)!.fullname,
@@ -213,7 +208,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               SizedBox(
                 height: 16.h,
               ),
-
               TextFormField(
                 validator: (String? x) {
                   if (x!.isEmpty) {
@@ -224,11 +218,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 decoration: InputDecoration(
                   fillColor: textFieldBg,
                   filled: true,
-                  focusedBorder:  const OutlineInputBorder(
-                      borderSide: BorderSide(color: primaryColor)
-                  ),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor)),
                   enabledBorder: InputBorder.none,
-                  prefixIcon: Image.asset(saudiIcon,),
+                  prefixIcon: Image.asset(
+                    saudiIcon,
+                  ),
                   isDense: true,
                   hintText: AppLocalizations.of(context)!.phone_number,
                   hintStyle: AppStyles.headlineStyle,
@@ -242,7 +237,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       ),
     );
   }
-
 
   buildLargeContactUsField() {
     return Padding(
@@ -259,18 +253,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           const SizedBox(
             height: 10,
           ),
-           TextFormField(
+          TextFormField(
             keyboardType: TextInputType.multiline,
             controller: problemController,
-             decoration:const  InputDecoration(
-               enabledBorder:  OutlineInputBorder(
-                   borderSide: BorderSide(color: greenCheckBox)
-               ),
-               focusedBorder:  OutlineInputBorder(
-                   borderSide: BorderSide(color: primaryColor)
-               ),
-
-             ),
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: greenCheckBox)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor)),
+            ),
             minLines: 8, //Normal textInputField will be displayed
             maxLines: 15, // when user presses enter it will adapt to it
           ),
@@ -282,22 +273,21 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   buildInputButton() {
     return Padding(
       padding: const EdgeInsetsDirectional.only(start: 22, end: 22, top: 35),
-      child: PrimaryButton(text: AppLocalizations.of(context)!.send,
-      onPressed: (){
-        if (_formKey.currentState!.validate() && (phoneController.text.length == 9 || phoneController.text.length == 10)){
-          contactUsBloc.contactUs(ContactUsEvent(
-              ContactUsModel(
+      child: PrimaryButton(
+          text: AppLocalizations.of(context)!.send,
+          onPressed: () {
+            if (_formKey.currentState!.validate() &&
+                (phoneController.text.length == 9 ||
+                    phoneController.text.length == 10)) {
+              contactUsBloc.contactUs(ContactUsEvent(ContactUsModel(
                   email: emailController.text,
                   phone: phoneController.text,
                   fullName: fullNameController.text,
-                  problem: problemController.text
-              )
-          ));
-        }else
-        context.showSnackBar(AppLocalizations.of(context)!.something_went_wrong);
-      }
-
-          ),
+                  problem: problemController.text)));
+            } else
+              context.showSnackBar(
+                  AppLocalizations.of(context)!.something_went_wrong);
+          }),
     );
   }
 }

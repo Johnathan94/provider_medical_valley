@@ -103,17 +103,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         CoolAlert.show(
                           barrierDismissible: false,
                           context: context,
-                          autoCloseDuration:const Duration(seconds: 1),
+                          autoCloseDuration: const Duration(seconds: 1),
                           type: CoolAlertType.success,
-                          text:
-                              AppLocalizations.of(context)!.success_login,
+                          text: AppLocalizations.of(context)!.success_login,
                         );
-                        Future.delayed(const Duration(seconds: 2),navigateToOtpScreen);
+                        Future.delayed(
+                            const Duration(seconds: 2), navigateToOtpScreen);
                       } else {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           context: context,
-                          autoCloseDuration:const Duration(seconds: 1),
+                          autoCloseDuration: const Duration(seconds: 1),
                           type: CoolAlertType.error,
                           text: AppLocalizations.of(context)!
                               .invalid_phone_number,
@@ -131,10 +131,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate() && (phoneController.text.length == 10 || phoneController.text.length == 9)){
-                      loginBloc.loginUser(LoginEvent(phoneController.text));
-                      }
-                       else {
+                      if (_formKey.currentState!.validate() &&
+                          (phoneController.text.length == 10 ||
+                              phoneController.text.length == 9)) {
+                        loginBloc.loginUser(LoginEvent(phoneController.text));
+                      } else {
                         context.showSnackBar(
                             AppLocalizations.of(context)!.invalid_phone_number);
                       }
@@ -143,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 buildSignInApps(),
-              //  buildSignUp()
+                //  buildSignUp()
               ],
             ),
           ),
@@ -161,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
- // String dialCode = "+966";
+  // String dialCode = "+966";
   buildMobilePhoneField() {
     return Container(
       margin: EdgeInsetsDirectional.only(
@@ -169,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
       child: PhoneIntlWidgetField(phoneController, (Country country) {
-       // dialCode = country.dialCode;
+        // dialCode = country.dialCode;
       }),
     );
   }
@@ -228,8 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   appIcon: googleIcon,
                 ),
                 AuthenticationAppWidget(
-                  appIcon: facebookIcon,
-                  isSvg: true,
+                  appIcon: instagramIcon,
+                  isSvg: false,
                 ),
                 AuthenticationAppWidget(
                   appIcon: twitterIcon,
@@ -243,10 +244,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-
   navigateToOtpScreen() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>  PhoneVerificationScreen(phoneController.text)));
+        builder: (context) => PhoneVerificationScreen(phoneController.text)));
   }
 }
