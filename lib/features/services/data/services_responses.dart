@@ -1,19 +1,18 @@
-
 class ServicesResponse {
   bool? succeeded;
   String? message;
   String? messageCode;
   int? responseCode;
   String? validationIssue;
-  Data? data;
+  List<ServiceModel>? results;
 
   ServicesResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.results});
 
   ServicesResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -21,111 +20,58 @@ class ServicesResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
-    data['succeeded'] = succeeded;
-    data['message'] = message;
-    data['messageCode'] = messageCode;
-    data['responseCode'] = responseCode;
-    data['validationIssue'] = validationIssue;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
-  int? currentPage;
-  int? totalPages;
-  int? pageSize;
-  int? totalCount;
-  bool? hasPrevious;
-  bool? hasNext;
-  List<ServiceModel>? results;
-
-  Data(
-      {this.currentPage,
-        this.totalPages,
-        this.pageSize,
-        this.totalCount,
-        this.hasPrevious,
-        this.hasNext,
-        this.results});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    currentPage = json['currentPage'];
-    totalPages = json['totalPages'];
-    pageSize = json['pageSize'];
-    totalCount = json['totalCount'];
-    hasPrevious = json['hasPrevious'];
-    hasNext = json['hasNext'];
-    if (json['results'] != null) {
+    if (json['data'] != null) {
       results = <ServiceModel>[];
-      json['results'].forEach((v) {
-        results!.add( ServiceModel.fromJson(v));
+      json['data'].forEach((v) {
+        results!.add(ServiceModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
-    data['currentPage'] = currentPage;
-    data['totalPages'] = totalPages;
-    data['pageSize'] = pageSize;
-    data['totalCount'] = totalCount;
-    data['hasPrevious'] = hasPrevious;
-    data['hasNext'] = hasNext;
-    if (results != null) {
-      data['results'] = results!.map((v) => v.toJson()).toList();
-    }
+    final Map<String, dynamic> data = {};
+    data['succeeded'] = succeeded;
+    data['message'] = message;
+    data['messageCode'] = messageCode;
+    data['responseCode'] = responseCode;
+    data['validationIssue'] = validationIssue;
+
     return data;
   }
 }
 
 class ServiceModel {
   int? serviceId;
-  String? serviceName;
-  String? categoryName;
-  String? dateFrom;
-  String? dateTo;
-  String? statusStr;
-  bool? autoReply;
+  String? englishName;
+  String? arabicName;
+  int? statusId;
+  int? categoryId;
   bool? isActive;
 
   ServiceModel(
       {this.serviceId,
-        this.serviceName,
-        this.categoryName,
-        this.dateFrom,
-        this.dateTo,
-        this.statusStr,
-        this.autoReply,
-        this.isActive});
+      this.englishName,
+      this.arabicName,
+      this.statusId,
+      this.categoryId,
+      this.isActive});
 
   ServiceModel.fromJson(Map<String, dynamic> json) {
     serviceId = json['serviceId'];
-    serviceName = json['serviceName'];
-    categoryName = json['categoryName'];
-    dateFrom = json['dateFrom'];
-    dateTo = json['dateTo'];
-    statusStr = json['statusStr'];
-    autoReply = json['autoReply'];
+    englishName = json['englishName'];
+    arabicName = json['arabicName'];
+    statusId = json['statusId'];
+    categoryId = json['categoryId'];
     isActive = json['isActive'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
+    final Map<String, dynamic> data = {};
     data['serviceId'] = serviceId;
-    data['serviceName'] = serviceName;
-    data['categoryName'] = categoryName;
-    data['dateFrom'] = dateFrom;
-    data['dateTo'] = dateTo;
-    data['statusStr'] = statusStr;
-    data['autoReply'] = autoReply;
+    data['englishName'] = englishName;
+    data['arabicName'] = arabicName;
+    data['statusId'] = statusId;
+    data['categoryId'] = categoryId;
     data['isActive'] = isActive;
     return data;
   }

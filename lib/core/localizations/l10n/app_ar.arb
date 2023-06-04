@@ -91,7 +91,9 @@
                   "highest_price": "اعلى  سعر",
                   "time": "الوقت",
                       "request_price": "العروض",
-                      "book": "احجز الآن",
+  "vat_number": "رقم Vat",
+
+  "book": "احجز الآن",
                       "negotiate_again": "اطلب عرض اخر",
 
       "languages": "اللغات",

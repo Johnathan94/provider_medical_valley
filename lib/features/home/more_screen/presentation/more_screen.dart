@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
@@ -8,7 +7,6 @@ import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
-import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_bloc.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:provider_medical_valley/features/contact_us/contact_us.dart';
@@ -41,11 +39,13 @@ class MoreScreen extends StatelessWidget {
                 height: 270.h,
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: GestureDetector(
-                onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (c)=> const ProfileScreen()));
-
-                },
-                child: const ProfileImage()),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => const ProfileScreen()));
+                    },
+                    child: const ProfileImage()),
               ),
             ],
           ),
@@ -97,7 +97,7 @@ class MoreScreen extends StatelessWidget {
                     indent: 8,
                     endIndent: 8,
                   ),
-                  ListTile(
+                  /* ListTile(
                     leading: const IconBG(
                       color: Color(0xff4780A8),
                       image: Icons.email_outlined,
@@ -116,7 +116,7 @@ class MoreScreen extends StatelessWidget {
                     color: dividerGrey,
                     indent: 8,
                     endIndent: 8,
-                  ),
+                  ),*/
                   ListTile(
                     leading: const IconBG(
                       color: Color(0xffF08A5D),
@@ -157,8 +157,8 @@ class MoreScreen extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>  const TermsAndConditionsScreen(),
-                         ));
+                        builder: (context) => const TermsAndConditionsScreen(),
+                      ));
                     },
                   ),
                   const Divider(
@@ -182,7 +182,7 @@ class MoreScreen extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>  const ContactUsScreen(),
+                        builder: (context) => const ContactUsScreen(),
                       ));
                     },
                   ),
@@ -194,9 +194,10 @@ class MoreScreen extends StatelessWidget {
             padding: mediumPaddingHV,
             child: PrimaryButton(
               buttonCornerRadius: 22,
-              onPressed: () async{
-               await LocalStorageManager.deleteUser();
-               Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginScreen()));
+              onPressed: () async {
+                await LocalStorageManager.deleteUser();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (c) => LoginScreen()));
               },
               text: AppLocalizations.of(context)!.sign_out,
             ),

@@ -50,10 +50,11 @@ class ProviderInfo {
   int? statusId;
   String? statusStr;
   String? logoImgId;
+  String? vatNumber;
   String? licenseImgId;
   String? commercialRecordImgId;
   List<dynamic>? providerBranches;
-  int? providerRequestsCount ;
+  int? providerRequestsCount;
   double? providerRating;
 
   ProviderInfo(
@@ -64,6 +65,7 @@ class ProviderInfo {
       this.providerRating,
       this.arFullName,
       this.email,
+      this.vatNumber,
       this.mobile,
       this.license,
       this.commercialRecord,
@@ -73,8 +75,7 @@ class ProviderInfo {
       this.statusStr,
       this.logoImgId,
       this.licenseImgId,
-      this.commercialRecordImgId
-      });
+      this.commercialRecordImgId});
 
   ProviderInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -89,6 +90,7 @@ class ProviderInfo {
     statusId = json['statusId'];
     statusStr = json['statusStr'];
     logoImgId = json['logoImgId'];
+    vatNumber = json['vatNumber'];
     licenseImgId = json['licenseImgId'];
     providerBranches = json['providerBranches'];
     commercialRecordImgId = json['commercialRecordImgId'];

@@ -132,10 +132,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SvgPicture.asset(
-                            "assets/images/services_icon.svg",
-                            width: 25,
-                            height: 25),
+                        SvgPicture.asset("assets/images/services_icon.svg",
+                            width: 25, height: 25),
                         const SizedBox(
                           width: 6,
                         ),
@@ -149,25 +147,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Wrap(
                       alignment: WrapAlignment.spaceAround,
-                      children: state.model.data!.providerBranches != null ?
-                      state.model.data!.providerBranches!.map((e) => Container(
-                                width: MediaQuery.of(context).size.width * .25,
-                                margin: const EdgeInsets.all(16),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 8),
-                                decoration:
-                                    const BoxDecoration(color: textFieldBg),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(locationGreenIcon),
-                                    const SizedBox(
-                                      width: 4,
+                      children: state.model.data!.providerBranches != null
+                          ? state.model.data!.providerBranches!
+                              .map((e) => Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * .25,
+                                    margin: const EdgeInsets.all(16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 8),
+                                    decoration:
+                                        const BoxDecoration(color: textFieldBg),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(locationGreenIcon),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(e),
+                                      ],
                                     ),
-                                    Text(e),
-                                  ],
-                                ),
-                              ))
-                          .toList() : [],
+                                  ))
+                              .toList()
+                          : [],
                     ),
                     SizedBox(
                       height: 16.h,
@@ -196,19 +197,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(
                       height: 30.h,
-                    ),Row(
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(AppLocalizations.of(context)!.license_num),
-                        Text(state.model.data?.license ?? "" ),
+                        Text(state.model.data?.license ?? ""),
                       ],
-                    ), SizedBox(
+                    ),
+                    SizedBox(
                       height: 30.h,
-                    ),Row(
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.vat_number),
+                        Text(state.model.data?.vatNumber ?? ""),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(AppLocalizations.of(context)!.commercial_record),
-                        Text(state.model.data?.commercialRecord ?? "" ),
+                        Text(state.model.data?.commercialRecord ?? ""),
                       ],
                     ),
                     SizedBox(
@@ -220,7 +234,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Column(
                           children: [
                             Text(
-                              state.model.data!.providerRequestsCount != null ?state.model.data!.providerRequestsCount.toString() : "0",
+                              state.model.data!.providerRequestsCount != null
+                                  ? state.model.data!.providerRequestsCount
+                                      .toString()
+                                  : "0",
                               style: AppStyles.baloo2FontWith700WeightAnd25Size
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -242,12 +259,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Column(
                           children: [
                             Text(
-                              state.model.data!.providerRating!= null ? state.model.data!.providerRating.toString(): "0",
+                              state.model.data!.providerRating != null
+                                  ? state.model.data!.providerRating.toString()
+                                  : "0",
                               style: AppStyles.baloo2FontWith700WeightAnd22Size
                                   .copyWith(color: greyWith80Percentage),
                             ),
                             RatingBar.builder(
-                              initialRating: state.model.data!.providerRating!=null ?state.model.data!.providerRating!.toDouble():0.0,
+                              initialRating: state.model.data!.providerRating !=
+                                      null
+                                  ? state.model.data!.providerRating!.toDouble()
+                                  : 0.0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -261,7 +283,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 print(rating);
                               },
                             ),
-
                           ],
                         )
                       ],
@@ -275,8 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           } else {
             return Center(
-                child: Text(
-                    AppLocalizations.of(context)!.there_is_no_data));
+                child: Text(AppLocalizations.of(context)!.there_is_no_data));
           }
         },
       ),
