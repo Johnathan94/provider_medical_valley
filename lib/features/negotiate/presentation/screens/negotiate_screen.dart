@@ -1,4 +1,3 @@
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,8 +36,6 @@ class NegotiateScreen extends StatefulWidget {
 }
 
 class _NegotiateScreenState extends State<NegotiateScreen> {
-
-
   NegotiationBloc negotiationBloc = GetIt.instance<NegotiationBloc>();
 
   TextEditingController controller = TextEditingController();
@@ -50,18 +47,21 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
   late List<SpecialistModel> models;
   BehaviorSubject<int> selectedModel = BehaviorSubject();
 
-
   @override
   void initState() {
     DateTime now = DateTime.now();
-    negotiationBloc.getSlot(getDayId(now.weekday) , widget.result.id!);
+    negotiationBloc.getSlot(getDayId(now.weekday), widget.result.id!);
     super.initState();
   }
+
   int getDayId(int weedDay) {
-    return weedDay == 6 ? 1 :
-    weedDay== 7 ? 2:
-    weedDay+2;
+    return weedDay == 6
+        ? 1
+        : weedDay == 7
+            ? 2
+            : weedDay + 2;
   }
+
   @override
   void didChangeDependencies() {
     models = [
@@ -69,8 +69,8 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
       SpecialistModel(2, AppLocalizations.of(context)!.specialist, false),
     ];
     super.didChangeDependencies();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,13 +93,13 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   CoolAlert.show(
                     barrierDismissible: false,
                     context: context,
-                    autoCloseDuration:const Duration(seconds: 1),
+                    autoCloseDuration: const Duration(seconds: 1),
                     type: CoolAlertType.success,
                     text: AppLocalizations.of(context)!.offer_sent_success,
-                    confirmBtnText:"",
+                    confirmBtnText: "",
                   );
                   Navigator.pop(context);
-                } else if (state is ErrorNegotiationState){
+                } else if (state is ErrorNegotiationState) {
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     barrierDismissible: false,
@@ -141,8 +141,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                           children: [
                             Text(
                               widget.result.userStr.toString(),
-                              style: AppStyles
-                                  .baloo2FontWith500WeightAnd22Size
+                              style: AppStyles.baloo2FontWith500WeightAnd22Size
                                   .copyWith(color: blackColor, fontSize: 18),
                             ),
                             Row(
@@ -233,7 +232,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.only(start: 16, end: 16),
+                        const EdgeInsetsDirectional.only(start: 16, end: 16),
                     child: Text(
                       AppLocalizations.of(context)!.enter_price,
                       style: AppStyles.baloo2FontWith400WeightAnd14Size
@@ -245,7 +244,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.only(start: 16, end: 16),
+                        const EdgeInsetsDirectional.only(start: 16, end: 16),
                     child: SizedBox(
                       width: 220.w,
                       child: TextFormField(
@@ -257,18 +256,17 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                         decoration: InputDecoration(
                           suffix: Text(
                             "SR",
-                            style:
-                            AppStyles.baloo2FontWith400WeightAnd14Size,
+                            style: AppStyles.baloo2FontWith400WeightAnd14Size,
                           ),
                           enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: grey)),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: primaryColor)),
                         ),
-                        onChanged: (text){
-                          text.isNotEmpty ?
-                          isButtonEnabled.sink.add(true) :
-                          isButtonEnabled.sink.add(false) ;
+                        onChanged: (text) {
+                          text.isNotEmpty
+                              ? isButtonEnabled.sink.add(true)
+                              : isButtonEnabled.sink.add(false);
                         },
                       ),
                     ),
@@ -281,7 +279,9 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
               ),
             ),
             continueButton(context),
-            const SizedBox(height: 20,)
+            const SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
@@ -290,143 +290,134 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
 
   Widget immediateWidget() {
     return widget.immediateCard
-                      ? StreamBuilder<int>(
-                        stream: selectedModel.stream,
-                        builder: (context, snapshot) {
-                          return Column(
-                              children: models.map((model) => Container(
-                                margin: const EdgeInsetsDirectional.only(
-                                    start: 30, end: 30, top: 15),
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 15, end: 15, top: 15,bottom: 15),
-                                decoration:  BoxDecoration(
-                                    color: whiteColor,
-                                    borderRadius:
+        ? StreamBuilder<int>(
+            stream: selectedModel.stream,
+            builder: (context, snapshot) {
+              return Column(
+                  children: models
+                      .map((model) => Container(
+                            margin: const EdgeInsetsDirectional.only(
+                                start: 30, end: 30, top: 15),
+                            padding: const EdgeInsetsDirectional.only(
+                                start: 15, end: 15, top: 15, bottom: 15),
+                            decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius:
                                     const BorderRadius.all(Radius.circular(13)),
-                                    border: Border.all(color: greyButton)
-
+                                border: Border.all(color: greyButton)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  model.name.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-
-                                    Text(
-                                      model.name.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    GestureDetector(
-                                      onTap : ()
-                                      {
-                                        selectedModel.sink.add(models.indexOf(model));
-                                      },
-                                      child: Icon(
-                                        selectedModel.hasValue ?
-                                        selectedModel.value ==
-                                            models.indexOf(model)?
-                                         Icons.check_circle : Icons.circle_outlined :Icons.circle_outlined
-                                      ),
-                                    ),
-
-                                  ],
+                                GestureDetector(
+                                  onTap: () {
+                                    selectedModel.sink
+                                        .add(models.indexOf(model));
+                                  },
+                                  child: Icon(selectedModel.hasValue
+                                      ? selectedModel.value ==
+                                              models.indexOf(model)
+                                          ? Icons.check_circle
+                                          : Icons.circle_outlined
+                                      : Icons.circle_outlined),
                                 ),
-                              )).toList()
-                                );
-                        }
-                      )
-                      : Container();
+                              ],
+                            ),
+                          ))
+                      .toList());
+            })
+        : Container();
   }
 
   Widget middleWidget(BuildContext context) {
     return widget.otherCard
-                      ? Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                  start: 30, end: 30, top: 15),
-                              child: PrimaryButton(text: "15,Sep,2023"),
-                            ),
-                            SizedBox(
-                              height: 24.h,
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                  start: 30, end: 30),
-                              child: PrimaryButton(
-                                text: AppLocalizations.of(context)!
-                                    .another_date,
-                                backgroundColor: lightGreyColor,
-                                isLightButton: true,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CalenderScreen(
-                                                  request: widget.result)));
-                                },
-                              ),
-                            ),
-                          ],
-                        )
-                      : BlocBuilder<NegotiationBloc, NegotiationState>(
-                                buildWhen: (prev, cur)=>
-                                cur is SuccessSlotState || cur is ErrorSlotState || cur is LoadingSlotState,
-                                bloc: negotiationBloc,
-                                builder: (context, state) {
-                                  if(state is SuccessSlotState){
-                                    List<Periods>? periods = state.slotResponse.serviceDaySlots?.first.periods;
-                                    return Wrap(
-                                      children: periods!
-                                          .map((e) =>
-                                          _buildSlot(context, e))
-                                          .toList(),
-                                    );
-                                  }
-                                  else if(state is ErrorSlotState){
-                                    return  Text(AppLocalizations.of(context)!.there_is_no_slots);
-                                  }
-                                  else if (state is LoadingSlotState){
-                                    return const CircularProgressIndicator();
-                                  }
-                                  return Container();
-                                }
-                            );
+        ? Column(
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                    start: 30, end: 30, top: 15),
+                child: PrimaryButton(text: "15,Sep,2023"),
+              ),
+              SizedBox(
+                height: 24.h,
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 30, end: 30),
+                child: PrimaryButton(
+                  text: AppLocalizations.of(context)!.another_date,
+                  backgroundColor: lightGreyColor,
+                  isLightButton: true,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CalenderScreen(request: widget.result)));
+                  },
+                ),
+              ),
+            ],
+          )
+        : BlocBuilder<NegotiationBloc, NegotiationState>(
+            buildWhen: (prev, cur) =>
+                cur is SuccessSlotState ||
+                cur is ErrorSlotState ||
+                cur is LoadingSlotState,
+            bloc: negotiationBloc,
+            builder: (context, state) {
+              if (state is SuccessSlotState) {
+                List<Periods>? periods = state.slotResponse.data?.periods;
+                return Wrap(
+                  children:
+                      periods!.map((e) => _buildSlot(context, e)).toList(),
+                );
+              } else if (state is ErrorSlotState) {
+                return Text(AppLocalizations.of(context)!.there_is_no_slots);
+              } else if (state is LoadingSlotState) {
+                return const CircularProgressIndicator();
+              }
+              return Container();
+            });
   }
 
   continueButton(BuildContext context) {
     return StreamBuilder<bool>(
-      stream: isButtonEnabled,
-      builder: (context, snapshot) {
-        return Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsetsDirectional.only(start: 25 , end: 25, top: 30),
-                  child: PrimaryButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate() && selectedBorder.value != 0 ) {
-                        negotiationBloc.negotiate(NegotiationRequest(
-                          price: int.parse(controller.text),
-                          negotiateId: widget.result.id,
-                          periodId: selectedBorder.value,
-                        ));
-                      } else {
-                        context.showSnackBar(
-                            AppLocalizations.of(context)!.please_fill_all_data);
-                      }
-                    },
-                    text: AppLocalizations.of(context)!.send,
-                    backgroundColor: snapshot.hasData && snapshot.data == true?
-                    primaryColor: greyButton,
-                      isLightButton: snapshot.hasData && snapshot.data == true?
-                      false: true
-                  ),
-                );
-      }
-    );
+        stream: isButtonEnabled,
+        builder: (context, snapshot) {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            margin:
+                const EdgeInsetsDirectional.only(start: 25, end: 25, top: 30),
+            child: PrimaryButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate() &&
+                      selectedBorder.value != 0) {
+                    negotiationBloc.negotiate(NegotiationRequest(
+                      price: int.parse(controller.text),
+                      negotiateId: widget.result.id,
+                      periodId: selectedBorder.value,
+                    ));
+                  } else {
+                    context.showSnackBar(
+                        AppLocalizations.of(context)!.please_fill_all_data);
+                  }
+                },
+                text: AppLocalizations.of(context)!.send,
+                backgroundColor: snapshot.hasData && snapshot.data == true
+                    ? primaryColor
+                    : greyButton,
+                isLightButton:
+                    snapshot.hasData && snapshot.data == true ? false : true),
+          );
+        });
   }
 
   Widget _buildSlot(BuildContext context, Periods item) {
@@ -441,21 +432,21 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
               alignment: Alignment.center,
               margin:
                   const EdgeInsetsDirectional.only(start: 12, end: 5, top: 30),
-              padding:
-                  const EdgeInsetsDirectional.only(start: 5, top: 5),
+              padding: const EdgeInsetsDirectional.only(start: 5, top: 5),
               decoration: BoxDecoration(
-                  color:
-                      selectedBorder.value != item.id ? whiteColor : primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(7)),
-                  border: selectedBorder.value != item.id
-                      ? Border.all(color: borderGrey)
-                      : null,
-                  ),
+                color:
+                    selectedBorder.value != item.id ? whiteColor : primaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(7)),
+                border: selectedBorder.value != item.id
+                    ? Border.all(color: borderGrey)
+                    : null,
+              ),
               child: Text(
                 "${item.from} : ${item.to}",
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                    color:
-                        selectedBorder.value != item.id ? blackColor : whiteColor,
+                    color: selectedBorder.value != item.id
+                        ? blackColor
+                        : whiteColor,
                     decoration: TextDecoration.none),
               ),
             ),

@@ -32,24 +32,26 @@ class _CalenderScreenState extends State<CalenderScreen> {
   List<DateTime?> _singleDatePickerValueWithDefaultValue = [
     DateTime.now(),
   ];
-  BehaviorSubject<int> selectedSlot =
-      BehaviorSubject<int>.seeded(0);
+  BehaviorSubject<int> selectedSlot = BehaviorSubject<int>.seeded(0);
 
   TextEditingController notesController = TextEditingController();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
   NegotiationBloc negotiationBloc = GetIt.instance<NegotiationBloc>();
   int getDayId(int weedDay) {
-    return weedDay == 6 ? 1 :
-    weedDay== 7 ? 2:
-    weedDay+2;
+    return weedDay == 6
+        ? 1
+        : weedDay == 7
+            ? 2
+            : weedDay + 2;
   }
+
   @override
   void initState() {
-
     DateTime now = DateTime.now();
-    negotiationBloc.getSlot(getDayId(now.weekday) , widget.request.id!);
+    negotiationBloc.getSlot(getDayId(now.weekday), widget.request.id!);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,13 +80,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
               );
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (c) => const OffersScreen()));
-
             } else {
               LoadingDialogs.hideLoadingDialog();
               CoolAlert.show(
                 barrierDismissible: false,
                 context: context,
-                autoCloseDuration:const Duration(seconds: 1),
+                autoCloseDuration: const Duration(seconds: 1),
                 type: CoolAlertType.error,
                 text: AppLocalizations.of(context)!.something_went_wrong,
               );
@@ -149,53 +150,53 @@ class _CalenderScreenState extends State<CalenderScreen> {
           ),
           const SizedBox(height: 25),
           BlocBuilder<NegotiationBloc, NegotiationState>(
-              buildWhen: (prev, cur)=>
-              cur is SuccessSlotState || cur is ErrorSlotState || cur is LoadingSlotState,
+              buildWhen: (prev, cur) =>
+                  cur is SuccessSlotState ||
+                  cur is ErrorSlotState ||
+                  cur is LoadingSlotState,
               bloc: negotiationBloc,
               builder: (context, state) {
-                if(state is SuccessSlotState){
-                  List<Periods>? periods = state.slotResponse.serviceDaySlots?.first.periods;
+                if (state is SuccessSlotState) {
+                  List<Periods>? periods = state.slotResponse.data?.periods;
                   return Wrap(
                     children: periods!
                         .map((Periods e) => StreamBuilder<int>(
-                        stream: selectedSlot.stream,
-                        builder: (context, snapshot) {
-                          return GestureDetector(
-                            onTap: () => selectedSlot.sink.add(e.id!),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: selectedSlot.value == e.id
-                                      ? primaryColor
-                                      : textFieldBg,
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(16))),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                                child: Text(
-                                   "${e.from}:${e.to}",
-                                  style: AppStyles.baloo2FontWith700WeightAnd15Size
-                                      .copyWith(
+                            stream: selectedSlot.stream,
+                            builder: (context, snapshot) {
+                              return GestureDetector(
+                                onTap: () => selectedSlot.sink.add(e.id!),
+                                child: Container(
+                                  decoration: BoxDecoration(
                                       color: selectedSlot.value == e.id
-                                          ? textFieldBg
-                                          : Colors.black),
+                                          ? primaryColor
+                                          : textFieldBg,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    child: Text(
+                                      "${e.from}:${e.to}",
+                                      style: AppStyles
+                                          .baloo2FontWith700WeightAnd15Size
+                                          .copyWith(
+                                              color: selectedSlot.value == e.id
+                                                  ? textFieldBg
+                                                  : Colors.black),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }))
+                              );
+                            }))
                         .toList(),
                   );
-                }
-                else if(state is ErrorSlotState){
-                  return  Text(AppLocalizations.of(context)!.there_is_no_slots);
-                }
-                else if (state is LoadingSlotState){
+                } else if (state is ErrorSlotState) {
+                  return Text(AppLocalizations.of(context)!.there_is_no_slots);
+                } else if (state is LoadingSlotState) {
                   return const CircularProgressIndicator();
                 }
                 return Container();
-              }
-          ),
+              }),
           const SizedBox(height: 25),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -204,15 +205,16 @@ class _CalenderScreenState extends State<CalenderScreen> {
               maxLines: 10,
               // user keyboard will have a button to move cursor to next line
               controller: notesController,
-              decoration:
-                  InputDecoration(hintText: AppLocalizations.of(context)!.notes),
+              decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.notes),
             ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
             child: PrimaryButton(
               onPressed: () {
-                ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
+                ProviderData user =
+                    ProviderData.fromJson(LocalStorageManager.getUser()!);
                 bookRequestBloc.requestBook(BookRequestModel(
                     serviceId: widget.request.id!,
                     categoryId: widget.request.id!,

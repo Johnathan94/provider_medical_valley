@@ -238,18 +238,15 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                 height: 40,
                                 width: MediaQuery.of(context).size.width,
                                 child: ListView.builder(
-                                    itemCount: state.slotResponse
-                                        .serviceDaySlots?.first.periods?.length,
+                                    itemCount: state
+                                        .slotResponse.data?.periods?.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (c, index) => StreamBuilder<
                                             int>(
                                         stream: selectedBorder.stream,
                                         builder: (context, snapshot) {
-                                          List<Periods>? periods = state
-                                              .slotResponse
-                                              .serviceDaySlots
-                                              ?.first
-                                              .periods;
+                                          List<Periods>? periods =
+                                              state.slotResponse.data?.periods;
                                           return GestureDetector(
                                             onTap: () => selectedBorder.sink
                                                 .add(periods![index].id!),

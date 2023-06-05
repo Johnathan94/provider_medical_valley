@@ -6,61 +6,61 @@ import 'package:provider_medical_valley/features/home/negotiation/data/send_offe
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_repo.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 
-class NegotiationBloc extends Cubit<NegotiationState>{
-  NegotiationBloc(
-      this.sendOfferRepo,
-      this.slotRepo,
-      this.negotiateRepo):super(NegotiationState());
+class NegotiationBloc extends Cubit<NegotiationState> {
+  NegotiationBloc(this.sendOfferRepo, this.slotRepo, this.negotiateRepo)
+      : super(NegotiationState());
   SendOfferRepo sendOfferRepo;
   NegotiateRepo negotiateRepo;
   SlotRepo slotRepo;
-  getSlot (int dayId,int serviceId)async{
+  getSlot(int dayId, int serviceId) async {
     emit(LoadingSlotState());
-    var loginUser = await slotRepo.getSlot( dayId,serviceId);
-    loginUser.fold(
-            (l) {
-          emit(ErrorSlotState());
-        }, (r) {
-              if(r.serviceDaySlots!= null) {
-                emit(SuccessSlotState(r));
-              } else {
-                emit(ErrorSlotState());
-              }
-    }
-    );
+    var loginUser = await slotRepo.getSlot(dayId, serviceId);
+    loginUser.fold((l) {
+      emit(ErrorSlotState());
+    }, (r) {
+      if (r.data != null) {
+        emit(SuccessSlotState(r));
+      } else {
+        emit(ErrorSlotState());
+      }
+    });
   }
-  sendOffer (SendOffer sendOffer)async{
+
+  sendOffer(SendOffer sendOffer) async {
     emit(LoadingNegotiationState());
     var loginUser = await sendOfferRepo.sendOffer(sendOffer);
-    loginUser.fold(
-            (l) {
-          emit(ErrorNegotiationState());
-        }, (r) {
+    loginUser.fold((l) {
+      emit(ErrorNegotiationState());
+    }, (r) {
       emit(SuccessNegotiationState());
-    }
-    );
+    });
   }
-  negotiate (NegotiationRequest request)async{
+
+  negotiate(NegotiationRequest request) async {
     emit(LoadingNegotiationState());
     var negotiate = await negotiateRepo.negotiate(request);
-    negotiate.fold(
-            (l) {
-          emit(ErrorNegotiationState());
-        }, (r) {
+    negotiate.fold((l) {
+      emit(ErrorNegotiationState());
+    }, (r) {
       emit(SuccessNegotiationState());
-    }
-    );
+    });
   }
 }
+
 class NegotiationState {}
-class LoadingNegotiationState extends NegotiationState{}
-class SuccessNegotiationState extends NegotiationState{}
-class ErrorNegotiationState extends NegotiationState{}
-class LoadingSlotState extends NegotiationState{}
-class SuccessSlotState extends NegotiationState{
-  SlotResponse slotResponse ;
+
+class LoadingNegotiationState extends NegotiationState {}
+
+class SuccessNegotiationState extends NegotiationState {}
+
+class ErrorNegotiationState extends NegotiationState {}
+
+class LoadingSlotState extends NegotiationState {}
+
+class SuccessSlotState extends NegotiationState {
+  SlotResponse slotResponse;
 
   SuccessSlotState(this.slotResponse);
 }
-class ErrorSlotState extends NegotiationState{
-}
+
+class ErrorSlotState extends NegotiationState {}
