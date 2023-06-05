@@ -21,7 +21,6 @@ import 'package:provider_medical_valley/features/home/home_screen/data/models/re
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/offer_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
-import 'package:provider_medical_valley/features/negotiate/presentation/screens/negotiate_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SendOfferScreen extends StatefulWidget {
@@ -92,12 +91,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                     text: AppLocalizations.of(context)!.offer_sent_success,
                   );
                   Future.delayed(const Duration(seconds: 1), () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => NegotiateScreen(
-                              result: widget.result,
-                              immediateCard: widget.immediateCard,
-                              otherCard: widget.otherCard,
-                            )));
+                    Navigator.pop(context);
                   });
                 } else if (state is ErrorNegotiationState) {
                   LoadingDialogs.hideLoadingDialog();
