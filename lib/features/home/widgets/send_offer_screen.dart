@@ -215,15 +215,23 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                             thickness: 2,
                           ),
                           SizedBox(
-                            height: 18.h,
+                            height: 8.h,
                           ),
-                          Text(
-                            AppLocalizations.of(context)!.send_negotiation,
-                            style: AppStyles.baloo2FontWith500WeightAnd16Size
-                                .copyWith(color: blackColor),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.send_negotiation,
+                                style: AppStyles
+                                    .baloo2FontWith400WeightAnd22Size
+                                    .copyWith(
+                                        color: blackColor,
+                                        fontWeight: FontWeight.w900),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            height: 32.h,
+                            height: 20.h,
                           ),
                           Text(
                             AppLocalizations.of(context)!.choose_time,
@@ -502,30 +510,32 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
             (index) => StreamBuilder<int>(
                 stream: selectedInsuranceStatus.stream,
                 builder: (context, snapshot) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                              color: greyButton.withOpacity(.1),
-                              offset: const Offset(2, 3),
-                              blurRadius: 4,
-                              spreadRadius: 3)
-                        ]),
-                    child: Row(
-                      children: [
-                        Radio<int>(
-                            value: index,
-                            activeColor: primaryColor,
-                            groupValue: selectedInsuranceStatus.value,
-                            onChanged: (int? newValue) {
-                              selectedInsuranceStatus.sink.add(newValue!);
-                            }),
-                        Text(AppInitializer.insuranceOptions[index].toString()),
-                      ],
+                  return GestureDetector(
+                    onTap: () => selectedInsuranceStatus.sink.add(index),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: greyButton.withOpacity(.1),
+                                offset: const Offset(2, 3),
+                                blurRadius: 4,
+                                spreadRadius: 3)
+                          ]),
+                      child: Row(
+                        children: [
+                          Radio<int>(
+                              value: index,
+                              activeColor: primaryColor,
+                              groupValue: selectedInsuranceStatus.value,
+                              onChanged: (int? newValue) {}),
+                          Text(AppInitializer.insuranceOptions[index]
+                              .toString()),
+                        ],
+                      ),
                     ),
                   );
                 }))
