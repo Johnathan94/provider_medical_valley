@@ -10,17 +10,13 @@ import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_initialized.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
-import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
-import 'package:provider_medical_valley/core/widgets/snackbars.dart';
-import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/branches/data/model/branches_response_model.dart';
 import 'package:provider_medical_valley/features/branches/presentation/bloc/branches_bloc.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
-import 'package:provider_medical_valley/features/home/negotiation/data/offer_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -65,6 +61,9 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
 
   ScrollController scrollController = ScrollController();
   FocusNode node = FocusNode();
+  late List branches;
+  late List slots;
+
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
@@ -333,6 +332,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                               bloc: branchesBloc,
                               builder: (context, state) {
                                 if (state is BranchesStateSuccess) {
+                                  branches = state.branches;
                                   if (state.branches.isNotEmpty) {
                                     selectedBranch.sink
                                         .add(state.branches.first.id!);
@@ -469,26 +469,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: PrimaryButton(
-                              onPressed: () {
-                                ProviderData user = ProviderData.fromJson(
-                                    LocalStorageManager.getUser()!);
-
-                                if (_formKey.currentState!.validate()) {
-                                  negotiationBloc.sendOffer(SendOffer(
-                                    price: int.parse(controller.text),
-                                    requestId: widget.result.id,
-                                    providerId: user.id,
-                                    periodId: selectedBorder.value,
-                                    branchId: selectedBranch.value,
-                                    insuranceStatus:
-                                        selectedInsuranceStatus.value,
-                                  ));
-                                } else {
-                                  context.showSnackBar(
-                                      AppLocalizations.of(context)!
-                                          .please_fill_all_data);
-                                }
-                              },
+                              onPressed: () {},
                               text: AppLocalizations.of(context)!.send,
                             ),
                           ),
