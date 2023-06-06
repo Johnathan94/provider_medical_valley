@@ -48,12 +48,8 @@ class RequestCard extends StatelessWidget {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "3 min",
-                          style: AppStyles.baloo2FontWith400WeightAnd14Size
-                              .copyWith(color: blackColor),
-                        ),
                         Container(
                           width: 60,
                           height: 60,
@@ -64,17 +60,16 @@ class RequestCard extends StatelessWidget {
                                 image: AssetImage(personImage),
                               )),
                         ),
+                        const SizedBox(
+                          height: 8,
+                        ),
                         Row(
-                          children: [
-                            const Icon(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
                               Icons.star,
                               color: Color(0xffEB8B17),
                               size: 16,
-                            ),
-                            Text(
-                              " ",
-                              style: AppStyles.baloo2FontWith400WeightAnd12Size
-                                  .copyWith(color: lightGrey),
                             ),
                           ],
                         ),
@@ -96,7 +91,6 @@ class RequestCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: 3.h),
                         Expanded(
                           child: Row(
                             children: [
@@ -117,7 +111,6 @@ class RequestCard extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 5.h),
                         Row(
                           children: [
                             SvgPicture.asset(cardIconTwo),
@@ -126,7 +119,7 @@ class RequestCard extends StatelessWidget {
                               flex: 2,
                               child: Text(
                                 items.serviceStr.toString(),
-                                maxLines: 2,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles
                                     .baloo2FontWith400WeightAnd16Size
