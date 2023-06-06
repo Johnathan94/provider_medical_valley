@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/widgets/request_options_button.dart';
 
@@ -154,7 +155,11 @@ class RequestCard extends StatelessWidget {
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    "30 sep 2023",
+                                    items.appointmentDate != null
+                                        ? DateFormat("dd/MM/yyyy").format(
+                                            DateTime.parse(
+                                                items.appointmentDate!))
+                                        : "",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppStyles

@@ -93,6 +93,7 @@ class BookRequest {
   String? categoryStr;
   String? serviceStr;
   String? bookingTypeStr;
+  String? appointmentDate;
   String? mobileStr;
   bool? userHasInsurance;
 
@@ -102,6 +103,7 @@ class BookRequest {
       this.userStr,
       this.categoryStr,
       this.providerServiceId,
+      this.appointmentDate,
       this.serviceStr,
       this.bookingTypeStr,
       this.mobileStr,
@@ -112,6 +114,7 @@ class BookRequest {
     userId = json['userId'];
     userStr = json['userName'];
     categoryStr = json['categoryStr'];
+    appointmentDate = json['appointmentDate'];
     serviceStr = json['providerServiceName'];
     bookingTypeStr = json['bookingTypeStr'];
     mobileStr = json['mobileStr'];
@@ -127,6 +130,7 @@ class BookRequest {
     data['categoryStr'] = categoryStr;
     data['serviceStr'] = serviceStr;
     data['bookingTypeStr'] = bookingTypeStr;
+    data['appointmentDate'] = appointmentDate;
     data['mobileStr'] = mobileStr;
     data['haveInsurance'] = userHasInsurance;
     data['providerServiceId'] = providerServiceId;
