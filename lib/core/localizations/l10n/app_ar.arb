@@ -59,7 +59,7 @@
 
 
           "server_error": "هناك خطآ من الخادم",
-              "success_login": "لقد قمت بتسحيل الدخول بنجاح ",
+              "success_login": "لقد قمت بتسجيل الدخول بنجاح ",
         "invalid_phone_number": "رقم الهاتف غير مسجل",
               "success_registered": "لقد قمت بانشاء حساب بنجاح",
               "insurance_question": "هل تمتلك خدمه التأمين الطبي",
