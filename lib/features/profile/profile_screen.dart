@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -5,8 +8,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
+import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
@@ -15,7 +20,10 @@ import 'package:provider_medical_valley/features/auth/phone_verification/data/mo
 import 'package:provider_medical_valley/features/home/home_screen/data/models/categories_model.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:provider_medical_valley/features/profile/presentation/bloc/get_profile/get_profile_state.dart';
+import 'package:provider_medical_valley/features/profile/widgets/confirmation_dialog.dart';
 import 'package:provider_medical_valley/features/services/services_screen.dart';
+import 'package:provider_medical_valley/main.dart';
+import 'package:rxdart/rxdart.dart';
 
 List<Services> services = [];
 
@@ -38,6 +46,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getProfileBloc.getMyProfile(user.id!);
 
     super.initState();
+  }
+
+  BehaviorSubject<File?> imageFileSubject = BehaviorSubject();
+  late File _imageFile;
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(source: source);
+
+    if (pickedImage != null) {
+      _imageFile = File(pickedImage.path);
+      imageFileSubject.sink.add(_imageFile);
+      ConfirmationDialogExample(context, () {
+        LoadingDialogs.showLoadingDialog(context);
+      }, () {
+        Navigator.pop(context);
+        imageFileSubject.sink.add(null);
+      });
+    }
   }
 
   @override
@@ -74,8 +100,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Image.asset(
-                          personImage,
+                        Stack(
+                          children: [
+                            StreamBuilder<File?>(
+                                stream: imageFileSubject.stream,
+                                builder: (context, snapshot) {
+                                  return imageFileSubject.hasValue
+                                      ? Container(
+                                          width: 120,
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.red,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: FileImage(
+                                                      imageFileSubject
+                                                          .value!))),
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl: iconLinkPrefix +
+                                              state.model.data!.userAvatar!,
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                            decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(personImage),
+                                            )),
+                                          ),
+                                          width: 120,
+                                          height: 120,
+                                        );
+                                }),
+                            PositionedDirectional(
+                              end: 10,
+                              bottom: 10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  _pickImage(ImageSource.gallery);
+                                },
+                                child: const Icon(
+                                  Icons.edit_calendar_outlined,
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Text(
                           state.model.data?.fullName ?? "",
@@ -145,30 +218,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 16.h,
                     ),
-                    Wrap(
-                      alignment: WrapAlignment.spaceAround,
-                      children: state.model.data!.providerBranches != null
-                          ? state.model.data!.providerBranches!
-                              .map((e) => Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * .25,
-                                    margin: const EdgeInsets.all(16),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 8),
-                                    decoration:
-                                        const BoxDecoration(color: textFieldBg),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(locationGreenIcon),
-                                        const SizedBox(
-                                          width: 4,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          children: state.model.data!.providerBranches != null
+                              ? state.model.data!.providerBranches!
+                                  .map((e) => Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .25,
+                                        margin: const EdgeInsets.all(16),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6, vertical: 8),
+                                        decoration: const BoxDecoration(
+                                            color: textFieldBg),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset(locationGreenIcon),
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(e.location ?? ""),
+                                          ],
                                         ),
-                                        Text(e),
-                                      ],
-                                    ),
-                                  ))
-                              .toList()
-                          : [],
+                                      ))
+                                  .toList()
+                              : [],
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 16.h,

@@ -1,3 +1,5 @@
+import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
+
 class ProviderProfileResponse {
   bool? succeeded;
   String? message;
@@ -53,7 +55,8 @@ class ProviderInfo {
   String? vatNumber;
   String? licenseImgId;
   String? commercialRecordImgId;
-  List<dynamic>? providerBranches;
+  String? userAvatar;
+  List<BranchModel>? providerBranches;
   int? providerRequestsCount;
   double? providerRating;
 
@@ -84,6 +87,7 @@ class ProviderInfo {
     email = json['email'];
     mobile = json['mobile'];
     license = json['license'];
+    userAvatar = json['userAvatar'] ?? "";
     commercialRecord = json['commercialRecord'];
     userTypeId = json['userTypeId'];
     userTypeStr = json['userTypeStr'];
@@ -92,7 +96,12 @@ class ProviderInfo {
     logoImgId = json['logoImgId'];
     vatNumber = json['vatNumber'];
     licenseImgId = json['licenseImgId'];
-    providerBranches = json['providerBranches'];
+    if (json['providerBranches'] != null) {
+      providerBranches = <BranchModel>[];
+      json['providerBranches'].forEach((v) {
+        providerBranches!.add(BranchModel.fromJson(v));
+      });
+    }
     commercialRecordImgId = json['commercialRecordImgId'];
     providerRequestsCount = json['providerRequestsCount'];
     providerRating = json['providerRating'];
@@ -111,6 +120,7 @@ class ProviderInfo {
     data['userTypeStr'] = userTypeStr;
     data['statusId'] = statusId;
     data['statusStr'] = statusStr;
+    data['userAvatar'] = userAvatar;
     data['logoImgId'] = logoImgId;
     data['licenseImgId'] = licenseImgId;
     data['commercialRecordImgId'] = commercialRecordImgId;
