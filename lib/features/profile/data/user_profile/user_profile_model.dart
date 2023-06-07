@@ -55,7 +55,6 @@ class ProviderInfo {
   String? vatNumber;
   String? licenseImgId;
   String? commercialRecordImgId;
-  String? userAvatar;
   List<BranchModel>? providerBranches;
   int? providerRequestsCount;
   double? providerRating;
@@ -87,7 +86,6 @@ class ProviderInfo {
     email = json['email'];
     mobile = json['mobile'];
     license = json['license'];
-    userAvatar = json['userAvatar'] ?? "";
     commercialRecord = json['commercialRecord'];
     userTypeId = json['userTypeId'];
     userTypeStr = json['userTypeStr'];
@@ -120,7 +118,6 @@ class ProviderInfo {
     data['userTypeStr'] = userTypeStr;
     data['statusId'] = statusId;
     data['statusStr'] = statusStr;
-    data['userAvatar'] = userAvatar;
     data['logoImgId'] = logoImgId;
     data['licenseImgId'] = licenseImgId;
     data['commercialRecordImgId'] = commercialRecordImgId;

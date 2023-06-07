@@ -30,11 +30,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  intl: ^0.17.0
+  intl: ^0.18.0
   cupertino_icons: ^1.0.2
   retrofit: "3.0.1"
   flutter_screenutil:
-  google_fonts: "3.0.0"
+  google_fonts:
   intl_phone_field:
   rxdart:
   flutter_otp_text_field:

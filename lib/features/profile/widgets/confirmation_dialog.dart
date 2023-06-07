@@ -12,13 +12,13 @@ class ConfirmationDialogExample {
           title: Text('Confirmation'),
           content: Text('Are you sure you want to proceed?'),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 onCancel(); // Perform the action you want to take when the user confirms
               },
               child: Text('Yes'),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 onSuccess();
