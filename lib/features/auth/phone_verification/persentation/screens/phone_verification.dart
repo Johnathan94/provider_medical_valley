@@ -17,7 +17,7 @@ import '../../../../../core/widgets/app_bar_with_null_background.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   final String mobile;
-  const PhoneVerificationScreen(this.mobile,{Key? key}) : super(key: key);
+  const PhoneVerificationScreen(this.mobile, {Key? key}) : super(key: key);
 
   @override
   State<PhoneVerificationScreen> createState() =>
@@ -49,12 +49,10 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
             height: phoneVerificationBodyHeight.h,
             child: BlocListener<OtpBloc, OtpState>(
               bloc: otpBloc,
-              listener: (context, state) async{
-                if(state is LoadingOtpState){
+              listener: (context, state) async {
+                if (state is LoadingOtpState) {
                   await LoadingDialogs.showLoadingDialog(context);
-                }
-                else if (state is SuccessOtpState)
-                {
+                } else if (state is SuccessOtpState) {
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     barrierDismissible: false,
@@ -63,12 +61,13 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                     type: CoolAlertType.success,
                     text: AppLocalizations.of(context)!.success_login,
                   );
-                  Future.delayed(const Duration(milliseconds: 350) , (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>const HomeBaseStatefulWidget()));
+                  Future.delayed(const Duration(milliseconds: 350), () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const HomeBaseStatefulWidget()));
                   });
-
-                }
-                else {
+                } else {
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     context: context,
@@ -76,7 +75,6 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                     type: CoolAlertType.error,
                     text: AppLocalizations.of(context)!.invalid_phone_number,
                   );
-
                 }
               },
               child: Column(
@@ -103,21 +101,25 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   }
 
   buildOtpField() {
-    return OtpTextField(
-      fieldWidth: otpFieldWidth.w,
-      numberOfFields: otpFieldNumber,
-      borderWidth: otpFieldBorderWidth.w,
-      enabledBorderColor: greyWith80Percentage,
-      focusedBorderColor: primaryColor,
-      onSubmit: (String text){
-        code = text ;
-      },
-      borderRadius:
-          const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
-      showFieldAsBox: true,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: OtpTextField(
+        fieldWidth: otpFieldWidth.w,
+        numberOfFields: otpFieldNumber,
+        borderWidth: otpFieldBorderWidth.w,
+        enabledBorderColor: greyWith80Percentage,
+        focusedBorderColor: primaryColor,
+        onSubmit: (String text) {
+          code = text;
+        },
+        borderRadius:
+            const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
+        showFieldAsBox: true,
+      ),
     );
   }
-  String code = "" ;
+
+  String code = "";
   buildConfirmButton(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(
@@ -132,9 +134,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
           onPressed: () {
-            code.length == 6 ?
-            otpBloc.verifyOtp(code, widget.mobile) :
-            context.showSnackBar(AppLocalizations.of(context)!.otp_error);
+            code.length == 6
+                ? otpBloc.verifyOtp(code, widget.mobile)
+                : context.showSnackBar(AppLocalizations.of(context)!.otp_error);
           },
           child: Center(
             child: Text(
