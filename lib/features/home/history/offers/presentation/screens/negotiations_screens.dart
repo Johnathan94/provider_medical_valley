@@ -169,6 +169,7 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
     );
   }
 
+
   getNegotiations() {
     return BlocBuilder<NegotiationCubit, NegotiationState>(
         bloc: negotiationCubit,
