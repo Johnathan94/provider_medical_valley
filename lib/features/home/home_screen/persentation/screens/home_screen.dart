@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   BehaviorSubject<int> immediateSubjectCounter = BehaviorSubject.seeded(0);
   BehaviorSubject<int> earliestSubjectCounter = BehaviorSubject.seeded(0);
   BehaviorSubject<int> scheduledSubjectCounter = BehaviorSubject.seeded(0);
+
   @override
   initState() {
     homeBloc.getImmediateRequests(immediateNextPage, 10);
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  autoCloseDuration:const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -112,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  autoCloseDuration:const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  autoCloseDuration:const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );

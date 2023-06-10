@@ -10,6 +10,7 @@ import 'package:provider_medical_valley/features/contact_us/domain/contact_us_re
 import 'package:provider_medical_valley/features/contact_us/presentation/contact_us_bloc.dart';
 import 'package:provider_medical_valley/features/home/history/offers/data/api_service/offers_client.dart';
 import 'package:provider_medical_valley/features/home/history/offers/data/repo/offers_repo.dart';
+import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/negotiation_cubit.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_client.dart';
@@ -39,6 +40,11 @@ import '../features/calendar/persentation/bloc/book_request_bloc.dart';
 import '../features/home/history/data/get_clinic_repo.dart';
 import '../features/home/history/data/source/json_data.dart';
 import '../features/home/history/domain/get_clinic_usecase.dart';
+import '../features/home/history/offers/data/api_service/negotiations_client.dart';
+import '../features/home/history/offers/data/api_service/reservations_client.dart';
+import '../features/home/history/offers/domain/get_negotiations_use_case.dart';
+import '../features/home/history/offers/domain/get_reservations_use_case.dart';
+import '../features/home/history/offers/presentation/bloc/reservations_cubit.dart';
 import '../features/home/history/presentation/bloc/clinics_bloc.dart';
 import '../features/home/home_screen/data/api/requests_client.dart';
 import '../features/home/home_screen/domain/get_requests_use_case.dart';
@@ -92,4 +98,9 @@ configureDependencies() {
       GetNotificationUseCaseImpl(NotificationClient(DioManager.getNewDio()))));
   getIt.registerFactory(() => BranchesBloc(
       GetBranchesUseCaseImpl(BranchesClient(DioManager.getNewDio()))));
+
+  getIt.registerFactory(() => NegotiationCubit(GetNegotiationsUseCase(
+      ProviderNegotiationsClient(DioManager.getNewDio()))));
+  getIt.registerFactory(() => ReservationsCubit(GetReservationsUseCase(
+      ProviderReservationsClient(DioManager.getNewDio()))));
 }

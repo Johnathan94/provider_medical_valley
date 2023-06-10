@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
-import 'package:provider_medical_valley/features/home/history/offers/negotiations_screens.dart';
+import 'package:provider_medical_valley/features/home/history/offers/presentation/screens/negotiations_screens.dart';
 import 'package:provider_medical_valley/features/home/more_screen/presentation/more_screen.dart';
 import 'package:provider_medical_valley/features/home/notifications/persentation/screens/notifications_screen.dart';
 import 'package:provider_medical_valley/main.dart';
@@ -65,6 +65,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
       },
     );
   }
+
 
   buildBottomNavigationBar() {
     return StreamBuilder<int>(

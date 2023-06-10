@@ -41,6 +41,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
