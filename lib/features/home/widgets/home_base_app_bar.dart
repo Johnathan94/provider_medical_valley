@@ -107,7 +107,8 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      top: 15.0, end: 20),
                                   child: Row(
                                     children: [
                                       SizedBox(
@@ -119,58 +120,33 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                                         style: AppStyles
                                             .baloo2FontWith400WeightAnd16Size,
                                       ),
+                                      const Spacer(),
+                                      Row(
+                                        children: [
+                                          Checkbox(
+                                            value: false,
+                                            activeColor: whiteColor,
+                                            checkColor: primaryColor,
+                                            fillColor:
+                                                MaterialStateProperty.all(
+                                                    whiteColor),
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize
+                                                    .shrinkWrap,
+                                            onChanged: (newValue) {},
+                                          ),
+                                          Text(
+                                            AppLocalizations.of(context)!
+                                                .auto_replay,
+                                            style: AppStyles
+                                                .baloo2FontWith400WeightAnd14Size
+                                                .copyWith(color: whiteColor),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Checkbox(
-                                          value: false,
-                                          activeColor: whiteColor,
-                                          checkColor: primaryColor,
-                                          fillColor: MaterialStateProperty.all(
-                                              whiteColor),
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
-                                          onChanged: (newValue) {},
-                                        ),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .auto_replay,
-                                          style: AppStyles
-                                              .baloo2FontWith400WeightAnd14Size
-                                              .copyWith(color: whiteColor),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Checkbox(
-                                          value: false,
-                                          activeColor: whiteColor,
-                                          checkColor: primaryColor,
-                                          fillColor: MaterialStateProperty.all(
-                                              whiteColor),
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
-                                          onChanged: (newValue) {},
-                                        ),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .within_three_hours,
-                                          style: AppStyles
-                                              .baloo2FontWith400WeightAnd14Size
-                                              .copyWith(color: whiteColor),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
                               ],
                             )
                           : Container();

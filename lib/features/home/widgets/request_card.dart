@@ -65,9 +65,9 @@ class RequestCard extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.star,
                               color: Color(0xffEB8B17),
@@ -202,7 +202,9 @@ class RequestCard extends StatelessWidget {
           Expanded(
               flex: 4,
               child: RequestsOptionButton(
-                AppLocalizations.of(context)!.negotiate,
+                immediateCard
+                    ? AppLocalizations.of(context)!.set_price
+                    : AppLocalizations.of(context)!.negotiate,
                 items,
                 immediateCard: immediateCard,
                 otherCard: otherCard,

@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  autoCloseDuration:const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  autoCloseDuration:const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (state is ErrorHomeState) {
                 CoolAlert.show(
                   context: context,
-                  autoCloseDuration:const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(seconds: 1),
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -179,13 +179,14 @@ class _HomeScreenState extends State<HomeScreen> {
             StreamBuilder<int>(
                 stream: immediateSubjectCounter.stream,
                 builder: (context, snapshot) {
-                  return Text("Immediate (${immediateSubjectCounter.value})");
+                  return Text(
+                      "${AppLocalizations.of(context)!.immediate} (${immediateSubjectCounter.value})");
                 }),
             StreamBuilder<int>(
                 stream: earliestSubjectCounter.stream,
                 builder: (context, snapshot) {
                   return Text(
-                      "Earliest Date  (${earliestSubjectCounter.value})");
+                      "${AppLocalizations.of(context)!.earliest}(${earliestSubjectCounter.value})");
                 }),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
