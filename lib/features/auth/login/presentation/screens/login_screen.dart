@@ -11,9 +11,9 @@ import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
-import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/loginState_state.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
+import 'package:provider_medical_valley/features/terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_colors.dart';
@@ -32,6 +32,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final BehaviorSubject<bool> _checkBoxBehaviourSubject =
       BehaviorSubject<bool>();
+  final BehaviorSubject<bool> _behaviorSubject = BehaviorSubject<bool>();
   LoginBloc loginBloc = GetIt.instance<LoginBloc>();
   TextEditingController phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -39,13 +40,16 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   initState() {
     _checkBoxBehaviourSubject.sink.add(false);
+    _behaviorSubject.sink.add(false);
     super.initState();
   }
 
   @override
   dispose() {
     _checkBoxBehaviourSubject.stream.drain();
+    _behaviorSubject.stream.drain();
     _checkBoxBehaviourSubject.close();
+    _behaviorSubject.close();
     super.dispose();
   }
 
@@ -60,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: screenHeight,
             color: primaryColor,
             child: Stack(
-              children: [getLoginBackground(), getLoginBody()],
+              children: [getLoginBackground(), getLoginBody(context)],
             ),
           ),
         ),
@@ -80,7 +84,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  getLoginBody() {
+  getLoginBody(context) {
+    final theme = Theme.of(context);
+    final oldCheckboxTheme = theme.checkboxTheme;
+
+    final newCheckBoxTheme = oldCheckboxTheme.copyWith(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+    );
     return Positioned(
         top: loginBodyMarginTop.r,
         child: Container(
@@ -126,6 +136,51 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container()),
                 buildLoginScreenTitle(),
                 buildMobilePhoneField(),
+
+                SizedBox(
+                  height: 10.h,
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(
+                      start: loginRememberMeMarginStart),
+                  child: StreamBuilder<bool>(
+                      stream: _behaviorSubject.stream,
+                      builder: (context, snapshot) {
+                        return Row(
+                          children: [
+                            Theme(
+                              data: theme.copyWith(
+                                  checkboxTheme: newCheckBoxTheme),
+                              child: Checkbox(
+                                value: _behaviorSubject.value,
+                                activeColor: primaryColor,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onChanged: (newValue) {
+                                  _behaviorSubject.add(newValue ?? false);
+                                },
+                              ),
+                            ),
+                            Expanded(
+                                child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (c) =>
+                                            const TermsAndConditionsScreen()));
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .terms_and_condition_agreed,
+                                style:
+                                    AppStyles.baloo2FontWith400WeightAnd18Size,
+                              ),
+                            ))
+                          ],
+                        );
+                      }),
+                ),
                 SizedBox(
                   height: 16.h,
                 ),
