@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
@@ -39,118 +38,78 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             decoration: const BoxDecoration(
               color: primaryColor,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Expanded(
+                    child: Row(
                   mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                        child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    SizedBox(
+                      width: 30.h,
+                    ),
+                    leadingIcon,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: 30.h,
-                        ),
-                        leadingIcon,
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 20.h,
-                                ),
-                                Text(
-                                  goodMorningText,
-                                  style: AppStyles
-                                      .baloo2FontWith700WeightAnd17Size,
-                                ),
-                                Image.asset(
-                                  handIcon,
-                                )
-                              ],
+                            SizedBox(
+                              width: 20.h,
                             ),
                             Text(
-                              currentUser.fullName ?? "",
-                              style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                              goodMorningText,
+                              style: AppStyles.baloo2FontWith700WeightAnd17Size,
                             ),
+                            Image.asset(
+                              handIcon,
+                            )
                           ],
                         ),
+                        Text(
+                          currentUser.fullName ?? "",
+                          style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                        ),
                       ],
-                    )),
-                    InkWell(
-                        onTap: () => _isClicked.sink.add(!_isClicked.value),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 20.0),
-                          child: snapshot.hasData && snapshot.data == true
-                              ? SvgPicture.asset(planIconDown)
-                              : SvgPicture.asset(planIcon),
-                        )),
+                    ),
+                    Spacer(),
+                    SizedBox(
+                      width: 100.h,
+                      child: Row(
+                        children: [
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: false,
+                                activeColor: whiteColor,
+                                checkColor: primaryColor,
+                                fillColor:
+                                    MaterialStateProperty.all(whiteColor),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onChanged: (newValue) {},
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.auto_replay,
+                                style: AppStyles
+                                    .baloo2FontWith400WeightAnd14Size
+                                    .copyWith(color: whiteColor),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
-                ),
-                StreamBuilder<bool>(
-                    stream: _isClicked,
-                    builder: (context, snapshot) {
-                      return snapshot.hasData && snapshot.data == true
-                          ? Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.only(
-                                      top: 15.0, end: 20),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 40.h,
-                                      ),
-                                      Text(
-                                        AppLocalizations.of(context)!
-                                            .reply_to_customers,
-                                        style: AppStyles
-                                            .baloo2FontWith400WeightAnd16Size,
-                                      ),
-                                      const Spacer(),
-                                      Row(
-                                        children: [
-                                          Checkbox(
-                                            value: false,
-                                            activeColor: whiteColor,
-                                            checkColor: primaryColor,
-                                            fillColor:
-                                                MaterialStateProperty.all(
-                                                    whiteColor),
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                            onChanged: (newValue) {},
-                                          ),
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .auto_replay,
-                                            style: AppStyles
-                                                .baloo2FontWith400WeightAnd14Size
-                                                .copyWith(color: whiteColor),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container();
-                    })
+                )),
               ],
             ),
           );
@@ -158,5 +117,5 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(180.h);
+  Size get preferredSize => Size.fromHeight(100.h);
 }

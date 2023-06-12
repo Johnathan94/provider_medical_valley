@@ -51,14 +51,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: screenWidth,
-          height: screenHeight,
-          color: primaryColor,
-          child: Stack(
-            children: [getLoginBackground(), getLoginBody()],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            width: screenWidth,
+            height: screenHeight,
+            color: primaryColor,
+            child: Stack(
+              children: [getLoginBackground(), getLoginBody()],
+            ),
           ),
         ),
       ),

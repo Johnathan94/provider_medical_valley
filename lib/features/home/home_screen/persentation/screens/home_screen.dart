@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       body: MultiBlocListener(
         listeners: [
           BlocListener<HomeBloc, MyHomeState>(
@@ -149,10 +149,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  buildAppBar() {
+  String getGreeting(context) {
+    final DateTime now = DateTime.now();
+    final int currentHour = now.hour;
+
+    if (currentHour >= 0 && currentHour < 12) {
+      return AppLocalizations.of(context)!.good_morning;
+    } else {
+      return AppLocalizations.of(context)!.good_evening;
+    }
+  }
+
+  buildAppBar(context) {
     return CustomHomeAppBar(
       controller: TextEditingController(),
-      goodMorningText: AppLocalizations.of(context)!.good_morning,
+      goodMorningText: getGreeting(context),
       leadingIcon: SvgPicture.asset(
         appIcon,
         width: appBarIconWidth,
