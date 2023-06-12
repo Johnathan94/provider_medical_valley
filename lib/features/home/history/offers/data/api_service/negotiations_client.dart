@@ -9,9 +9,9 @@ class ProviderNegotiationsClient {
 
   ProviderNegotiationsClient(this.dio);
 
-  getProviderNegotiations(int bookingTypeId , int page , int pageSize)async{
+  getProviderNegotiations(int providerId , int page , int pageSize)async{
     ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/ProviderReservations?PageNumber=$page&PageSize=$pageSize&ProviderId=${user.id}&BookingTypeId=$bookingTypeId",);
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/ProviderReservations?PageNumber=$page&PageSize=$pageSize&ProviderId=${user.id}",);
     return response.data;
   }
 }

@@ -9,9 +9,11 @@ import 'package:provider_medical_valley/features/home/widgets/request_options_bu
 import '../../../core/app_colors.dart';
 import '../../../core/app_styles.dart';
 import '../../../core/strings/images.dart';
+import '../history/offers/data/model/provider_reservations_model.dart';
 
 class NegotiationsAndReservationsCard extends StatelessWidget {
-  final BookRequest items;
+  final ProviderReservationsModel items;
+  final int index;
   final bool isCalendarRowShown;
   final bool immediateCard;
   final bool otherCard;
@@ -20,7 +22,7 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
       {Key? key,
       this.isCalendarRowShown = false,
       this.immediateCard = false,
-      this.otherCard = false})
+      this.otherCard = false, required this.index})
       : super(key: key);
 
   @override
@@ -77,7 +79,7 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          items.userStr ?? "",
+                          items.data?.results?[index].providerName ?? "",
                           style: AppStyles.baloo2FontWith400WeightAnd18Size
                               .copyWith(
                                   color: blackColor,
@@ -94,7 +96,7 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
                               SizedBox(width: 5.w),
                               Expanded(
                                 child: Text(
-                                  items.categoryStr.toString(),
+                                  'items.categoryStr.toString()',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppStyles
@@ -112,7 +114,7 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
                             Expanded(
                               flex: 2,
                               child: Text(
-                                items.serviceStr.toString(),
+                                'items.serviceStr.toString()',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles
@@ -147,17 +149,17 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
                                     height: 15.h,
                                   ),
                                   SizedBox(width: 5.w),
-                                  Text(
-                                    items.appointmentDate != null
-                                        ? DateFormat("dd/MM/yyyy").format(
-                                            DateTime.parse(
-                                                items.appointmentDate!))
-                                        : "",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: AppStyles
-                                        .baloo2FontWith400WeightAnd12Size,
-                                  ),
+                                  // Text(
+                                  //   items.appointmentDate != null
+                                  //       ? DateFormat("dd/MM/yyyy").format(
+                                  //           DateTime.parse(
+                                  //               items.appointmentDate!))
+                                  //       : "",
+                                  //   maxLines: 1,
+                                  //   overflow: TextOverflow.ellipsis,
+                                  //   style: AppStyles
+                                  //       .baloo2FontWith400WeightAnd12Size,
+                                  // ),
                                 ],
                               )
                             : Container(),
@@ -167,19 +169,19 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
                             children: [
                               SvgPicture.asset(infoIcon),
                               SizedBox(width: 5.w),
-                              Text(
-                                items.userHasInsurance != null &&
-                                        items.userHasInsurance!
-                                    ? AppLocalizations.of(context)!
-                                        .has_insurrance
-                                    : AppLocalizations.of(context)!
-                                        .has_no_insurrance,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppStyles
-                                    .baloo2FontWith400WeightAnd12Size
-                                    .copyWith(color: primaryColor),
-                              ),
+                              // Text(
+                              //   items.userHasInsurance != null &&
+                              //           items.userHasInsurance!
+                              //       ? AppLocalizations.of(context)!
+                              //           .has_insurrance
+                              //       : AppLocalizations.of(context)!
+                              //           .has_no_insurrance,
+                              //   maxLines: 1,
+                              //   overflow: TextOverflow.ellipsis,
+                              //   style: AppStyles
+                              //       .baloo2FontWith400WeightAnd12Size
+                              //       .copyWith(color: primaryColor),
+                              // ),
                             ],
                           ),
                         ),
@@ -192,11 +194,25 @@ class NegotiationsAndReservationsCard extends StatelessWidget {
           ),
           Expanded(
               flex: 4,
-              child: RequestsOptionButton(
-                AppLocalizations.of(context)!.negotiate,
-                items,
-                immediateCard: immediateCard,
-                otherCard: otherCard,
+              child: InkWell(
+                // onTap: () => Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (context) =>  SendOfferScreen(result: result,immediateCard: immediateCard,otherCard: otherCard,))),
+                child: Container(
+                  padding: const EdgeInsetsDirectional.only(start: 23, end: 23),
+                  decoration: const BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(21), bottomEnd: Radius.circular(21))),
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: Text(
+                      'title',
+                      textAlign: TextAlign.center,
+                      style: AppStyles.baloo2FontWith400WeightAnd18Size
+                          .copyWith(color: whiteColor, decoration: TextDecoration.none),
+                    ),
+                  ),
+                ),
               ))
         ],
       ),

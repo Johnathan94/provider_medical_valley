@@ -8,8 +8,8 @@ class GetNegotiationsUseCase {
   GetNegotiationsUseCase(this.client);
 
   Future<RequestsResponse> getRequests(
-      int bookingTypeId, int page, int pageSize) async {
-    var result = await client.getProviderNegotiations(page, bookingTypeId, pageSize);
+      int providerId, int page, int pageSize) async {
+    var result = await client.getProviderNegotiations(page, providerId, pageSize);
     RequestsResponse category = RequestsResponse.fromJson(result);
     return category;
   }
