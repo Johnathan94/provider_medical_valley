@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/medical_injection.dart';
@@ -12,10 +11,12 @@ import 'package:provider_medical_valley/features/home/history/offers/presentatio
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/reservations_cubit.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
 import '../../../../widgets/reservations_and_negotiations_card.dart';
+import '../components/negotiations_screen.dart';
+import '../components/reservations_screen.dart';
+
 
 class NegotiationsScreen extends StatefulWidget {
   final int serviceId, categoryId;
@@ -29,7 +30,6 @@ class NegotiationsScreen extends StatefulWidget {
 }
 
 class _NegotiationsScreenState extends State<NegotiationsScreen> {
-  NegotiationCubit negotiationCubit = GetIt.I<NegotiationCubit>();
   ReservationsCubit reservationsCubit = GetIt.I<ReservationsCubit>();
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   OffersBloc offersBloc = getIt.get<OffersBloc>();
@@ -38,13 +38,11 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
   final PagingController<int, BookRequest> pagingController =
       PagingController(firstPageKey: 1);
   int nextPage = 1;
-
   int nextPageKey = 1;
 
   BehaviorSubject<int> reservationsCounter = BehaviorSubject.seeded(0);
   BehaviorSubject<int> negotiationsCounter = BehaviorSubject.seeded(0);
-  final PagingController<int, ProviderReservationsModel> reservationsPagingController =
-      PagingController(firstPageKey: 1);
+
   int immediateNextPage = 1;
   int immediateNextPageKey = 1;
 
@@ -57,11 +55,7 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
       nextPage += 1;
       offersBloc.getOffers(NegotiationsEvent(nextPage, 10, widget.serviceId));
     });
-    reservationsPagingController.addPageRequestListener((pageKey) {
-      immediateNextPageKey = 10 + immediateNextPage;
-      immediateNextPage = pageKey + 1;
-      // negotiationCubit.getImmediateRequests(immediateNextPage, 10);
-    });
+
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
     super.initState();
@@ -78,48 +72,7 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
           header: AppLocalizations.of(context)!.negotiation,
           leadingIcon: const SizedBox(),
         ),
-        // body: Stack(
-        //   children: [
-        //     BlocBuilder<OffersBloc, OffersState>(
-        //         bloc: offersBloc,
-        //         builder: (context, state) {
-        //           if(state is OffersStateLoading){
-        //             return SizedBox(
-        //                 height: MediaQuery.of(context).size.height,
-        //                 width: MediaQuery.of(context).size.width,
-        //                 child: const Center(child: CircularProgressIndicator()));
-        //           }
-        //           if(state is OffersStateSuccess){
-        //             if(state.offersResponse.data!.results!.length == 10){
-        //               pagingController.appendPage(state.offersResponse.data!.results!, nextPageKey);
-        //             }else {
-        //               if(pagingController.value.itemList != state.offersResponse.data!.results) {
-        //                 pagingController.appendLastPage(
-        //                     state.offersResponse.data!.results!);
-        //               }
-        //             }
-        //             return  PagedListView<int, BookRequest>(
-        //               pagingController: pagingController,
-        //               builderDelegate: PagedChildBuilderDelegate(
-        //                 itemBuilder: (context, BookRequest item, index) {
-        //                   return StreamBuilder<int>(
-        //                       stream: rxNegotiateCount.stream,
-        //                       builder: (context, snapshot) {
-        //                         return Padding(
-        //                           padding: const EdgeInsets.symmetric(horizontal: 10.0 , vertical: 0),
-        //                           child: NegotiationCard(item),
-        //                         );
-        //                       }
-        //                   );
-        //                 },
-        //               ),
-        //             );
-        //           }
-        //           return const SizedBox();
-        //         }
-        //     ),
-        //   ],
-        // ),
+
         body: getBody(),
       ),
     );
@@ -160,51 +113,14 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
                 }),
           ],
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            getNegotiations(),
-            getReservations(),
+            ReservationsScreen(),
+            NegotiationScreen(),
           ],
         ),
       ),
     );
-  }
-
-
-
-  getNegotiations() {
-    return BlocBuilder<NegotiationCubit, NegotiationState>(
-        bloc: negotiationCubit,
-        builder: (context, state) {
-          return PagedListView<int, ProviderReservationsModel>(
-            pagingController: reservationsPagingController,
-            padding:
-                const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, ProviderReservationsModel item, index) {
-                return NegotiationsAndReservationsCard(item,index: index,);
-              },
-            ),
-          );
-        });
-  }
-
-
-  getReservations() {
-    return BlocBuilder<ReservationsCubit, ReservationsState>(
-        bloc: reservationsCubit,
-        builder: (context, state) {
-          return PagedListView<int, ProviderReservationsModel>(
-            pagingController: reservationsPagingController,
-            padding:
-                const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, ProviderReservationsModel item, index) {
-                return NegotiationsAndReservationsCard(item, index: index,);
-              },
-            ),
-          );
-        });
   }
 
 }

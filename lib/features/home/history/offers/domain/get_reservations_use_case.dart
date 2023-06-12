@@ -1,3 +1,4 @@
+import 'package:provider_medical_valley/features/home/history/offers/data/model/provider_reservations_model.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 
 import '../data/api_service/negotiations_client.dart';
@@ -8,10 +9,10 @@ class GetReservationsUseCase {
 
   GetReservationsUseCase(this.client);
 
-  Future<RequestsResponse> getRequests(
-      int bookingTypeId, int page, int pageSize) async {
-    var result = await client.getProviderReservations(page, bookingTypeId, pageSize);
-    RequestsResponse category = RequestsResponse.fromJson(result);
+  Future<ProviderReservationsModel> getRequests(
+       int page, int pageSize) async {
+    var result = await client.getProviderReservations(page, pageSize);
+    ProviderReservationsModel category = ProviderReservationsModel.fromJson(result);
     return category;
   }
 }
