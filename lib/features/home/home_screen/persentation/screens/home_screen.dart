@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   BehaviorSubject<int> immediateSubjectCounter = BehaviorSubject.seeded(0);
   BehaviorSubject<int> earliestSubjectCounter = BehaviorSubject.seeded(0);
   BehaviorSubject<int> scheduledSubjectCounter = BehaviorSubject.seeded(0);
+
   @override
   initState() {
     homeBloc.getImmediateRequests(immediateNextPage, 10);
