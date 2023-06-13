@@ -15,8 +15,8 @@ class ReservationsCubit extends Cubit<ReservationsState> {
   getReservations(int page, int pageSize) async {
     try {
       emit(LoadingReservationsState());
-      ProviderReservationsModel request =
-          await getReservationsUseCase.getRequests(page, pageSize);
+      ProviderNegotiationsModel request =
+          await getReservationsUseCase.getProviderReservations(page, pageSize);
       emit(SuccessReservationsState(request));
     } catch (e) {
       emit(ErrorReservationsState(ErrorStates.serverError));

@@ -11,8 +11,9 @@ class ProviderReservationsClient {
 
 
   getProviderReservations( int page , int pageSize)async{
+
     ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/ProviderReservations?PageNumber=$page&PageSize=$pageSize&ProviderId=${user.id}",);
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/ProviderReservations?PageNumber=$page&PageSize=$pageSize&ProviderId=85",);
     return response.data;
   }
 }

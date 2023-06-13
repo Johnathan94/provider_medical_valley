@@ -12,7 +12,7 @@ import '../../../core/strings/images.dart';
 import '../history/offers/data/model/provider_reservations_model.dart';
 
 class NegotiationsAndReservationsCard extends StatelessWidget {
-  final ProviderReservationsModel items;
+  final ProviderNegotiationsModel items;
   final int index;
   final bool isCalendarRowShown;
   final bool immediateCard;

@@ -9,10 +9,10 @@ class GetReservationsUseCase {
 
   GetReservationsUseCase(this.client);
 
-  Future<ProviderReservationsModel> getRequests(
+  Future<ProviderNegotiationsModel> getProviderReservations(
        int page, int pageSize) async {
     var result = await client.getProviderReservations(page, pageSize);
-    ProviderReservationsModel category = ProviderReservationsModel.fromJson(result);
+    ProviderNegotiationsModel category = ProviderNegotiationsModel.fromJson(result);
     return category;
   }
 }

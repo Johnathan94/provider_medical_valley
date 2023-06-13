@@ -14,7 +14,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
 import '../../../../widgets/reservations_and_negotiations_card.dart';
-import '../components/negotiations_screen.dart';
+import '../components/negotiation_screen.dart';
 import '../components/reservations_screen.dart';
 
 
@@ -30,7 +30,7 @@ class NegotiationsScreen extends StatefulWidget {
 }
 
 class _NegotiationsScreenState extends State<NegotiationsScreen> {
-  ReservationsCubit reservationsCubit = GetIt.I<ReservationsCubit>();
+  // ReservationsCubit reservationsCubit = GetIt.I<ReservationsCubit>();
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   OffersBloc offersBloc = getIt.get<OffersBloc>();
   BehaviorSubject<int> sortOption = BehaviorSubject();
@@ -115,8 +115,8 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
         ),
         body: const TabBarView(
           children: [
-            ReservationsScreen(),
             NegotiationScreen(),
+            ReservationsScreen(),
           ],
         ),
       ),

@@ -6,7 +6,7 @@ abstract class NegotiationState {}
 class NegotiationInitial extends NegotiationState {}
 
 class SuccessNegotiationState extends NegotiationState {
-  RequestsResponse category;
+  ProviderNegotiationsModel category;
 
   SuccessNegotiationState(this.category);
 }

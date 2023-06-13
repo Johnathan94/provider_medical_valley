@@ -7,7 +7,7 @@ abstract class ReservationsState {}
 class ReservationsInitial extends ReservationsState {}
 
 class SuccessReservationsState extends ReservationsState {
-  ProviderReservationsModel category;
+  ProviderNegotiationsModel category;
 
   SuccessReservationsState(this.category);
 }

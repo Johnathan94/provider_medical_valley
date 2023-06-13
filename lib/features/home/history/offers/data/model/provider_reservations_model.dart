@@ -6,10 +6,10 @@ import 'dart:convert';
 /// validationIssue : null
 /// data : {"currentPage":1,"totalPages":1,"pageSize":10,"totalCount":1,"hasPrevious":false,"hasNext":false,"results":[{"id":31,"requestId":163,"providerId":85,"providerName":"Wareed Med Labs","providerMobileStr":"0556533578","branchId":8,"providerLocation":"Riyadh","providerLatitude":30.021214,"providerLongitude":30.021214,"providerBranchName":"Jtest","price":500,"isUnderNegotiation":true,"isConfirmed":true,"periodId":139,"periodStartTime":"15:15","periodEndTime":"15:45","offerDate":null,"categoryId":6,"categoryStr":"laboratory","providerServiceId":287,"serviceStr":"Calcium in Serum ","providerPackageId":null,"packageStr":"","userId":48,"userName":"insurance user","userMobile":"147852369","userHasInsurance":true,"bookingStatusId":2,"bookingStatusStr":"Booked","bookingTypeId":1,"bookingTypeStr":"Emmdiate(0-3 H)","insuranceStatus":0,"insuranceStatusStr":"InsuranceNotAvailable"}]}
 
-ProviderReservationsModel providerReservationsModelFromJson(String str) => ProviderReservationsModel.fromJson(json.decode(str));
-String providerReservationsModelToJson(ProviderReservationsModel data) => json.encode(data.toJson());
-class ProviderReservationsModel {
-  ProviderReservationsModel({
+ProviderNegotiationsModel providerReservationsModelFromJson(String str) => ProviderNegotiationsModel.fromJson(json.decode(str));
+String providerReservationsModelToJson(ProviderNegotiationsModel data) => json.encode(data.toJson());
+class ProviderNegotiationsModel {
+  ProviderNegotiationsModel({
       this.succeeded, 
       this.message, 
       this.messageCode, 
@@ -17,7 +17,7 @@ class ProviderReservationsModel {
       this.validationIssue, 
       this.data,});
 
-  ProviderReservationsModel.fromJson(dynamic json) {
+  ProviderNegotiationsModel.fromJson(dynamic json) {
     succeeded = json['succeeded'];
     message = json['message'];
     messageCode = json['messageCode'];
@@ -175,6 +175,7 @@ class Results {
       this.bookingTypeId, 
       this.bookingTypeStr, 
       this.insuranceStatus, 
+      this.image,
       this.insuranceStatusStr,});
 
   Results.fromJson(dynamic json) {
@@ -211,6 +212,7 @@ class Results {
     bookingTypeStr = json['bookingTypeStr'];
     insuranceStatus = json['insuranceStatus'];
     insuranceStatusStr = json['insuranceStatusStr'];
+    image = json['userAvatar'];
   }
   num? id;
   num? requestId;
@@ -245,6 +247,7 @@ class Results {
   String? bookingTypeStr;
   num? insuranceStatus;
   String? insuranceStatusStr;
+  String? image;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -281,6 +284,7 @@ class Results {
     map['bookingTypeStr'] = bookingTypeStr;
     map['insuranceStatus'] = insuranceStatus;
     map['insuranceStatusStr'] = insuranceStatusStr;
+    map['userAvatar'] = image;
     return map;
   }
 

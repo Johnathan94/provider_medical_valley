@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/reservations_cubit.dart';
+import 'package:provider_medical_valley/features/home/history/offers/presentation/components/negotiations_card_item.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/components/reservations_card_item.dart';
 
 import '../../data/model/provider_reservations_model.dart';
@@ -17,13 +18,14 @@ class ReservationsScreen extends StatefulWidget {
 class _ReservationsScreenState extends State<ReservationsScreen> {
   ReservationsCubit reservationsCubit = GetIt.I<ReservationsCubit>();
 
-  final PagingController<int, ProviderReservationsModel>
+  final PagingController<int, ProviderNegotiationsModel>
       reservationsPagingController = PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
 
   @override
   void initState() {
+    reservationsCubit.getReservations(nextPage, 10);
     reservationsPagingController.addPageRequestListener((pageKey) {
       nextPageKey = 10 + nextPage;
       nextPage = pageKey + 1;
@@ -35,21 +37,6 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocBuilder<NegotiationCubit, NegotiationState>(
-    //     bloc: negotiationCubit,
-    //     builder: (context, state) {
-    //       return PagedListView<int, ProviderReservationsModel>(
-    //         pagingController: reservationsPagingController,
-    //         padding:
-    //         const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-    //         builderDelegate: PagedChildBuilderDelegate(
-    //           itemBuilder: (context, ProviderReservationsModel item, index) {
-    //             return NegotiationsAndReservationsCard(item,index: index,);
-    //           },
-    //         ),
-    //       );
-    //     });
-
     return BlocBuilder<ReservationsCubit, ReservationsState>(
       bloc: reservationsCubit,
       builder: (context, state) {
@@ -57,21 +44,23 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
           return ListView.builder(
               itemBuilder: (context, index) =>
                   ReservationsCardItem(
-                    image: "no image",
-                    time: state.category.data?.results?[index].periodEndTime ?? "",
+                    image: '',
+                    time: "",
                     rate:  'no rate',
                     name: 'name',
-                    phone: 'phone',
-                    price: 'price',
+                    from: 'phone',
+                    to: "30 am",
+                    date: '31/10/2012',
                     title
-                    :"",
+                        :"",
                     subtitle
-                    :"",
-                    negotiations
-                    :"",
-                  ));
+                        :"",
+                    price
+                        :"slkdfjs",
+                  ),
+          itemCount: state.category.data?.results?.length ,);
         }else{
-          return Container();
+          return const Center(child:  CircularProgressIndicator());
         }
       },
     );

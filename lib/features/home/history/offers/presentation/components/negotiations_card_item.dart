@@ -1,39 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
+import '../../../../../../core/strings/images.dart';
 
-class ReservationsCardItem extends StatelessWidget {
-  const ReservationsCardItem({
+class NegotiationsCardItem extends StatelessWidget {
+  const NegotiationsCardItem({
     Key? key,
     required this.image,
     required this.time,
     required this.rate,
     required this.name,
-    required this.from,
-    required this.to,
-    required this.date,
+    required this.phone,
+    required this.price,
     required this.title,
     required this.subtitle,
-    required this.price,
   }) : super(key: key);
   final String image;
   final String time;
   final String rate;
   final String name;
-  final String from;
-  final String to;
-  final String date;
+  final String phone;
+  final String price;
   final String title;
   final String subtitle;
-  final String price;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 170.h,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
       decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(21),
@@ -56,9 +54,18 @@ class ReservationsCardItem extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Text(
+                          time,
+                          style: AppStyles.baloo2FontWith400WeightAnd18Size
+                              .copyWith(
+                              color: blackColor,
+                              decoration: TextDecoration.none),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         Container(
                           width: 60,
                           height: 60,
@@ -69,6 +76,21 @@ class ReservationsCardItem extends StatelessWidget {
                                 image: AssetImage(image),
                               )),
                         ),
+                        Row(
+                          children: [
+                            Icon(Icons.star,color: Colors.amber,size: 20.sp,),
+                            SizedBox(width: 5.w,),
+                            Text(
+                              rate,
+                              style: AppStyles.baloo2FontWith400WeightAnd18Size
+                                  .copyWith(
+                                  color: blackColor,
+                                  decoration: TextDecoration.none),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -81,7 +103,7 @@ class ReservationsCardItem extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: AppStyles.baloo2FontWith600WeightAnd16Size
+                          style: AppStyles.baloo2FontWith400WeightAnd18Size
                               .copyWith(
                                   color: blackColor,
                                   decoration: TextDecoration.none),
@@ -91,10 +113,8 @@ class ReservationsCardItem extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.circle,
-                                color: grey.withOpacity(0.1),
-                                size: 15.sp,
+                              SvgPicture.asset(
+                                cardIconOne,
                               ),
                               SizedBox(width: 5.w),
                               Expanded(
@@ -103,8 +123,8 @@ class ReservationsCardItem extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppStyles
-                                      .baloo2FontWith500WeightAnd16Size
-                                      .copyWith(color: textGrey),
+                                      .baloo2FontWith400WeightAnd16Size
+                                      .copyWith(color: blackColor),
                                 ),
                               ),
                             ],
@@ -112,11 +132,7 @@ class ReservationsCardItem extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(
-                              Icons.circle,
-                              color: greenCheckBox,
-                              size: 15.sp,
-                            ),
+                            SvgPicture.asset(cardIconTwo),
                             SizedBox(width: 5.w),
                             Expanded(
                               flex: 2,
@@ -126,7 +142,7 @@ class ReservationsCardItem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles
                                     .baloo2FontWith400WeightAnd16Size
-                                    .copyWith(color: greenCheckBox),
+                                    .copyWith(color: blackColor),
                               ),
                             ),
                           ],
@@ -135,12 +151,14 @@ class ReservationsCardItem extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
+                              Image.asset(phoneIcon),
+                              SizedBox(width: 5.w),
                               Text(
-                                "$from - $to",
+                                phone,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style:
-                                    AppStyles.baloo2FontWith500WeightAnd15Size.copyWith(color: Colors.black),
+                                    AppStyles.baloo2FontWith400WeightAnd12Size,
                               ),
                             ],
                           ),
@@ -148,18 +166,20 @@ class ReservationsCardItem extends StatelessWidget {
                         Container(),
                         SizedBox(height: 6.h),
                         Expanded(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.sp),
-                                color: greenCheckBox.withOpacity(0.1),
-                              ),
-                              padding: EdgeInsetsDirectional.all(5.sp),
-                              child: Text(
-                                "Earliest Date",
+                          child: Row(
+                            children: [
+                              Image.asset(dbIcon),
+                              SizedBox(width: 5.w),
+                              Text(
+                                price,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: AppStyles
-                                    .baloo2FontWith600WeightAnd16Size
-                                    .copyWith(color: greenCheckBox),
-                              )),
+                                    .baloo2FontWith400WeightAnd12Size
+                                    .copyWith(color: primaryColor),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -170,27 +190,28 @@ class ReservationsCardItem extends StatelessWidget {
           ),
           Expanded(
               flex: 4,
-              child: Column(
-                children: [
-                  SizedBox(height: 10.h,),
-                  Text(
-                    date,
-                    style: AppStyles.baloo2FontWith400WeightAnd12Size
-                        .copyWith(color: blackColor),
+              child: InkWell(
+                // onTap: () => Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (context) =>  SendOfferScreen(result: result,immediateCard: immediateCard,otherCard: otherCard,))),
+                child: Container(
+                  padding: const EdgeInsetsDirectional.only(start: 23, end: 23),
+                  decoration: const BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(21),
+                          bottomEnd: Radius.circular(21))),
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: Text(
+                      'Negotiate',
+                      textAlign: TextAlign.center,
+                      style: AppStyles.baloo2FontWith400WeightAnd18Size
+                          .copyWith(
+                              color: whiteColor,
+                              decoration: TextDecoration.none),
+                    ),
                   ),
-                  SizedBox(height: 5.h,),
-                  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.sp),
-                        color: greenCheckBox,
-                      ),
-                      padding: EdgeInsetsDirectional.all(5.sp),
-                      child: Text(
-                        price,
-                        style: AppStyles.baloo2FontWith400WeightAnd12Size
-                            .copyWith(color: whiteColor),
-                      ))
-                ],
+                ),
               ))
         ],
       ),

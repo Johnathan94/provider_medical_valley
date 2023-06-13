@@ -8,10 +8,10 @@ class ProviderNegotiationsClient {
   Dio dio ;
 
   ProviderNegotiationsClient(this.dio);
-
+  /// TODO : change user id
   getProviderNegotiations(int providerId , int page , int pageSize)async{
     ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/ProviderReservations?PageNumber=$page&PageSize=$pageSize&ProviderId=${user.id}",);
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/ProviderOffers?PageNumber=$page&PageSize=$pageSize&ProviderId=85",);
     return response.data;
   }
 }
