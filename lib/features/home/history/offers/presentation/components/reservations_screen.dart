@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/reservations_cubit.dart';
-import 'package:provider_medical_valley/features/home/history/offers/presentation/components/negotiations_card_item.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/components/reservations_card_item.dart';
 
 import '../../data/model/provider_reservations_model.dart';
@@ -40,27 +39,29 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
     return BlocBuilder<ReservationsCubit, ReservationsState>(
       bloc: reservationsCubit,
       builder: (context, state) {
-        if(state  is SuccessReservationsState){
+        if (state is SuccessReservationsState) {
           return ListView.builder(
-              itemBuilder: (context, index) =>
-                  ReservationsCardItem(
-                    image: '',
-                    time: "",
-                    rate:  'no rate',
-                    name: 'name',
-                    from: 'phone',
-                    to: "30 am",
-                    date: '31/10/2012',
-                    title
-                        :"",
-                    subtitle
-                        :"",
-                    price
-                        :"slkdfjs",
-                  ),
-          itemCount: state.category.data?.results?.length ,);
-        }else{
-          return const Center(child:  CircularProgressIndicator());
+            itemBuilder: (context, index) => ReservationsCardItem(
+              image: '',
+              time: "",
+              rate: 'no rate',
+              name: "${state.category.data?.results?[index].userName}",
+              from: '${state.category.data?.results?[index].periodStartTime} ',
+              to: "${state.category.data?.results?[index].periodEndTime}",
+              date: state.category.data?.results?[index].offerDate ?? "no date",
+              title: state.category.data?.results?[index].categoryStr ?? "",
+              subtitle: state.category.data?.results?[index].serviceStr ?? "",
+              price: "${state.category.data?.results?[index].price} SR",
+              bookingTypeId:
+                  state.category.data?.results?[index].bookingTypeId?.toInt() ??
+                      1,
+              bookingTypeName:
+                  state.category.data?.results?[index].bookingTypeStr ?? "",
+            ),
+            itemCount: state.category.data?.results?.length,
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+import 'package:provider_medical_valley/features/home/widgets/send_offer_screen.dart';
 
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
@@ -14,6 +17,8 @@ class NegotiationsCardItem extends StatelessWidget {
     required this.rate,
     required this.name,
     required this.phone,
+    required this.bookingType,
+    required this.request,
     required this.price,
     required this.title,
     required this.subtitle,
@@ -26,12 +31,14 @@ class NegotiationsCardItem extends StatelessWidget {
   final String price;
   final String title;
   final String subtitle;
+  final num bookingType;
+  final BookRequest request;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 170.h,
-      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(21),
@@ -61,8 +68,8 @@ class NegotiationsCardItem extends StatelessWidget {
                           time,
                           style: AppStyles.baloo2FontWith400WeightAnd18Size
                               .copyWith(
-                              color: blackColor,
-                              decoration: TextDecoration.none),
+                                  color: blackColor,
+                                  decoration: TextDecoration.none),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -78,16 +85,25 @@ class NegotiationsCardItem extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.star,color: Colors.amber,size: 20.sp,),
-                            SizedBox(width: 5.w,),
-                            Text(
-                              rate,
-                              style: AppStyles.baloo2FontWith400WeightAnd18Size
-                                  .copyWith(
-                                  color: blackColor,
-                                  decoration: TextDecoration.none),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 20.sp,
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Flexible(
+                              child: Text(
+                                "0.0",
+                                style: AppStyles
+                                    .baloo2FontWith400WeightAnd18Size
+                                    .copyWith(
+                                        color: blackColor,
+                                        decoration: TextDecoration.none),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         )
@@ -163,7 +179,6 @@ class NegotiationsCardItem extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(),
                         SizedBox(height: 6.h),
                         Expanded(
                           child: Row(
@@ -191,8 +206,12 @@ class NegotiationsCardItem extends StatelessWidget {
           Expanded(
               flex: 4,
               child: InkWell(
-                // onTap: () => Navigator.of(context)
-                //     .push(MaterialPageRoute(builder: (context) =>  SendOfferScreen(result: result,immediateCard: immediateCard,otherCard: otherCard,))),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SendOfferScreen(
+                          result: request,
+                          immediateCard: bookingType == 1,
+                          otherCard: bookingType != 1,
+                        ))),
                 child: Container(
                   padding: const EdgeInsetsDirectional.only(start: 23, end: 23),
                   decoration: const BoxDecoration(
@@ -203,7 +222,7 @@ class NegotiationsCardItem extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Center(
                     child: Text(
-                      'Negotiate',
+                      AppLocalizations.of(context)!.negotiate,
                       textAlign: TextAlign.center,
                       style: AppStyles.baloo2FontWith400WeightAnd18Size
                           .copyWith(

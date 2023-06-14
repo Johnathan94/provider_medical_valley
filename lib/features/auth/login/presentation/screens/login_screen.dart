@@ -201,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: AppLocalizations.of(context)!.sign_in,
                   ),
                 ),
-                buildSignInApps(),
+                //   buildSignInApps(),
                 //  buildSignUp()
               ],
             ),

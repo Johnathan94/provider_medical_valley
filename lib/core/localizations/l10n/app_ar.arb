@@ -83,7 +83,9 @@
                 "are_you_sure_about_the_service": "هل انت متاكد من الخدمة ؟ ",
       "messages": "الرسائل",
       "immediate": "حالاً",
-      "set_price": "أرسل عرض",
+  "reservations": "حجوزات",
+
+  "set_price": "أرسل عرض",
           "earliest": "أقرب موعد",
           "schedule_on": "حجز موعد مجدول",
               "confirm": "تآكيد",

@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/medical_injection.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
-import 'package:provider_medical_valley/features/home/history/offers/data/model/provider_reservations_model.dart';
-import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/negotiation_cubit.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
-import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/reservations_cubit.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:rxdart/rxdart.dart';
+
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
-import '../../../../widgets/reservations_and_negotiations_card.dart';
 import '../components/negotiation_screen.dart';
 import '../components/reservations_screen.dart';
-
 
 class NegotiationsScreen extends StatefulWidget {
   final int serviceId, categoryId;
@@ -72,7 +66,6 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
           header: AppLocalizations.of(context)!.negotiation,
           leadingIcon: const SizedBox(),
         ),
-
         body: getBody(),
       ),
     );
@@ -104,12 +97,12 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
             StreamBuilder<int>(
                 stream: reservationsCounter.stream,
                 builder: (context, snapshot) {
-                  return const Text("Negotiations");
+                  return Text(AppLocalizations.of(context)!.negotiation);
                 }),
             StreamBuilder<int>(
                 stream: negotiationsCounter.stream,
                 builder: (context, snapshot) {
-                  return const Text("Reservations");
+                  return Text(AppLocalizations.of(context)!.reservations);
                 }),
           ],
         ),
@@ -122,5 +115,4 @@ class _NegotiationsScreenState extends State<NegotiationsScreen> {
       ),
     );
   }
-
 }

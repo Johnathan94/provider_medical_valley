@@ -1,4 +1,7 @@
 import 'dart:convert';
+
+import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
+
 /// succeeded : true
 /// message : "Request Success"
 /// messageCode : null
@@ -6,16 +9,20 @@ import 'dart:convert';
 /// validationIssue : null
 /// data : {"currentPage":1,"totalPages":1,"pageSize":10,"totalCount":1,"hasPrevious":false,"hasNext":false,"results":[{"id":31,"requestId":163,"providerId":85,"providerName":"Wareed Med Labs","providerMobileStr":"0556533578","branchId":8,"providerLocation":"Riyadh","providerLatitude":30.021214,"providerLongitude":30.021214,"providerBranchName":"Jtest","price":500,"isUnderNegotiation":true,"isConfirmed":true,"periodId":139,"periodStartTime":"15:15","periodEndTime":"15:45","offerDate":null,"categoryId":6,"categoryStr":"laboratory","providerServiceId":287,"serviceStr":"Calcium in Serum ","providerPackageId":null,"packageStr":"","userId":48,"userName":"insurance user","userMobile":"147852369","userHasInsurance":true,"bookingStatusId":2,"bookingStatusStr":"Booked","bookingTypeId":1,"bookingTypeStr":"Emmdiate(0-3 H)","insuranceStatus":0,"insuranceStatusStr":"InsuranceNotAvailable"}]}
 
-ProviderNegotiationsModel providerReservationsModelFromJson(String str) => ProviderNegotiationsModel.fromJson(json.decode(str));
-String providerReservationsModelToJson(ProviderNegotiationsModel data) => json.encode(data.toJson());
+ProviderNegotiationsModel providerReservationsModelFromJson(String str) =>
+    ProviderNegotiationsModel.fromJson(json.decode(str));
+String providerReservationsModelToJson(ProviderNegotiationsModel data) =>
+    json.encode(data.toJson());
+
 class ProviderNegotiationsModel {
   ProviderNegotiationsModel({
-      this.succeeded, 
-      this.message, 
-      this.messageCode, 
-      this.responseCode, 
-      this.validationIssue, 
-      this.data,});
+    this.succeeded,
+    this.message,
+    this.messageCode,
+    this.responseCode,
+    this.validationIssue,
+    this.data,
+  });
 
   ProviderNegotiationsModel.fromJson(dynamic json) {
     succeeded = json['succeeded'];
@@ -44,7 +51,6 @@ class ProviderNegotiationsModel {
     }
     return map;
   }
-
 }
 
 /// currentPage : 1
@@ -57,15 +63,17 @@ class ProviderNegotiationsModel {
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      this.currentPage, 
-      this.totalPages, 
-      this.pageSize, 
-      this.totalCount, 
-      this.hasPrevious, 
-      this.hasNext, 
-      this.results,});
+    this.currentPage,
+    this.totalPages,
+    this.pageSize,
+    this.totalCount,
+    this.hasPrevious,
+    this.hasNext,
+    this.results,
+  });
 
   Data.fromJson(dynamic json) {
     currentPage = json['currentPage'];
@@ -102,7 +110,6 @@ class Data {
     }
     return map;
   }
-
 }
 
 /// id : 31
@@ -141,42 +148,44 @@ class Data {
 
 Results resultsFromJson(String str) => Results.fromJson(json.decode(str));
 String resultsToJson(Results data) => json.encode(data.toJson());
+
 class Results {
   Results({
-      this.id, 
-      this.requestId, 
-      this.providerId, 
-      this.providerName, 
-      this.providerMobileStr, 
-      this.branchId, 
-      this.providerLocation, 
-      this.providerLatitude, 
-      this.providerLongitude, 
-      this.providerBranchName, 
-      this.price, 
-      this.isUnderNegotiation, 
-      this.isConfirmed, 
-      this.periodId, 
-      this.periodStartTime, 
-      this.periodEndTime, 
-      this.offerDate, 
-      this.categoryId, 
-      this.categoryStr, 
-      this.providerServiceId, 
-      this.serviceStr, 
-      this.providerPackageId, 
-      this.packageStr, 
-      this.userId, 
-      this.userName, 
-      this.userMobile, 
-      this.userHasInsurance, 
-      this.bookingStatusId, 
-      this.bookingStatusStr, 
-      this.bookingTypeId, 
-      this.bookingTypeStr, 
-      this.insuranceStatus, 
-      this.image,
-      this.insuranceStatusStr,});
+    this.id,
+    this.requestId,
+    this.providerId,
+    this.providerName,
+    this.providerMobileStr,
+    this.branchId,
+    this.providerLocation,
+    this.providerLatitude,
+    this.providerLongitude,
+    this.providerBranchName,
+    this.price,
+    this.isUnderNegotiation,
+    this.isConfirmed,
+    this.periodId,
+    this.periodStartTime,
+    this.periodEndTime,
+    this.offerDate,
+    this.categoryId,
+    this.categoryStr,
+    this.providerServiceId,
+    this.serviceStr,
+    this.providerPackageId,
+    this.packageStr,
+    this.userId,
+    this.userName,
+    this.userMobile,
+    this.userHasInsurance,
+    this.bookingStatusId,
+    this.bookingStatusStr,
+    this.bookingTypeId,
+    this.bookingTypeStr,
+    this.insuranceStatus,
+    this.image,
+    this.insuranceStatusStr,
+  });
 
   Results.fromJson(dynamic json) {
     id = json['id'];
@@ -288,4 +297,17 @@ class Results {
     return map;
   }
 
+  BookRequest mapToBookRequest() {
+    return BookRequest(
+        id: requestId!.toInt(),
+        userId: userId!.toInt(),
+        userStr: userName,
+        categoryStr: categoryStr,
+        providerServiceId: providerServiceId!.toInt(),
+        appointmentDate: offerDate,
+        serviceStr: serviceStr,
+        mobileStr: userMobile,
+        userHasInsurance: userHasInsurance,
+        bookingTypeStr: bookingTypeStr);
+  }
 }

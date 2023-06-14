@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
@@ -13,6 +14,8 @@ class ReservationsCardItem extends StatelessWidget {
     required this.name,
     required this.from,
     required this.to,
+    required this.bookingTypeId,
+    required this.bookingTypeName,
     required this.date,
     required this.title,
     required this.subtitle,
@@ -23,6 +26,8 @@ class ReservationsCardItem extends StatelessWidget {
   final String rate;
   final String name;
   final String from;
+  final String bookingTypeName;
+  final int bookingTypeId;
   final String to;
   final String date;
   final String title;
@@ -139,8 +144,9 @@ class ReservationsCardItem extends StatelessWidget {
                                 "$from - $to",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style:
-                                    AppStyles.baloo2FontWith500WeightAnd15Size.copyWith(color: Colors.black),
+                                style: AppStyles
+                                    .baloo2FontWith500WeightAnd15Size
+                                    .copyWith(color: Colors.black),
                               ),
                             ],
                           ),
@@ -148,18 +154,7 @@ class ReservationsCardItem extends StatelessWidget {
                         Container(),
                         SizedBox(height: 6.h),
                         Expanded(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.sp),
-                                color: greenCheckBox.withOpacity(0.1),
-                              ),
-                              padding: EdgeInsetsDirectional.all(5.sp),
-                              child: Text(
-                                "Earliest Date",
-                                style: AppStyles
-                                    .baloo2FontWith600WeightAnd16Size
-                                    .copyWith(color: greenCheckBox),
-                              )),
+                          child: bookingTypeId.toStatusView(bookingTypeName),
                         ),
                       ],
                     ),
@@ -172,13 +167,17 @@ class ReservationsCardItem extends StatelessWidget {
               flex: 4,
               child: Column(
                 children: [
-                  SizedBox(height: 10.h,),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   Text(
                     date,
                     style: AppStyles.baloo2FontWith400WeightAnd12Size
                         .copyWith(color: blackColor),
                   ),
-                  SizedBox(height: 5.h,),
+                  SizedBox(
+                    height: 5.h,
+                  ),
                   Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.sp),

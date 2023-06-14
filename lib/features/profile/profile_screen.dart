@@ -120,7 +120,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         )
                                       : CachedNetworkImage(
                                           imageUrl: iconLinkPrefix +
-                                              state.model.data!.logoImgId!,
+                                              (state.model.data!.logoImgId !=
+                                                      null
+                                                  ? state.model.data!.logoImgId!
+                                                  : ""),
                                           placeholder: (context, url) =>
                                               const CircularProgressIndicator(),
                                           errorWidget: (context, url, error) =>
