@@ -23,6 +23,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       Key? key});
 
   BehaviorSubject<bool> _isClicked = BehaviorSubject();
+  BehaviorSubject<bool> _autoReplaySubject = BehaviorSubject.seeded(false);
 
   @override
   Widget build(BuildContext context) {
@@ -85,25 +86,36 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                       child: Row(
                         children: [
                           const Spacer(),
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: false,
-                                activeColor: whiteColor,
-                                checkColor: primaryColor,
-                                fillColor:
-                                    MaterialStateProperty.all(whiteColor),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                onChanged: (newValue) {},
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!.auto_replay,
-                                style: AppStyles
-                                    .baloo2FontWith400WeightAnd14Size
-                                    .copyWith(color: whiteColor),
-                              )
-                            ],
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.only(end: 12.0),
+                            child: Row(
+                              children: [
+                                StreamBuilder<bool>(
+                                    stream: _autoReplaySubject.stream,
+                                    builder: (context, snapshot) {
+                                      return Checkbox(
+                                        value: _autoReplaySubject.value,
+                                        activeColor: whiteColor,
+                                        checkColor: primaryColor,
+                                        fillColor: MaterialStateProperty.all(
+                                            whiteColor),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        onChanged: (newValue) {
+                                          _autoReplaySubject.sink
+                                              .add(newValue!);
+                                        },
+                                      );
+                                    }),
+                                Text(
+                                  AppLocalizations.of(context)!.auto_replay,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd14Size
+                                      .copyWith(color: whiteColor),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),

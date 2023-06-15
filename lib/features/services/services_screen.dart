@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
@@ -54,17 +53,6 @@ class ServicesScreenState extends State<ServicesScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  SvgPicture.asset(menuIconActive),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  const Text("1200 services"),
-                  SvgPicture.asset(addIcon),
-                  SvgPicture.asset(editIcon),
-                ],
-              ),
               SizedBox(
                 height: 16.h,
               ),
