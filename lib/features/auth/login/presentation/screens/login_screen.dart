@@ -131,7 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                      navigateToOtpScreen();
                       if (_formKey.currentState!.validate() &&
                           (phoneController.text.length == 10 ||
                               phoneController.text.length == 9)) {
