@@ -1,7 +1,7 @@
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
@@ -12,7 +12,6 @@ import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:provider_medical_valley/core/widgets/disabled_text_field.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
@@ -26,7 +25,9 @@ import 'package:provider_medical_valley/features/profile/presentation/bloc/edit_
 import 'package:provider_medical_valley/features/profile/widgets/empty_widget.dart';
 import 'package:provider_medical_valley/features/services/services_screen.dart';
 import 'package:rxdart/rxdart.dart';
+
 List<Services> services = [];
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -40,21 +41,26 @@ class _ProfileScreenState extends State<EditProfileScreen> {
   TextEditingController emailController = TextEditingController();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   EditProfileBloc editBloc = GetIt.instance<EditProfileBloc>();
-  final  _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     optionDisplayed.sink.add("");
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyCustomAppBar(header: AppLocalizations.of(context)!.profile,
+      appBar: MyCustomAppBar(
+        header: AppLocalizations.of(context)!.profile,
         leadingIcon: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
-            child: const Icon(Icons.arrow_back_ios, color: Colors.white,)),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            )),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -62,33 +68,32 @@ class _ProfileScreenState extends State<EditProfileScreen> {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: whiteColor ,
+            color: whiteColor,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: BlocListener<EditProfileBloc , EditProfileState>(
+            child: BlocListener<EditProfileBloc, EditProfileState>(
               bloc: editBloc,
-              listener: (context, state)async {
+              listener: (context, state) async {
                 if (state is LoadingEditProfileState) {
                   await LoadingDialogs.showLoadingDialog(context);
-                }
-                else if (state is SuccessEditProfileState) {
+                } else if (state is SuccessEditProfileState) {
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     barrierDismissible: false,
                     context: context,
-                    autoCloseDuration:const Duration(seconds: 1),
+                    autoCloseDuration: const Duration(seconds: 1),
+                    showOkBtn: false,
                     type: CoolAlertType.success,
-                    text:
-                    AppLocalizations.of(context)!.profile_edited_successfully,
+                    text: AppLocalizations.of(context)!
+                        .profile_edited_successfully,
                   );
-                }
-                else {
+                } else {
                   LoadingDialogs.hideLoadingDialog();
                   CoolAlert.show(
                     context: context,
-                    autoCloseDuration:const Duration(seconds: 1),
+                    autoCloseDuration: const Duration(seconds: 1),
+                    showOkBtn: false,
                     type: CoolAlertType.error,
-                    text: AppLocalizations.of(context)!
-                        .invalid_phone_number,
+                    text: AppLocalizations.of(context)!.invalid_phone_number,
                   );
                 }
               },
@@ -96,102 +101,153 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   Column(
                     children: [
-                      SizedBox(height: 27.h,),
+                      SizedBox(
+                        height: 27.h,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children:  [
-                          Image.asset(personImage, ),
-                          const SizedBox(width: 4,),
+                        children: [
+                          Image.asset(
+                            personImage,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
                           Expanded(
                             child: DisabledTextField(
-                              onValidator: (s){
-                                return s!.length >= 3 ?  null :
-                                AppLocalizations.of(context)!.invalid_name;
+                              onValidator: (s) {
+                                return s!.length >= 3
+                                    ? null
+                                    : AppLocalizations.of(context)!
+                                        .invalid_name;
                               },
                               hintText: AppLocalizations.of(context)!.fullname,
-                              hintStyle: AppStyles.baloo2FontWith400WeightAnd16Size.copyWith(color: hintTextColor),
-                              textController: fullNameController,suffixIcon:const EmptyWidget(),),
+                              hintStyle: AppStyles
+                                  .baloo2FontWith400WeightAnd16Size
+                                  .copyWith(color: hintTextColor),
+                              textController: fullNameController,
+                              suffixIcon: const EmptyWidget(),
+                            ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 27.h,),
+                      SizedBox(
+                        height: 27.h,
+                      ),
                       DisabledTextField(
                         hintText: AppLocalizations.of(context)!.email,
-                        hintStyle: AppStyles.baloo2FontWith400WeightAnd16Size.copyWith(color: hintTextColor),
+                        hintStyle: AppStyles.baloo2FontWith400WeightAnd16Size
+                            .copyWith(color: hintTextColor),
                         textController: emailController,
-                        onValidator: (s){
-                          return s!.isEmailValid() ?  null :
-                          AppLocalizations.of(context)!.email_invalid;
+                        onValidator: (s) {
+                          return s!.isEmailValid()
+                              ? null
+                              : AppLocalizations.of(context)!.email_invalid;
                         },
                       ),
-                      SizedBox(height: 16.h,),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       DisabledTextField(
                         prefixIcon: Image.asset(saudiArabiaIcon),
                         hintText: AppLocalizations.of(context)!.phone_number,
-                        hintStyle: AppStyles.baloo2FontWith400WeightAnd16Size.copyWith(color: hintTextColor),
+                        hintStyle: AppStyles.baloo2FontWith400WeightAnd16Size
+                            .copyWith(color: hintTextColor),
                         suffixIcon: const EmptyWidget(),
                         textController: phoneNumberController,
-                        onValidator: (s){
-                          return s!.length == 9 ?  null :
-                          AppLocalizations.of(context)!.invalid_phone_number;
+                        onValidator: (s) {
+                          return s!.length == 9
+                              ? null
+                              : AppLocalizations.of(context)!
+                                  .invalid_phone_number;
                         },
                       ),
-                      SizedBox(height: 16.h,),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       GestureDetector(
-                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ServicesScreen())),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ServicesScreen())),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               children: [
-                                SvgPicture.asset("assets/images/services_icon.svg" ,width: 25,height: 25),
-                                const SizedBox(width: 6,),
-                                Text(AppLocalizations.of(context)!.services ),
+                                SvgPicture.asset(
+                                    "assets/images/services_icon.svg",
+                                    width: 25,
+                                    height: 25),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(AppLocalizations.of(context)!.services),
                               ],
                             ),
-                            const Icon(Icons.arrow_forward_ios ,size: 15, )
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 15,
+                            )
                           ],
                         ),
                       ),
-                      SizedBox(height: 16.h,),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(AppLocalizations.of(context)!.branches , ),
+                          Text(
+                            AppLocalizations.of(context)!.branches,
+                          ),
                           GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (c)=>  AddBranchesScreen()));
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (c) => AddBranchesScreen()));
                               },
                               child: const Icon(Icons.add)),
                         ],
                       ),
-                      SizedBox(height: 16.h,),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       Wrap(
                         alignment: WrapAlignment.spaceAround,
-                        children: [1,2,3,4].map((e) => Container(
-                          width: MediaQuery.of(context).size.width * .25,
-                          margin:const EdgeInsets.all(16),
-                          padding:const EdgeInsets.symmetric(horizontal: 6 , vertical: 8),
-                          decoration: const BoxDecoration(color: textFieldBg),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(locationGreenIcon),
-                              const SizedBox(width: 4,),
-                              Text("Branch $e"),
-                            ],
-                          ),
-                        )).toList(),
+                        children: [1, 2, 3, 4]
+                            .map((e) => Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .25,
+                                  margin: const EdgeInsets.all(16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 8),
+                                  decoration:
+                                      const BoxDecoration(color: textFieldBg),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(locationGreenIcon),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text("Branch $e"),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
                       ),
-
-                      SizedBox(height: 30.h,),
-
+                      SizedBox(
+                        height: 30.h,
+                      ),
                       Container(
                         color: whiteColor,
                         padding: mediumPaddingAll,
                         child: PrimaryButton(
                           onPressed: () {
-                            if(_formKey.currentState!.validate()){
-                              ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
+                            if (_formKey.currentState!.validate()) {
+                              ProviderData user = ProviderData.fromJson(
+                                  LocalStorageManager.getUser()!);
 
                               editBloc.editProfile(EditProfileBody(
                                 id: user.id,
@@ -199,9 +255,9 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                                 email: emailController.text,
                                 mobile: phoneNumberController.text,
                               ));
-                            }
-                            else {
-                              context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data );
+                            } else {
+                              context.showSnackBar(AppLocalizations.of(context)!
+                                  .please_fill_all_data);
                             }
                           },
                           text: AppLocalizations.of(context)!.save,

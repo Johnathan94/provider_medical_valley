@@ -147,6 +147,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       barrierDismissible: false,
                       context: context,
                       autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.success_login,
                     );
@@ -155,6 +156,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     CoolAlert.show(
                       context: context,
                       autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.invalid_phone_number,
                     );

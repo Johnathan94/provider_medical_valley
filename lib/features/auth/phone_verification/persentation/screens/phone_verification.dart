@@ -61,6 +61,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                         barrierDismissible: false,
                         context: context,
                         autoCloseDuration: const Duration(milliseconds: 300),
+                        showOkBtn: false,
                         type: CoolAlertType.success,
                         text: AppLocalizations.of(context)!.success_login,
                       );
@@ -76,6 +77,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                       CoolAlert.show(
                         context: context,
                         autoCloseDuration: const Duration(seconds: 1),
+                        showOkBtn: false,
                         type: CoolAlertType.error,
                         text:
                             AppLocalizations.of(context)!.invalid_phone_number,
@@ -116,23 +118,6 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
         borderWidth: otpFieldBorderWidth.w,
         enabledBorderColor: greyWith80Percentage,
         focusedBorderColor: primaryColor,
-        handleControllers: (List<TextEditingController?> controller) {
-          controller[1]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[2]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[3]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[4]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[5]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-        },
         onSubmit: (String text) {
           code = text;
         },

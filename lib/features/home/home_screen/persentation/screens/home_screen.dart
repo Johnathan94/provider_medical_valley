@@ -91,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CoolAlert.show(
                   context: context,
                   autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -114,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CoolAlert.show(
                   context: context,
                   autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
@@ -138,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CoolAlert.show(
                   context: context,
                   autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );

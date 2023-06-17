@@ -116,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         CoolAlert.show(
                           barrierDismissible: false,
                           context: context,
+                          showOkBtn: false,
                           autoCloseDuration: const Duration(seconds: 1),
                           type: CoolAlertType.success,
                           text: AppLocalizations.of(context)!.success_login,
@@ -127,6 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         CoolAlert.show(
                           context: context,
                           autoCloseDuration: const Duration(seconds: 1),
+                          showOkBtn: false,
                           type: CoolAlertType.error,
                           text: AppLocalizations.of(context)!
                               .invalid_phone_number,

@@ -75,6 +75,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 barrierDismissible: false,
                 context: context,
                 autoCloseDuration: const Duration(seconds: 1),
+                showOkBtn: false,
                 type: CoolAlertType.success,
                 text: AppLocalizations.of(context)!.booked_successed,
               );
@@ -86,6 +87,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 barrierDismissible: false,
                 context: context,
                 autoCloseDuration: const Duration(seconds: 1),
+                showOkBtn: false,
                 type: CoolAlertType.error,
                 text: AppLocalizations.of(context)!.something_went_wrong,
               );

@@ -99,6 +99,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                           barrierDismissible: false,
                           context: context,
                           autoCloseDuration: const Duration(seconds: 1),
+                          showOkBtn: false,
                           type: CoolAlertType.success,
                           text:
                               AppLocalizations.of(context)!.offer_sent_success,
@@ -112,6 +113,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                           barrierDismissible: false,
                           context: context,
                           autoCloseDuration: const Duration(seconds: 1),
+                          showOkBtn: false,
                           type: CoolAlertType.error,
                           text: AppLocalizations.of(context)!
                               .something_went_wrong,
