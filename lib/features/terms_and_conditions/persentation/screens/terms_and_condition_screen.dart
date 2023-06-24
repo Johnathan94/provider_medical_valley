@@ -74,7 +74,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
               getTermsAndConditionsDescription(context,
                   state.termsAndConditionsModel.data?.termsConditions ?? ""),
-              buildContinueWidget(context)
             ],
           );
         } else {
@@ -100,73 +99,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 186.h,
-            )
           ],
         ));
   }
 
-  buildContinueWidget(BuildContext context) {
-    final theme = Theme.of(context);
-    final oldCheckboxTheme = theme.checkboxTheme;
-
-    final newCheckBoxTheme = oldCheckboxTheme.copyWith(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-    );
-    return StreamBuilder<bool>(
-        stream: _checkBoxBehaviourSubject,
-        builder: (context, snapshot) {
-          return Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              color: whiteColor,
-              height: 186.h,
-              padding: const EdgeInsetsDirectional.only(top: 17, start: 26),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Theme(
-                        data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
-                        child: Checkbox(
-                          value: _checkBoxBehaviourSubject.value,
-                          activeColor: primaryColor,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onChanged: (newValue) {
-                            _checkBoxBehaviourSubject.sink
-                                .add(newValue ?? false);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                          child: Text(
-                        AppLocalizations.of(context)!
-                            .terms_and_condition_agreed,
-                        style: AppStyles.baloo2FontWith400WeightAnd18Size,
-                      ))
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        top: 44, start: 5.0, end: 40),
-                    child: PrimaryButton(
-                      text: AppLocalizations.of(context)!.continue_text,
-                      backgroundColor: snapshot.hasData && snapshot.data == true
-                          ? primaryColor
-                          : grey,
-                      onPressed: snapshot.hasData && snapshot.data == true
-                          ? () {
-                              Navigator.pop(context);
-                            }
-                          : null,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
 }

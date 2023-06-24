@@ -17,6 +17,7 @@ import '../../../../../core/widgets/app_bar_with_null_background.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   final String mobile;
+
   const PhoneVerificationScreen(this.mobile, {Key? key}) : super(key: key);
 
   @override
@@ -26,6 +27,7 @@ class PhoneVerificationScreen extends StatefulWidget {
 
 class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   OtpBloc otpBloc = GetIt.instance<OtpBloc>();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -42,58 +44,60 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 color: blackColor,
               ),
             )),
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: whiteColor,
-            child: Center(
-              child: SizedBox(
-                height: phoneVerificationBodyHeight.h,
-                child: BlocListener<OtpBloc, OtpState>(
-                  bloc: otpBloc,
-                  listener: (context, state) async {
-                    if (state is LoadingOtpState) {
-                      await LoadingDialogs.showLoadingDialog(context);
-                    } else if (state is SuccessOtpState) {
-                      LoadingDialogs.hideLoadingDialog();
-                      CoolAlert.show(
-                        barrierDismissible: false,
-                        context: context,
-                        autoCloseDuration: const Duration(milliseconds: 300),
-                        showOkBtn: false,
-                        type: CoolAlertType.success,
-                        text: AppLocalizations.of(context)!.success_login,
-                      );
-                      Future.delayed(const Duration(milliseconds: 350), () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (c) =>
-                                    const HomeBaseStatefulWidget()));
-                      });
-                    } else {
-                      LoadingDialogs.hideLoadingDialog();
-                      CoolAlert.show(
-                        context: context,
-                        autoCloseDuration: const Duration(seconds: 1),
-                        showOkBtn: false,
-                        type: CoolAlertType.error,
-                        text:
-                            AppLocalizations.of(context)!.invalid_phone_number,
-                      );
-                    }
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      buildPhoneVerificationDesc(),
-                      buildOtpField(),
-                      buildConfirmButton(context)
-                    ],
+        body: Center(
+          child: BlocListener<OtpBloc, OtpState>(
+            bloc: otpBloc,
+            listener: (context, state) async {
+              if (state is LoadingOtpState) {
+                await LoadingDialogs.showLoadingDialog(context);
+              } else if (state is SuccessOtpState) {
+                LoadingDialogs.hideLoadingDialog();
+                CoolAlert.show(
+                  barrierDismissible: false,
+                  context: context,
+                  autoCloseDuration: const Duration(milliseconds: 300),
+                  showOkBtn: false,
+                  type: CoolAlertType.success,
+                  text: AppLocalizations.of(context)!.success_login,
+                );
+                Future.delayed(const Duration(milliseconds: 350), () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (c) => const HomeBaseStatefulWidget()));
+                });
+              } else {
+                LoadingDialogs.hideLoadingDialog();
+                CoolAlert.show(
+                  context: context,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
+                  type: CoolAlertType.error,
+                  text: AppLocalizations.of(context)!.invalid_phone_number,
+                );
+              }
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 200.h,
                   ),
-                ),
+                  buildPhoneVerificationDesc(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 100.h),
+                    child: buildOtpField(),
+                  ),
+                  buildConfirmButton(context),
+                  Visibility(
+                      visible: MediaQuery.of(context).viewInsets.bottom > 0,
+                      child: SizedBox(
+                        height: 100.h,
+                      )),
+                  SizedBox(
+                    height: 500.h,
+                  )
+                ],
               ),
             ),
           ),
@@ -129,6 +133,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   }
 
   String code = "";
+
   buildConfirmButton(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(
