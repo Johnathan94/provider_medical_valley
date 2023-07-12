@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       BehaviorSubject<bool>();
   final BehaviorSubject<bool> _behaviorSubject = BehaviorSubject<bool>();
   LoginBloc loginBloc = GetIt.instance<LoginBloc>();
+  String countryDial = "966";
   TextEditingController phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -194,7 +195,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate() &&
                           (phoneController.text.length == 10 ||
                               phoneController.text.length == 9)) {
-                        loginBloc.loginUser(LoginEvent(phoneController.text));
+                        loginBloc.loginUser(
+                            LoginEvent(countryDial + phoneController.text));
                       } else {
                         context.showSnackBar(
                             AppLocalizations.of(context)!.invalid_phone_number);
@@ -230,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
       child: PhoneIntlWidgetField(phoneController, (Country country) {
-        // dialCode = country.dialCode;
+        countryDial = country.dialCode;
       }),
     );
   }
