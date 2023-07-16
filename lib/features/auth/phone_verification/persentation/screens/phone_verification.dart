@@ -135,9 +135,6 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
           controller[4]?.addListener(() {
             FocusScope.of(context).unfocus();
           });
-          controller[5]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
         },
         onCodeChanged: (v){
 
