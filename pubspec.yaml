@@ -66,6 +66,8 @@ dependencies:
   firebase_core: ^2.8.0
   image_picker:
   cached_network_image:
+  pin_code_fields: ^7.3.0
+
 
 
 

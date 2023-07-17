@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
@@ -86,7 +87,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                   buildPhoneVerificationDesc(),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 100.h),
-                    child: buildOtpField(),
+                    child: buildOtpField(context),
                   ),
                   buildConfirmButton(context),
                   Visibility(
@@ -113,41 +114,43 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
     );
   }
 
-  buildOtpField() {
-    return Directionality(
+  buildOtpField(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 40.w),
+    child: Directionality(
       textDirection: TextDirection.ltr,
-      child: OtpTextField(
-        fieldWidth: otpFieldWidth.w,
-        numberOfFields: otpFieldNumber,
-        borderWidth: otpFieldBorderWidth.w,
-        enabledBorderColor: greyWith80Percentage,
-        focusedBorderColor: primaryColor,
-        handleControllers: (List<TextEditingController?> controller) {
-          controller[1]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[2]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[3]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[4]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
+      child: PinCodeTextField(
+        appContext: context,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        length: 5,
+        animationType: AnimationType.fade,
+        animationDuration: const Duration(milliseconds: 300),
+        autoDismissKeyboard: true,
+        backgroundColor: Colors.transparent,
+        keyboardType: TextInputType.number,
+        enableActiveFill: true,
+        useHapticFeedback: true,
+        pinTheme: PinTheme(
+          activeColor: primaryColor,
+          borderRadius: BorderRadius.circular(10.sp),
+          inactiveFillColor: Colors.white,
+          selectedColor: primaryColor,
+          inactiveColor: Colors.grey.withOpacity(0.3),
+          activeFillColor: Colors.white,
+          selectedFillColor: Colors.white,
+          shape: PinCodeFieldShape.box,
+        ),
+        onSubmitted: (v){
         },
-        onCodeChanged: (v){
-
+        onCompleted: (value) => FocusScope.of(context).unfocus(),
+        onChanged: (value) {
+          code = value;
         },
-        onSubmit: (String text) {
-          code = text;
-        },
-        borderRadius:
-            const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
-        showFieldAsBox: true,
       ),
-    );
+    ),
+  );
   }
+
 
   String code = "";
 
@@ -165,7 +168,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
           onPressed: () {
-            code.length == 6
+            code.length == 5
                 ? otpBloc.verifyOtp(code, widget.mobile)
                 : context.showSnackBar(AppLocalizations.of(context)!.otp_error);
           },
@@ -178,3 +181,4 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
     );
   }
 }
+
