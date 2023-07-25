@@ -308,6 +308,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   navigateToOtpScreen() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => PhoneVerificationScreen(phoneController.text)));
+        builder: (context) =>
+            PhoneVerificationScreen(countryDial + phoneController.text)));
   }
 }
