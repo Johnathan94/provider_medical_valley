@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/components/negotiations_card_item.dart';
@@ -39,24 +40,34 @@ class _NegotiationScreenState extends State<NegotiationScreen> {
         bloc: negotiationCubit,
         builder: (context, state) {
           if (state is SuccessNegotiationState) {
-            return ListView.builder(
-              itemBuilder: (context, index) => NegotiationsCardItem(
-                image: state.category.data?.results?[index].image ?? "",
-                bookingType:
-                    state.category.data?.results?[index].bookingTypeId ?? 1,
-                time: "",
-                rate: 'no rate',
-                name: state.category.data?.results?[index].userName ?? "",
-                phone: state.category.data?.results?[index].userMobile ?? "",
-                price:
-                    state.category.data?.results?[index].price.toString() ?? "",
-                title: state.category.data?.results?[index].categoryStr ?? '',
-                subtitle: state.category.data?.results?[index].serviceStr ?? "",
-                request:
-                    state.category.data!.results![index].mapToBookRequest(),
-              ),
-              itemCount: state.category.data?.results?.length,
-            );
+            return state.category.data!.results!.isNotEmpty
+                ? ListView.builder(
+                    itemBuilder: (context, index) => NegotiationsCardItem(
+                      image: state.category.data?.results?[index].image ?? "",
+                      bookingType:
+                          state.category.data?.results?[index].bookingTypeId ??
+                              1,
+                      time: "",
+                      rate: 'no rate',
+                      name: state.category.data?.results?[index].userName ?? "",
+                      phone:
+                          state.category.data?.results?[index].userMobile ?? "",
+                      price: state.category.data?.results?[index].price
+                              .toString() ??
+                          "",
+                      title: state.category.data?.results?[index].categoryStr ??
+                          '',
+                      subtitle:
+                          state.category.data?.results?[index].serviceStr ?? "",
+                      request: state.category.data!.results![index]
+                          .mapToBookRequest(),
+                    ),
+                    itemCount: state.category.data?.results?.length,
+                  )
+                : Center(
+                    child: Text(
+                        AppLocalizations.of(context)!.there_is_no_negotiations),
+                  );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

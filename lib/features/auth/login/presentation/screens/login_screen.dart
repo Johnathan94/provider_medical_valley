@@ -8,9 +8,11 @@ import 'package:get_it/get_it.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
+import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/loginState_state.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
 import 'package:provider_medical_valley/features/terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
@@ -42,8 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
   initState() {
     _checkBoxBehaviourSubject.sink.add(false);
     _behaviorSubject.sink.add(false);
+    termsAcceptedBefore = LocalStorageManager.isTermsAcceptedBefore();
+
     super.initState();
   }
+
+  bool? termsAcceptedBefore;
 
   @override
   dispose() {
@@ -85,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  getLoginBody(context) {
+  getLoginBody(BuildContext context) {
     final theme = Theme.of(context);
     final oldCheckboxTheme = theme.checkboxTheme;
 
@@ -143,47 +149,51 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 10.h,
                 ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                      start: loginRememberMeMarginStart),
-                  child: StreamBuilder<bool>(
-                      stream: _behaviorSubject.stream,
-                      builder: (context, snapshot) {
-                        return Row(
-                          children: [
-                            Theme(
-                              data: theme.copyWith(
-                                  checkboxTheme: newCheckBoxTheme),
-                              child: Checkbox(
-                                value: _behaviorSubject.value,
-                                activeColor: primaryColor,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                onChanged: (newValue) {
-                                  _behaviorSubject.add(newValue ?? false);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                                child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (c) =>
-                                            const TermsAndConditionsScreen()));
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .terms_and_condition_agreed,
-                                style:
-                                    AppStyles.baloo2FontWith400WeightAnd18Size,
-                              ),
-                            ))
-                          ],
-                        );
-                      }),
-                ),
+                termsAcceptedBefore == null || !termsAcceptedBefore!
+                    ? Padding(
+                        padding: const EdgeInsetsDirectional.only(
+                            start: loginRememberMeMarginStart),
+                        child: StreamBuilder<bool>(
+                            stream: _behaviorSubject.stream,
+                            builder: (context, snapshot) {
+                              return Row(
+                                children: [
+                                  Theme(
+                                    data: theme.copyWith(
+                                        checkboxTheme: newCheckBoxTheme),
+                                    child: Checkbox(
+                                      value: _behaviorSubject.value,
+                                      activeColor: primaryColor,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      onChanged: (newValue) {
+                                        _behaviorSubject.add(newValue ?? false);
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (c) =>
+                                                  const TermsAndConditionsScreen()));
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .terms_and_condition_agreed,
+                                      style: AppStyles
+                                          .baloo2FontWith400WeightAnd18Size
+                                          .copyWith(
+                                              decoration: TextDecoration.none),
+                                    ),
+                                  ))
+                                ],
+                              );
+                            }),
+                      )
+                    : const SizedBox(),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -307,6 +317,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   navigateToOtpScreen() {
+    if (_behaviorSubject.value) LocalStorageManager.acceptTermsAndConditions();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
             PhoneVerificationScreen(countryDial + phoneController.text)));

@@ -563,6 +563,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
   @override
   dispose() {
     scrollController.dispose();
+    super.dispose();
   }
 
   BehaviorSubject<bool> sendButtonVisible = BehaviorSubject.seeded(true);

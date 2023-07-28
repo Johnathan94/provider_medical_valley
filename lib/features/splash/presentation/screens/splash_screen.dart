@@ -27,14 +27,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     NetworkLoggerOverlay.attachTo(context);
-    Future.delayed(const Duration(seconds: 1), () async{
+    Future.delayed(const Duration(seconds: 1), () async {
       await AppInitializer.initializeAppWithContext(context);
       Map? userEncoded = LocalStorageManager.getUser();
-      if(userEncoded == null){
+      if (userEncoded == null) {
         goToLoginScreen(context);
-      }else {
-        ProviderData user = ProviderData.fromJson(LocalStorageManager.getUser()!);
-        GetIt.instance<OffersBloc>().getOffers(NegotiationsEvent(1, 10, user.id!));
+      } else {
+        ProviderData user =
+            ProviderData.fromJson(LocalStorageManager.getUser()!);
+        GetIt.instance<OffersBloc>()
+            .getOffers(NegotiationsEvent(1, 10, user.id!));
         goToHomeScreen(context);
       }
     });
@@ -44,9 +46,11 @@ class _SplashScreenState extends State<SplashScreen> {
   goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
-  }goToHomeScreen(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeBaseStatefulWidget()));
+  }
+
+  goToHomeScreen(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeBaseStatefulWidget()));
   }
 
   @override

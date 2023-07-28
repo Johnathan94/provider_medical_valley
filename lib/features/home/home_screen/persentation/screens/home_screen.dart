@@ -47,14 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   initState() {
-    homeBloc.getImmediateRequests(immediateNextPage, 10);
     earliestBloc.getEarliestRequests(earliestNextPage, 10);
     scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
-    immediatePagingController.addPageRequestListener((pageKey) {
-      immediateNextPageKey = 10 + immediateNextPage;
-      immediateNextPage = pageKey + 1;
-      homeBloc.getImmediateRequests(immediateNextPage, 10);
-    });
+
     earliestPagingController.addPageRequestListener((pageKey) {
       earliestNextPageKey = 10 + earliestNextPage;
       earliestNextPage = pageKey + 1;
@@ -74,30 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: buildAppBar(context),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<HomeBloc, MyHomeState>(
-            bloc: homeBloc,
-            listener: (c, state) {
-              if (state is SuccessHomeState) {
-                immediateSubjectCounter.sink.add(immediateSubjectCounter.value +
-                    state.category.data!.results!.length);
-                if (state.category.data!.results!.length == 10) {
-                  immediatePagingController.appendPage(
-                      state.category.data!.results!, immediateNextPage);
-                } else {
-                  immediatePagingController
-                      .appendLastPage(state.category.data!.results!);
-                }
-              } else if (state is ErrorHomeState) {
-                CoolAlert.show(
-                  context: context,
-                  autoCloseDuration: const Duration(seconds: 1),
-                  showOkBtn: false,
-                  type: CoolAlertType.error,
-                  text: AppLocalizations.of(context)!.server_error,
-                );
-              }
-            },
-          ),
           BlocListener<EarliestBloc, MyHomeState>(
             bloc: earliestBloc,
             listener: (c, MyHomeState state) {
@@ -179,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget getBody() {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: TabBar(
           labelColor: primaryColor,
@@ -191,12 +162,6 @@ class _HomeScreenState extends State<HomeScreen> {
           unselectedLabelStyle: AppStyles.baloo2FontWith400WeightAnd16Size
               .copyWith(color: blackColor),
           tabs: [
-            StreamBuilder<int>(
-                stream: immediateSubjectCounter.stream,
-                builder: (context, snapshot) {
-                  return Text(
-                      "${AppLocalizations.of(context)!.immediate} (${immediateSubjectCounter.value})");
-                }),
             StreamBuilder<int>(
                 stream: earliestSubjectCounter.stream,
                 builder: (context, snapshot) {
@@ -221,7 +186,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: TabBarView(
           children: [
-            getImmediate(),
             getEarliest(),
             getScheduled(),
           ],
@@ -230,72 +194,33 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  getImmediate() {
-    return BlocBuilder<HomeBloc, MyHomeState>(
-        bloc: homeBloc,
-        builder: (context, state) {
-          if (state is SuccessHomeState) {
-            return PagedListView<int, BookRequest>(
-              pagingController: immediatePagingController,
-              padding:
-                  const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-              builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, BookRequest item, index) {
-                  return RequestCard(
-                    item,
-                    immediateCard: true,
-                  );
-                },
-              ),
-            );
-          }
-          return Container();
-        });
-  }
-
   getEarliest() {
-    return BlocBuilder<HomeBloc, MyHomeState>(
-        bloc: homeBloc,
-        builder: (context, state) {
-          if (state is SuccessHomeState) {
-            return PagedListView<int, BookRequest>(
-              pagingController: earliestPagingController,
-              padding:
-                  const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-              builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, BookRequest item, index) {
-                  return RequestCard(
-                    item,
-                  );
-                },
-              ),
-            );
-          }
-          return Container();
-        });
+    return PagedListView<int, BookRequest>(
+      pagingController: earliestPagingController,
+      padding: const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
+      builderDelegate: PagedChildBuilderDelegate(
+        itemBuilder: (context, BookRequest item, index) {
+          return RequestCard(
+            item,
+          );
+        },
+      ),
+    );
   }
 
   getScheduled() {
-    return BlocBuilder<HomeBloc, MyHomeState>(
-        bloc: homeBloc,
-        builder: (context, state) {
-          if (state is SuccessHomeState) {
-            return PagedListView<int, BookRequest>(
-              pagingController: scheduledPagingController,
-              padding:
-                  const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-              builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, BookRequest item, index) {
-                  return RequestCard(
-                    item,
-                    isCalendarRowShown: true,
-                    otherCard: true,
-                  );
-                },
-              ),
-            );
-          }
-          return Container();
-        });
+    return PagedListView<int, BookRequest>(
+      pagingController: scheduledPagingController,
+      padding: const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
+      builderDelegate: PagedChildBuilderDelegate(
+        itemBuilder: (context, BookRequest item, index) {
+          return RequestCard(
+            item,
+            isCalendarRowShown: true,
+            otherCard: true,
+          );
+        },
+      ),
+    );
   }
 }

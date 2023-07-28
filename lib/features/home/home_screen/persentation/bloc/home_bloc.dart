@@ -8,54 +8,39 @@ import 'home_state.dart';
 class HomeBloc extends Cubit<MyHomeState> {
   GetRequestsUseCase getRequestsUseCase;
 
-  HomeBloc(this.getRequestsUseCase)
-      : super(InitialHomeState());
-
-  getImmediateRequests( int  page, int pageSize) async {
-    try {
-      emit(LoadingHomeState());
-      RequestsResponse request =
-          await getRequestsUseCase.getRequests(1 , page, pageSize);
-      emit(SuccessHomeState(request));
-    } catch (e) {
-      emit(ErrorHomeState(ErrorStates.serverError));
-    }
-  }
-
+  HomeBloc(this.getRequestsUseCase) : super(InitialHomeState());
 }
 
 class EarliestBloc extends Cubit<MyHomeState> {
   GetRequestsUseCase getRequestsUseCase;
 
-  EarliestBloc(this.getRequestsUseCase)
-      : super(InitialHomeState());
+  EarliestBloc(this.getRequestsUseCase) : super(InitialHomeState());
 
-  getEarliestRequests( int  page, int pageSize) async {
+  getEarliestRequests(int page, int pageSize) async {
     try {
       emit(LoadingHomeState());
       RequestsResponse request =
-          await getRequestsUseCase.getRequests(2 , page, pageSize);
+          await getRequestsUseCase.getRequests(2, page, pageSize);
       emit(SuccessHomeState(request));
     } catch (e) {
       emit(ErrorHomeState(ErrorStates.serverError));
     }
   }
+}
 
-}class ScheduledBloc extends Cubit<MyHomeState> {
+class ScheduledBloc extends Cubit<MyHomeState> {
   GetRequestsUseCase getRequestsUseCase;
 
-  ScheduledBloc(this.getRequestsUseCase)
-      : super(InitialHomeState());
+  ScheduledBloc(this.getRequestsUseCase) : super(InitialHomeState());
 
-  getScheduledRequests( int  page, int pageSize) async {
+  getScheduledRequests(int page, int pageSize) async {
     try {
       emit(LoadingHomeState());
       RequestsResponse request =
-          await getRequestsUseCase.getRequests(3 , page, pageSize);
+          await getRequestsUseCase.getRequests(3, page, pageSize);
       emit(SuccessHomeState(request));
     } catch (e) {
       emit(ErrorHomeState(ErrorStates.serverError));
     }
   }
-
 }

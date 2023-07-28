@@ -95,6 +95,8 @@
                   "time": "الوقت",
                       "request_price": "العروض",
   "vat_number": "رقم Vat",
+  "there_is_no_notifications": "لا يوجد إشعارات متاحه",
+
 
   "book": "احجز الآن",
                       "negotiate_again": "اطلب عرض اخر",
@@ -139,6 +141,8 @@
   "consultant": "مستشار",
   "specialist": "متخصص",
   "there_is_no_slots": "لا يوجد فترات متاحه للحجز",
+  "there_is_no_negotiations": "لا يوجد مفاوضات ",
+  "there_is_no_reservations": "لا يوجد جحوزات ",
             "medical_valley": "MedicalValley",
   "there_is_no_data": "لا يوجد بيانات",
   "input_your_problem": "أدخل مشكلتك",

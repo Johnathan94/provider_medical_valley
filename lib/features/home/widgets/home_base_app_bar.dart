@@ -82,7 +82,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     Spacer(),
                     SizedBox(
-                      width: 100.h,
+                      width: 130.h,
                       child: Row(
                         children: [
                           const Spacer(),
