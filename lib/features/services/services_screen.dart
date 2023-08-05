@@ -123,7 +123,7 @@ class ServicesScreenState extends State<ServicesScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(homeModelOneIcon),
+            // Image.asset(homeModelOneIcon),
             Expanded(
               child: Text(
                 service.englishName ?? "",

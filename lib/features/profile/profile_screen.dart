@@ -50,6 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   BehaviorSubject<File?> imageFileSubject = BehaviorSubject();
   late File _imageFile;
+
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedImage = await picker.getImage(source: source);
@@ -57,8 +58,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedImage != null) {
       _imageFile = File(pickedImage.path);
       imageFileSubject.sink.add(_imageFile);
+      print("Image");
       ConfirmationDialogExample(context, () {
-        LoadingDialogs.showLoadingDialog(context);
+        // LoadingDialogs.showLoadingDialog(context);
       }, () {
         Navigator.pop(context);
         imageFileSubject.sink.add(null);
@@ -116,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   fit: BoxFit.fill,
                                                   image: FileImage(
                                                       imageFileSubject
-                                                          .value!))),
+                                                          .value ?? File("")))),
                                         )
                                       : CachedNetworkImage(
                                           imageUrl: iconLinkPrefix +
@@ -348,24 +350,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: AppStyles.baloo2FontWith700WeightAnd22Size
                                   .copyWith(color: greyWith80Percentage),
                             ),
-                            RatingBar.builder(
-                              initialRating: state.model.data!.providerRating !=
-                                      null
+                            RatingBarIndicator(
+                              rating: state.model.data!.providerRating != null
                                   ? state.model.data!.providerRating!.toDouble()
                                   : 0.0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 16,
-                              itemBuilder: (context, _) => const Icon(
+                              itemBuilder: (context, index) => const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                               ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                              itemCount: 5,
+                              itemSize: 16,
+                              direction: Axis.horizontal,
                             ),
+
                           ],
                         )
                       ],

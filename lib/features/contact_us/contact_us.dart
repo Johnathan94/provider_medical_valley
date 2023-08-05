@@ -264,7 +264,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor)),
             ),
-            minLines: 8, //Normal textInputField will be displayed
+            minLines: 8,
+            //Normal textInputField will be displayed
             maxLines: 15, // when user presses enter it will adapt to it
           ),
         ],
@@ -278,17 +279,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       child: PrimaryButton(
           text: AppLocalizations.of(context)!.send,
           onPressed: () {
-            if (_formKey.currentState!.validate() &&
-                (phoneController.text.length == 9 ||
-                    phoneController.text.length == 10)) {
+            if (_formKey.currentState!.validate()) {
               contactUsBloc.contactUs(ContactUsEvent(ContactUsModel(
                   email: emailController.text,
                   phone: phoneController.text,
                   fullName: fullNameController.text,
                   problem: problemController.text)));
-            } else
-              context.showSnackBar(
-                  AppLocalizations.of(context)!.something_went_wrong);
+            }
           }),
     );
   }

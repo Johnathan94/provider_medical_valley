@@ -149,51 +149,51 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 10.h,
                 ),
-                termsAcceptedBefore == null || !termsAcceptedBefore!
-                    ? Padding(
-                        padding: const EdgeInsetsDirectional.only(
-                            start: loginRememberMeMarginStart),
-                        child: StreamBuilder<bool>(
-                            stream: _behaviorSubject.stream,
-                            builder: (context, snapshot) {
-                              return Row(
-                                children: [
-                                  Theme(
-                                    data: theme.copyWith(
-                                        checkboxTheme: newCheckBoxTheme),
-                                    child: Checkbox(
-                                      value: _behaviorSubject.value,
-                                      activeColor: primaryColor,
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      onChanged: (newValue) {
-                                        _behaviorSubject.add(newValue ?? false);
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (c) =>
-                                                  const TermsAndConditionsScreen()));
-                                    },
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .terms_and_condition_agreed,
-                                      style: AppStyles
-                                          .baloo2FontWith400WeightAnd18Size
-                                          .copyWith(
-                                              decoration: TextDecoration.none),
-                                    ),
-                                  ))
-                                ],
-                              );
-                            }),
-                      )
-                    : const SizedBox(),
+                // termsAcceptedBefore == null || !termsAcceptedBefore!
+                //     ? Padding(
+                //         padding: const EdgeInsetsDirectional.only(
+                //             start: loginRememberMeMarginStart),
+                //         child: StreamBuilder<bool>(
+                //             stream: _behaviorSubject.stream,
+                //             builder: (context, snapshot) {
+                //               return Row(
+                //                 children: [
+                //                   Theme(
+                //                     data: theme.copyWith(
+                //                         checkboxTheme: newCheckBoxTheme),
+                //                     child: Checkbox(
+                //                       value: _behaviorSubject.value,
+                //                       activeColor: primaryColor,
+                //                       materialTapTargetSize:
+                //                           MaterialTapTargetSize.shrinkWrap,
+                //                       onChanged: (newValue) {
+                //                         _behaviorSubject.add(newValue ?? false);
+                //                       },
+                //                     ),
+                //                   ),
+                //                   Expanded(
+                //                       child: GestureDetector(
+                //                     onTap: () {
+                //                       Navigator.push(
+                //                           context,
+                //                           MaterialPageRoute(
+                //                               builder: (c) =>
+                //                                   const TermsAndConditionsScreen()));
+                //                     },
+                //                     child: Text(
+                //                       AppLocalizations.of(context)!
+                //                           .terms_and_condition_agreed,
+                //                       style: AppStyles
+                //                           .baloo2FontWith400WeightAnd18Size
+                //                           .copyWith(
+                //                               decoration: TextDecoration.none),
+                //                     ),
+                //                   ))
+                //                 ],
+                //               );
+                //             }),
+                //       )
+                //     : const SizedBox(),
                 SizedBox(
                   height: 16.h,
                 ),
