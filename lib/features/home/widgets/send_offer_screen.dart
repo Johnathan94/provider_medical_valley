@@ -259,6 +259,11 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                 bloc: negotiationBloc,
                                 builder: (context, state) {
                                   if (state is SuccessSlotState) {
+                                    if (state.slotResponse.data!.periods!
+                                        .isNotEmpty) {
+                                      selectedBorder.sink.add(state.slotResponse
+                                          .data!.periods!.first.id!);
+                                    }
                                     return SizedBox(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
