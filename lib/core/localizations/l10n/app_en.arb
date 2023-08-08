@@ -26,7 +26,7 @@
          "price_invalid": "Invalid price",
   "profile_edited_successfully": "Profile edited successfully",
   "license": "License",
-        "otp_error": "You must write 6 digits ",
+        "otp_error": "Please add the otp sent in your phone",
   "license_num": "License number",
   "branch_manager_name": "Branch manager name",
   "branch_manager_phone": "Branch manager phone",

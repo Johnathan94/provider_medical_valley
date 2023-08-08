@@ -8,11 +8,11 @@ class OtpResponse {
 
   OtpResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   OtpResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -20,11 +20,11 @@ class OtpResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
+    final Map<String, dynamic> data = {};
     data['succeeded'] = succeeded;
     data['message'] = message;
     data['messageCode'] = messageCode;
@@ -44,13 +44,12 @@ class Data {
   Data({this.otpData, this.token});
 
   Data.fromJson(Map<String, dynamic> json) {
-    otpData =
-    json['data'] != null ?  OtpData.fromJson(json['data']) : null;
+    otpData = json['data'] != null ? OtpData.fromJson(json['data']) : null;
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
+    final Map<String, dynamic> data = {};
     if (otpData != null) {
       data['data'] = otpData!.toJson();
     }
@@ -69,11 +68,11 @@ class OtpData {
 
   OtpData(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.userDate});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.userDate});
 
   OtpData.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -81,9 +80,8 @@ class OtpData {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    userDate = json['data'] != null
-        ?  ProviderData.fromJson(json['data'])
-        : null;
+    userDate =
+        json['data'] != null ? ProviderData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -100,7 +98,6 @@ class OtpData {
   }
 }
 
-
 class ProviderData {
   int? id;
   String? fullName;
@@ -111,7 +108,7 @@ class ProviderData {
   String? commercialRecord;
   int? statusId;
   String? statusStr;
-  String? logoImgId;
+  int? logoImgId;
   String? licenseImgId;
   String? commercialRecordImgId;
   List<BranchModel>? providerBranches;
@@ -120,20 +117,20 @@ class ProviderData {
 
   ProviderData(
       {this.id,
-        this.fullName,
-        this.arFullName,
-        this.email,
-        this.mobile,
-        this.license,
-        this.commercialRecord,
-        this.statusId,
-        this.statusStr,
-        this.logoImgId,
-        this.licenseImgId,
-        this.commercialRecordImgId,
-        this.providerBranches,
-        this.providerRequestsCount,
-        this.providerRating});
+      this.fullName,
+      this.arFullName,
+      this.email,
+      this.mobile,
+      this.license,
+      this.commercialRecord,
+      this.statusId,
+      this.statusStr,
+      this.logoImgId,
+      this.licenseImgId,
+      this.commercialRecordImgId,
+      this.providerBranches,
+      this.providerRequestsCount,
+      this.providerRating});
 
   ProviderData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -151,7 +148,7 @@ class ProviderData {
     if (json['providerBranches'] != null) {
       providerBranches = <BranchModel>[];
       json['providerBranches'].forEach((v) {
-        providerBranches!.add( BranchModel.fromJson(v));
+        providerBranches!.add(BranchModel.fromJson(v));
       });
     }
     providerRequestsCount = json['providerRequestsCount'];
@@ -159,7 +156,7 @@ class ProviderData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['fullName'] = fullName;
     data['arFullName'] = arFullName;
@@ -181,6 +178,7 @@ class ProviderData {
     return data;
   }
 }
+
 class BranchModel {
   int? id;
   int? providerId;

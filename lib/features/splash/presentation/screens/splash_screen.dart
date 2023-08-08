@@ -12,7 +12,6 @@ import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
-import 'package:provider_medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 import '../../../../core/app_colors.dart';
 
@@ -49,8 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToHomeScreen(BuildContext context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const HomeBaseStatefulWidget()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   @override

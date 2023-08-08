@@ -15,7 +15,6 @@ import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/loginState_state.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
-import 'package:provider_medical_valley/features/terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_colors.dart';
@@ -120,16 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         await LoadingDialogs.showLoadingDialog(context);
                       } else if (state is LoginStateSuccess) {
                         LoadingDialogs.hideLoadingDialog();
-                        CoolAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          showOkBtn: false,
-                          autoCloseDuration: const Duration(seconds: 1),
-                          type: CoolAlertType.success,
-                          text: AppLocalizations.of(context)!.success_login,
-                        );
-                        Future.delayed(
-                            const Duration(seconds: 2), navigateToOtpScreen);
+                        navigateToOtpScreen();
                       } else {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(

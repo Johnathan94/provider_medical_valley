@@ -150,7 +150,7 @@
   "insurance_available_and_covering": "\"مآمن عليه وسيتم تغطيه التكاليف ولا يحتاج موافقه",
   "insurance_not_available": "هذه الخدمة غير متوفرة في تأمين المريض",
   "input": "إدخال",
-  "otp_error" : "يجب ان تكتب ٦ ارقام",
+  "otp_error" : "يرجى إضافة رمز التحقق المرسل على هاتفك",
   "facebook_page": "صفحة الفيسبوك",
   "commercial_record": "رقم السجل التجاري",
     "license_num": "رقم الترخيص",
