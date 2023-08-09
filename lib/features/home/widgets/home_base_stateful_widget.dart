@@ -57,7 +57,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
         } else if (snapshot.data == 2) {
           return const NegotiationsScreen(categoryId: 11, serviceId: 1111);
         } else if (snapshot.data == 3) {
-          return const MoreScreen();
+          return MoreScreen();
         }
         return Container(
           color: Colors.green,
@@ -65,7 +65,6 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
       },
     );
   }
-
 
   buildBottomNavigationBar() {
     return StreamBuilder<int>(

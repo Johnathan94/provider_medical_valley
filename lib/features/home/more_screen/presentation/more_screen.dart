@@ -12,13 +12,14 @@ import 'package:provider_medical_valley/features/auth/login/presentation/screens
 import 'package:provider_medical_valley/features/contact_us/contact_us.dart';
 import 'package:provider_medical_valley/features/home/more_screen/widget/profile_image.dart';
 import 'package:provider_medical_valley/features/profile/profile_screen.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
 import '../../../terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 
 class MoreScreen extends StatelessWidget {
-  const MoreScreen({Key? key}) : super(key: key);
-
+  MoreScreen({Key? key}) : super(key: key);
+  BehaviorSubject<bool> notificationSwitch = BehaviorSubject.seeded(false);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -87,10 +88,16 @@ class MoreScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    trailing: Switch.adaptive(
-                      value: true,
-                      onChanged: (bool value) {},
-                    ),
+                    trailing: StreamBuilder<bool>(
+                        stream: notificationSwitch.stream,
+                        builder: (context, snapshot) {
+                          return Switch.adaptive(
+                            value: snapshot.data ?? false,
+                            onChanged: (bool value) {
+                              notificationSwitch.sink.add(value);
+                            },
+                          );
+                        }),
                   ),
                   const Divider(
                     color: dividerGrey,
