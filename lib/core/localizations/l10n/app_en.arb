@@ -46,6 +46,8 @@
   "resend_otp": "Resend otp",
   "otp_sent_successfully": "Resend otp successfully",
   "otp_failed_to_resend": "Fail to resend the otp",
+  "you_have_to_write_your_problem": "Please enter your issue before sending",
+  "message_contact_us": "Your message was sent successfully.",
   "loading": "Loading...",
   "login_title": "Login",
   "invalid_phone_number": "Number did not have account before",

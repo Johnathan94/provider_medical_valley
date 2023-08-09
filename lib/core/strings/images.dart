@@ -3,6 +3,7 @@ const svgImagesPath = "assets/icons/";
 const emailIcon = "${svgImagesPath}email.svg";
 const googleIcon = "${imagesPath}google_icon.png";
 const instagramIcon = "${imagesPath}instagram.png";
+const faceBookIcon = "${imagesPath}facebook.svg";
 const phoneIcon = "${imagesPath}phone.png";
 const dbIcon = "${imagesPath}d.png";
 const twitterIcon = "${svgImagesPath}twitter_icon.svg";

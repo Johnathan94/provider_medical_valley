@@ -5,9 +5,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:provider_medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/contact_us/data/model/contact_us_response_model.dart';
@@ -32,15 +34,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   final TextEditingController fullNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final ContactUsBloc contactUsBloc = GetIt.instance<ContactUsBloc>();
-
+  late String phoneNumber;
   @override
   void initState() {
     ProviderData currentUser =
         ProviderData.fromJson(LocalStorageManager.getUser()!);
-
     fullNameController.text = currentUser.fullName ?? "";
     emailController.text = currentUser.email ?? "";
-    phoneController.text = currentUser.mobile ?? "";
+    phoneNumber = currentUser.mobile ?? "";
+    phoneController.text = seperatePhoneAndDialCode("+$phoneNumber")[1];
     super.initState();
   }
 
@@ -72,168 +74,174 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                    color: whiteRed100,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: primaryColor)),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          emailIcon,
-                          width: 15,
-                          height: 15,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        SvgPicture.asset(
-                          instagramIcon,
-                          width: 15,
-                          height: 15,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        SvgPicture.asset(
-                          twitterIcon,
-                          width: 15,
-                          height: 15,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(AppLocalizations.of(context)!.email),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(AppLocalizations.of(context)!.medical_valley),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(AppLocalizations.of(context)!.medical_valley)
-                      ],
-                    )
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: 50,
                 ),
-              ),
-              BlocListener<ContactUsBloc, ContactUsState>(
-                bloc: contactUsBloc,
-                child: const SizedBox(),
-                listener: (BuildContext context, state) async {
-                  if (state is ContactUsStateLoading) {
-                    await LoadingDialogs.showLoadingDialog(context);
-                  } else if (state is ContactUsStateSuccess) {
-                    LoadingDialogs.hideLoadingDialog();
-                    CoolAlert.show(
-                      barrierDismissible: false,
-                      context: context,
-                      autoCloseDuration: const Duration(seconds: 1),
-                      showOkBtn: false,
-                      type: CoolAlertType.success,
-                      text: AppLocalizations.of(context)!.success_login,
-                    );
-                  } else {
-                    LoadingDialogs.hideLoadingDialog();
-                    CoolAlert.show(
-                      context: context,
-                      autoCloseDuration: const Duration(seconds: 1),
-                      showOkBtn: false,
-                      type: CoolAlertType.error,
-                      title: AppLocalizations.of(context)!.error,
-                      text: AppLocalizations.of(context)!.something_went_wrong,
-                    );
-                  }
-                },
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              TextFormField(
-                validator: (String? x) {
-                  if (!x!.isEmailValid()) {
-                    return AppLocalizations.of(context)!.email_invalid;
-                  }
-                  return null;
-                },
-                controller: emailController,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  fillColor: textFieldBg,
-                  isDense: true,
-                  filled: true,
-                  focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: primaryColor)),
-                  enabledBorder: InputBorder.none,
-                  hintText: AppLocalizations.of(context)!.email,
-                  hintStyle: AppStyles.headlineStyle,
-                ),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              TextFormField(
-                validator: (String? x) {
-                  if (x!.isEmpty) {
-                    return AppLocalizations.of(context)!.empty_field;
-                  }
-                },
-                controller: fullNameController,
-                decoration: InputDecoration(
-                  fillColor: textFieldBg,
-                  filled: true,
-                  focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: primaryColor)),
-                  enabledBorder: InputBorder.none,
-                  isDense: true,
-                  hintText: AppLocalizations.of(context)!.fullname,
-                  hintStyle: AppStyles.headlineStyle,
-                ),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              TextFormField(
-                validator: (String? x) {
-                  if (x!.isEmpty) {
-                    return AppLocalizations.of(context)!.empty_field;
-                  }
-                },
-                controller: phoneController,
-                decoration: InputDecoration(
-                  fillColor: textFieldBg,
-                  filled: true,
-                  focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: primaryColor)),
-                  enabledBorder: InputBorder.none,
-                  prefixIcon: Image.asset(
-                    saudiIcon,
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                      color: whiteRed100,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: primaryColor)),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            emailIcon,
+                            width: 15,
+                            height: 15,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          SvgPicture.asset(
+                            faceBookIcon,
+                            width: 15,
+                            height: 15,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          SvgPicture.asset(
+                            faceBookIcon,
+                            width: 15,
+                            height: 15,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(AppLocalizations.of(context)!.medical_valley),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(AppLocalizations.of(context)!.medical_valley),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(AppLocalizations.of(context)!.medical_valley)
+                        ],
+                      )
+                    ],
                   ),
-                  isDense: true,
-                  hintText: AppLocalizations.of(context)!.phone_number,
-                  hintStyle: AppStyles.headlineStyle,
                 ),
-              ),
-              buildLargeContactUsField(),
-              buildInputButton(),
-            ],
+                BlocListener<ContactUsBloc, ContactUsState>(
+                  bloc: contactUsBloc,
+                  child: const SizedBox(),
+                  listener: (BuildContext context, state) async {
+                    if (state is ContactUsStateLoading) {
+                      await LoadingDialogs.showLoadingDialog(context);
+                    } else if (state is ContactUsStateSuccess) {
+                      LoadingDialogs.hideLoadingDialog();
+                      CoolAlert.show(
+                        barrierDismissible: false,
+                        context: context,
+                        autoCloseDuration: const Duration(seconds: 1),
+                        showOkBtn: false,
+                        type: CoolAlertType.success,
+                        title: AppLocalizations.of(context)!.success,
+                        text: AppLocalizations.of(context)!.message_contact_us,
+                      );
+                      Future.delayed(const Duration(seconds: 1),
+                          () => Navigator.pop(context));
+                    } else {
+                      LoadingDialogs.hideLoadingDialog();
+                      CoolAlert.show(
+                        context: context,
+                        closeOnConfirmBtnTap: true,
+                        autoCloseDuration: const Duration(seconds: 1),
+                        showOkBtn: false,
+                        type: CoolAlertType.error,
+                        title: AppLocalizations.of(context)!.error,
+                        text:
+                            AppLocalizations.of(context)!.something_went_wrong,
+                      );
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                TextFormField(
+                  validator: (String? x) {
+                    if (!x!.isEmailValid()) {
+                      return AppLocalizations.of(context)!.email_invalid;
+                    }
+                  },
+                  controller: emailController,
+                  textAlignVertical: TextAlignVertical.center,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    fillColor: textFieldBg,
+                    filled: true,
+                    enabledBorder: InputBorder.none,
+                    isDense: true,
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: primaryColor)),
+                    hintText: AppLocalizations.of(context)!.email,
+                    hintStyle: AppStyles.headlineStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                TextFormField(
+                  validator: (String? x) {
+                    if (x!.isEmpty) {
+                      return AppLocalizations.of(context)!.empty_field;
+                    } else {
+                      return null;
+                    }
+                  },
+                  controller: fullNameController,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    fillColor: textFieldBg,
+                    filled: true,
+                    enabledBorder: InputBorder.none,
+                    isDense: true,
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: primaryColor)),
+                    hintText: AppLocalizations.of(context)!.fullname,
+                    hintStyle: AppStyles.headlineStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                Directionality(
+                  textDirection:
+                      LocalStorageManager.getCurrentLanguage() == "ar"
+                          ? TextDirection.ltr
+                          : TextDirection.ltr,
+                  child: PhoneIntlWidgetField(
+                    phoneController,
+                    false,
+                    countryCode: seperatePhoneAndDialCode("+$phoneNumber")[0],
+                    (Country country) {},
+                    fillColor: textFieldBg,
+                    borderColor: Colors.transparent,
+                  ),
+                ),
+                buildLargeContactUsField(),
+                buildInputButton(),
+                SizedBox(
+                  height: 400.h,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -258,14 +266,21 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           TextFormField(
             keyboardType: TextInputType.multiline,
             controller: problemController,
+            validator: (String? s) {
+              return s!.isEmpty
+                  ? AppLocalizations.of(context)!.you_have_to_write_your_problem
+                  : null;
+            },
+            onChanged: (String x) {
+              _formKey.currentState!.validate();
+            },
             decoration: const InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: greenCheckBox)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: primaryColor)),
             ),
-            minLines: 8,
-            //Normal textInputField will be displayed
+            minLines: 8, //Normal textInputField will be displayed
             maxLines: 15, // when user presses enter it will adapt to it
           ),
         ],
@@ -282,7 +297,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             if (_formKey.currentState!.validate()) {
               contactUsBloc.contactUs(ContactUsEvent(ContactUsModel(
                   email: emailController.text,
-                  phone: phoneController.text,
+                  phone: phoneNumber,
                   fullName: fullNameController.text,
                   problem: problemController.text)));
             }

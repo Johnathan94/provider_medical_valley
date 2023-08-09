@@ -122,7 +122,10 @@
   "invalid_otp": "كود غير صحيح",
   "error": "خطأ",
   "success": "تم بنجاح",
+  "message_contact_us":  "تم إرسال رسالتك بنجاح",
   "resend_otp": "إعادة إرسال الرمز ",
+  "you_have_to_write_your_problem" : "من فضلك، قم بإدخال استفسارك قبل الإرسال",
+
   "otp_sent_successfully": "نم إعادة إرسال الرمز ",
   "otp_failed_to_resend": "لم نتمكن من  إعادة إرسال الرمز ",
 
