@@ -11,7 +11,6 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
-import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
@@ -117,15 +116,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               image: DecorationImage(
                                                   fit: BoxFit.fill,
                                                   image: FileImage(
-                                                      imageFileSubject
-                                                          .value ?? File("")))),
+                                                      imageFileSubject.value ??
+                                                          File("")))),
                                         )
                                       : CachedNetworkImage(
                                           imageUrl: iconLinkPrefix +
                                               (state.model.data!.logoImgId !=
                                                       null
                                                   ? state.model.data!.logoImgId!
-                                                  : ""),
+                                                      .toString()
+                                                  : "0"),
                                           placeholder: (context, url) =>
                                               const CircularProgressIndicator(),
                                           errorWidget: (context, url, error) =>
@@ -362,7 +362,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               itemSize: 16,
                               direction: Axis.horizontal,
                             ),
-
                           ],
                         )
                       ],

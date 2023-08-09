@@ -51,7 +51,7 @@ class ProviderInfo {
   String? userTypeStr;
   int? statusId;
   String? statusStr;
-  String? logoImgId;
+  int? logoImgId;
   String? vatNumber;
   String? licenseImgId;
   String? commercialRecordImgId;

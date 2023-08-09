@@ -94,6 +94,7 @@ class _ProfileScreenState extends State<EditProfileScreen> {
                     showOkBtn: false,
                     type: CoolAlertType.error,
                     text: AppLocalizations.of(context)!.invalid_phone_number,
+                    title: AppLocalizations.of(context)!.error,
                   );
                 }
               },

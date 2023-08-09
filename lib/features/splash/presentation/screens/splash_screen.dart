@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:network_logger/network_logger.dart';
+import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_initialized.dart';
 import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
@@ -12,8 +13,7 @@ import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
-
-import '../../../../core/app_colors.dart';
+import 'package:provider_medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -48,8 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToHomeScreen(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeBaseStatefulWidget()));
   }
 
   @override

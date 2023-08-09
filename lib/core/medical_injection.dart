@@ -92,8 +92,9 @@ configureDependencies() {
       TermsAndConditionsClient(DioManager.getNewDio()))));
   getIt.registerFactory(() => ContactUsBloc(
       ContactUsRepoImpl(ContactUsClient(DioManager.getNewDio()))));
-  getIt.registerFactory(
-      () => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getNewDio()))));
+  getIt.registerFactory(() => OtpBloc(
+      VerifyOtpUseCaseImpl(OtpClient(DioManager.getNewDio())),
+      LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => NotificationBloc(
       GetNotificationUseCaseImpl(NotificationClient(DioManager.getNewDio()))));
   getIt.registerFactory(() => BranchesBloc(

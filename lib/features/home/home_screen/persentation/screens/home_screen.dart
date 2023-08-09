@@ -88,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   autoCloseDuration: const Duration(seconds: 1),
                   showOkBtn: false,
                   type: CoolAlertType.error,
+                  title: AppLocalizations.of(context)!.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
               }
@@ -113,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   autoCloseDuration: const Duration(seconds: 1),
                   showOkBtn: false,
                   type: CoolAlertType.error,
+                  title: AppLocalizations.of(context)!.error,
                   text: AppLocalizations.of(context)!.server_error,
                 );
               }

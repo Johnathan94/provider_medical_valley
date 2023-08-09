@@ -9,7 +9,6 @@ import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/widgets/primary_button.dart';
-import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/contact_us/data/model/contact_us_response_model.dart';
 import 'package:provider_medical_valley/features/contact_us/presentation/contact_us_bloc.dart';
@@ -158,7 +157,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       autoCloseDuration: const Duration(seconds: 1),
                       showOkBtn: false,
                       type: CoolAlertType.error,
-                      text: AppLocalizations.of(context)!.invalid_phone_number,
+                      title: AppLocalizations.of(context)!.error,
+                      text: AppLocalizations.of(context)!.something_went_wrong,
                     );
                   }
                 },

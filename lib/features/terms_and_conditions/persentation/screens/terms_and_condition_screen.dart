@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
-import 'package:provider_medical_valley/core/widgets/primary_button.dart';
+import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/features/terms_and_conditions/persentation/bloc/terms_and_conditions_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -72,8 +71,22 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              getTermsAndConditionsDescription(context,
-                  state.termsAndConditionsModel.data?.termsConditions ?? ""),
+              Container(
+                  margin: const EdgeInsetsDirectional.only(
+                      top: 30, start: 30, end: 30),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Text(
+                            getLocalizedTerms(state),
+                            style: AppStyles.baloo2FontWith400WeightAnd20Size
+                                .copyWith(color: blackColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
             ],
           );
         } else {
@@ -84,23 +97,15 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
     );
   }
 
-  Container getTermsAndConditionsDescription(
-      BuildContext context, String termsConditions) {
-    return Container(
-        margin: const EdgeInsetsDirectional.only(top: 30, start: 30, end: 30),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  termsConditions.toString(),
-                  style: AppStyles.baloo2FontWith400WeightAnd20Size
-                      .copyWith(color: blackColor),
-                ),
-              ),
-            ),
-          ],
-        ));
+  String getLocalizedTerms(SuccessTermsAndConditionsState state) {
+    if (state.termsAndConditionsModel.data?.termsConditions != null) {
+      if (LocalStorageManager.getCurrentLanguage() == "ar") {
+        return state.termsAndConditionsModel.data!.termsConditions!;
+      } else {
+        return state.termsAndConditionsModel.data!.termsConditionsEn!;
+      }
+    } else {
+      return "";
+    }
   }
-
 }
