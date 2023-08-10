@@ -97,7 +97,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                           MaterialPageRoute(
                               builder: (c) => const HomeBaseStatefulWidget()));
                     });
-                  } else {
+                  } else if (state is ErrorOtpState) {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
@@ -129,13 +129,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.otp_sent_successfully,
                     );
-                    Future.delayed(const Duration(milliseconds: 350), () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (c) => const HomeBaseStatefulWidget()));
-                    });
-                  } else {
+                  } else if (state is ResendOtpError) {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
