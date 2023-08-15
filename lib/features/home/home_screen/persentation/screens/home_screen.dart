@@ -9,6 +9,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/widgets/request_card.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_sizes.dart';
@@ -150,6 +151,43 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  final RefreshController _earlistRefreshController =
+      RefreshController(initialRefresh: false);
+  final RefreshController _scheduledRefreshController =
+      RefreshController(initialRefresh: false);
+  void _onRefreshReservations() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+
+    earliestPagingController.value.itemList?.clear();
+    earliestNextPage = 1;
+    earliestNextPageKey = 1;
+    earliestSubjectCounter.sink.add(0);
+    earliestBloc.getEarliestRequests(earliestNextPage, 10);
+    _earlistRefreshController.refreshCompleted();
+  }
+
+  void _onScheduledRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+
+    scheduledPagingController.value.itemList?.clear();
+    scheduledSubjectCounter.sink.add(0);
+    scheduledNextPage = 1;
+    scheduledNextPageKey = 1;
+    scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
+
+    _scheduledRefreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _earlistRefreshController.loadComplete();
+  }
+
+  void _scheduledOnLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _scheduledRefreshController.loadComplete();
+  }
+
   Widget getBody() {
     return DefaultTabController(
       length: 2,
@@ -197,31 +235,47 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getEarliest() {
-    return PagedListView<int, BookRequest>(
-      pagingController: earliestPagingController,
-      padding: const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-      builderDelegate: PagedChildBuilderDelegate(
-        itemBuilder: (context, BookRequest item, index) {
-          return RequestCard(
-            item,
-          );
-        },
+    return SmartRefresher(
+      enablePullDown: false,
+      enablePullUp: true,
+      header: const WaterDropHeader(),
+      controller: _earlistRefreshController,
+      onRefresh: _onRefreshReservations,
+      onLoading: _onLoading,
+      child: PagedListView<int, BookRequest>(
+        pagingController: earliestPagingController,
+        padding: const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
+        builderDelegate: PagedChildBuilderDelegate(
+          itemBuilder: (context, BookRequest item, index) {
+            return RequestCard(
+              item,
+            );
+          },
+        ),
       ),
     );
   }
 
   getScheduled() {
-    return PagedListView<int, BookRequest>(
-      pagingController: scheduledPagingController,
-      padding: const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
-      builderDelegate: PagedChildBuilderDelegate(
-        itemBuilder: (context, BookRequest item, index) {
-          return RequestCard(
-            item,
-            isCalendarRowShown: true,
-            otherCard: true,
-          );
-        },
+    return SmartRefresher(
+      enablePullDown: false,
+      enablePullUp: true,
+      header: const WaterDropHeader(),
+      controller: _scheduledRefreshController,
+      onRefresh: _onScheduledRefresh,
+      onLoading: _scheduledOnLoading,
+      child: PagedListView<int, BookRequest>(
+        pagingController: scheduledPagingController,
+        padding: const EdgeInsetsDirectional.only(top: 12, start: 10, end: 10),
+        builderDelegate: PagedChildBuilderDelegate(
+          itemBuilder: (context, BookRequest item, index) {
+            return RequestCard(
+              item,
+              isCalendarRowShown: true,
+              otherCard: true,
+            );
+          },
+        ),
       ),
     );
   }

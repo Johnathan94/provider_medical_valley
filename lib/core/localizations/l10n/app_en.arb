@@ -52,7 +52,7 @@
   "login_title": "Login",
   "invalid_phone_number": "Number did not have account before",
   "success_login": "You are successfully Logged in",
-  "invalid_phone": "Invalid phone number",
+  "invalid_phone": "Please provide a valid number",
   "remember_me_text": "Remember me",
   "sign_in_with_apps": "Or Sign in with :",
   "donT_have_account": "Don`t Have any account? ",

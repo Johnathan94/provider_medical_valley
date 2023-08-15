@@ -70,8 +70,7 @@
   "good_morning": "صباح الخير",
   "home": "الرئيسية",
       "cvv": "CVV",
-         "invalid_phone": "رقم غير صالح ",
-
+         "invalid_phone": "رجاء ادخل رقم صحيح ",
       "add_card": "أضف بطاقه ",
       "loading": "...تحميل",
       "card_number": "رقم البطاقه",

@@ -13,7 +13,6 @@ import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:provider_medical_valley/features/home/history/data/clinic_model.dart';
 import 'package:provider_medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
 import 'package:provider_medical_valley/features/home/history/presentation/bloc/clinics_state.dart';
-import 'package:provider_medical_valley/features/home/history/widgets/filter_view.dart';
 import 'package:provider_medical_valley/features/offers/widgets/offers_options_button.dart';
 import 'package:rxdart/rxdart.dart';
 

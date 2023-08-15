@@ -7,7 +7,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
-import 'package:provider_medical_valley/core/strings/images.dart';
+import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/widgets/app_bar.dart';
 import 'package:provider_medical_valley/features/services/data/services_responses.dart';
 import 'package:provider_medical_valley/features/services/presentation/services_bloc.dart';
@@ -92,7 +92,7 @@ class ServicesScreenState extends State<ServicesScreen> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 1,
-              mainAxisSpacing: 1,
+              mainAxisSpacing: 5,
               childAspectRatio: MediaQuery.of(context).size.aspectRatio * 3),
         ),
       ),
@@ -104,9 +104,7 @@ class ServicesScreenState extends State<ServicesScreen> {
       child: Container(
         height: homeModelItemHeight.h,
         width: homeModelItemWidth.w,
-        margin: EdgeInsetsDirectional.only(
-            start: homeTitleMarginStart.w, end: homeTitleMarginEnd.w),
-        padding: EdgeInsetsDirectional.only(start: 11.w, top: 9.h, end: 45.w),
+        padding: EdgeInsetsDirectional.only(start: 11.w, top: 9.h, end: 10.w),
         decoration: const BoxDecoration(
             color: whiteColor,
             borderRadius:
@@ -126,14 +124,16 @@ class ServicesScreenState extends State<ServicesScreen> {
             // Image.asset(homeModelOneIcon),
             Expanded(
               child: Text(
-                service.englishName ?? "",
+                LocalStorageManager.getCurrentLanguage() == "ar"
+                    ? service.arabicName!
+                    : service.englishName!,
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                     color: blackColor, decoration: TextDecoration.none),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                textAlign: TextAlign.start,
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            )
           ],
         ),
       ),

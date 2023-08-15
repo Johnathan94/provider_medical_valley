@@ -33,7 +33,7 @@ class PhoneIntlWidgetField extends StatelessWidget {
               phoneNumber.number.length == 9) {
             return null;
           } else {
-            return AppLocalizations.of(context)!.invalid_phone_number;
+            return AppLocalizations.of(context)!.invalid_phone;
           }
         },
         dropdownIcon: const Icon(
