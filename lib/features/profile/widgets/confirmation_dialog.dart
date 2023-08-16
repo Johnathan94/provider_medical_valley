@@ -9,21 +9,21 @@ class ConfirmationDialogExample {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text('Are you sure you want to proceed?'),
+          title: const Text('Confirmation'),
+          content: const Text('Are you sure you want to proceed?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                onCancel(); // Perform the action you want to take when the user confirms
+                onSuccess(); // Perform the action you want to take when the user confirms
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                onSuccess();
+                onCancel();
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
           ],
         );

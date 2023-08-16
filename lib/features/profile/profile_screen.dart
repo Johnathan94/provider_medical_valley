@@ -59,6 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       imageFileSubject.sink.add(_imageFile);
       print("Image");
       ConfirmationDialogExample(context, () {
+        Navigator.pop(context);
         // LoadingDialogs.showLoadingDialog(context);
       }, () {
         Navigator.pop(context);
