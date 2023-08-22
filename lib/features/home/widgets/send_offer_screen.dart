@@ -10,6 +10,7 @@ import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_initialized.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 import 'package:provider_medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/custom_app_bar.dart';
@@ -312,7 +313,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                                                     ? borderGrey
                                                                     : whiteColor)),
                                                         child: Text(
-                                                          "${periods[index].from} : ${periods[index].to}",
+                                                          "${periods[index].from?.hmFormat} : ${periods[index].to?.hmFormat}",
                                                           style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                                                               color: selectedBorder
                                                                           .value !=

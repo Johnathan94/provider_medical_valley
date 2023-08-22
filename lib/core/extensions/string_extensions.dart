@@ -53,3 +53,11 @@ extension BookingStatusView on int {
     }
   }
 }
+
+extension DateTimeFormat on String {
+  String? get hmFormat {
+    final timeSplit = split(':');
+    timeSplit.removeLast();
+    return timeSplit.join(':');
+  }
+}
