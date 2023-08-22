@@ -8,11 +8,11 @@ class NotificationResponseModel {
 
   NotificationResponseModel(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   NotificationResponseModel.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -23,7 +23,7 @@ class NotificationResponseModel {
     if (json['data'] != null) {
       data = <NotificationModel>[];
       json['data'].forEach((v) {
-        data!.add(new NotificationModel.fromJson(v));
+        data!.add(NotificationModel.fromJson(v));
       });
     }
   }
@@ -52,19 +52,19 @@ class NotificationModel {
   int? notificationActionId;
   String? notificationActionStr;
   int? requestId;
-  Null? offerId;
+  int? offerId;
 
   NotificationModel(
       {this.englishText,
-        this.arabicText,
-        this.userId,
-        this.userName,
-        this.providerId,
-        this.providerName,
-        this.notificationActionId,
-        this.notificationActionStr,
-        this.requestId,
-        this.offerId});
+      this.arabicText,
+      this.userId,
+      this.userName,
+      this.providerId,
+      this.providerName,
+      this.notificationActionId,
+      this.notificationActionStr,
+      this.requestId,
+      this.offerId});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     englishText = json['englishText'];
