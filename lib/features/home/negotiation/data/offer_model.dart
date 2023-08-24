@@ -1,7 +1,7 @@
 class SendOffer {
   int? requestId;
   int? providerId;
-  int? price;
+  double? price;
   int? periodId;
   int? branchId;
   int? insuranceStatus;

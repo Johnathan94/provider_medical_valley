@@ -499,7 +499,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                       selectedBorder.hasValue &&
                                       selectedBranch.hasValue) {
                                     negotiationBloc.sendOffer(SendOffer(
-                                      price: int.parse(controller.text),
+                                      price: double.parse(controller.text),
                                       requestId: widget.result.id,
                                       providerId: user.id,
                                       periodId: selectedBorder.value,
