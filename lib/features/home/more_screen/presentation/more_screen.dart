@@ -14,6 +14,7 @@ import 'package:provider_medical_valley/features/home/more_screen/widget/profile
 import 'package:provider_medical_valley/features/profile/profile_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../app_version.dart';
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
 import '../../../terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 
@@ -208,6 +209,11 @@ class MoreScreen extends StatelessWidget {
               },
               text: AppLocalizations.of(context)!.sign_out,
             ),
+          ),
+          Text(
+            AppSettings.appVersion,
+            style: AppStyles.baloo2FontWith400WeightAnd14Size
+                .copyWith(color: Colors.black),
           ),
         ],
       ),

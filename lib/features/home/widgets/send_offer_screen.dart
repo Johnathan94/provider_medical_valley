@@ -553,10 +553,12 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                       child: Row(
                         children: [
                           Radio<int>(
-                              value: index,
-                              activeColor: primaryColor,
-                              groupValue: selectedInsuranceStatus.value,
-                              onChanged: (int? newValue) {}),
+                            value: index,
+                            activeColor: primaryColor,
+                            groupValue: selectedInsuranceStatus.value,
+                            onChanged: (int? newValue) =>
+                                selectedInsuranceStatus.sink.add(index),
+                          ),
                           Text(AppInitializer.insuranceOptions[index]
                               .toString()),
                         ],
