@@ -156,24 +156,20 @@ class _HomeScreenState extends State<HomeScreen> {
   final RefreshController _scheduledRefreshController =
       RefreshController(initialRefresh: false);
   void _onRefreshReservations() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
     earliestPagingController.value.itemList?.clear();
     earliestNextPage = 1;
     earliestNextPageKey = 1;
     earliestSubjectCounter.sink.add(0);
-    earliestBloc.getEarliestRequests(earliestNextPage, 10);
+    await earliestBloc.getEarliestRequests(earliestNextPage, 10);
     _earlistRefreshController.refreshCompleted();
   }
 
   void _onScheduledRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
     scheduledPagingController.value.itemList?.clear();
     scheduledSubjectCounter.sink.add(0);
     scheduledNextPage = 1;
     scheduledNextPageKey = 1;
-    scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
+    await scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
 
     _scheduledRefreshController.refreshCompleted();
   }
@@ -238,7 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return SmartRefresher(
       enablePullDown: true,
       enablePullUp: true,
-      header: const WaterDropHeader(),
+      header: WaterDropHeader(
+        complete: Container(),
+      ),
       controller: _earlistRefreshController,
       onRefresh: _onRefreshReservations,
       onLoading: _onLoading,
@@ -260,7 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return SmartRefresher(
       enablePullDown: true,
       enablePullUp: true,
-      header: const WaterDropHeader(),
+      header: WaterDropHeader(
+        complete: Container(),
+      ),
       controller: _scheduledRefreshController,
       onRefresh: _onScheduledRefresh,
       onLoading: _scheduledOnLoading,
