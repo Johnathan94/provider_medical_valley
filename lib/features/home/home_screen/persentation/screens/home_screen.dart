@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getEarliest() {
     return SmartRefresher(
-      enablePullDown: false,
+      enablePullDown: true,
       enablePullUp: true,
       header: const WaterDropHeader(),
       controller: _earlistRefreshController,
@@ -258,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getScheduled() {
     return SmartRefresher(
-      enablePullDown: false,
+      enablePullDown: true,
       enablePullUp: true,
       header: const WaterDropHeader(),
       controller: _scheduledRefreshController,

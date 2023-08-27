@@ -65,7 +65,7 @@ class RequestCard extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        const Row(
+                        /*const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
@@ -74,7 +74,7 @@ class RequestCard extends StatelessWidget {
                               size: 16,
                             ),
                           ],
-                        ),
+                        ),*/
                       ],
                     ),
                   ),

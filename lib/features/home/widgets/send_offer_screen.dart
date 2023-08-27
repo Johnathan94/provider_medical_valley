@@ -148,7 +148,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                           image: const DecorationImage(
                                             image: AssetImage(personImage),
                                           )),
-                                    ),
+                                    ),/*
                                     Row(
                                       children: [
                                         const Icon(
@@ -163,7 +163,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                               .copyWith(color: lightGrey),
                                         ),
                                       ],
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                                 const SizedBox(
