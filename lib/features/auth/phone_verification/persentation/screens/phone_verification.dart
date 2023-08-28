@@ -36,9 +36,11 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   _startTimer() {
     return Timer.periodic(const Duration(seconds: 1), (timer) {
       int timerValue = seconds.value - 1;
-      if (timerValue == 0) {
+      if (timerValue < 0) {
         timer.cancel();
         resendVisibility.sink.add(true);
+      } else {
+        resendVisibility.sink.add(false);
       }
       seconds.sink.add(timerValue);
     });

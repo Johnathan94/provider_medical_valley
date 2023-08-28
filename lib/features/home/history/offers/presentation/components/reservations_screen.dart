@@ -41,7 +41,8 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
       bloc: reservationsCubit,
       builder: (context, state) {
         if (state is SuccessReservationsState) {
-          return state.category.data!.results!.isNotEmpty
+          return state.category.data != null &&
+                  state.category.data!.results!.isNotEmpty
               ? ListView.builder(
                   itemBuilder: (context, index) => ReservationsCardItem(
                     image: '',

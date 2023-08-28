@@ -40,7 +40,8 @@ class _NegotiationScreenState extends State<NegotiationScreen> {
         bloc: negotiationCubit,
         builder: (context, state) {
           if (state is SuccessNegotiationState) {
-            return state.category.data!.results!.isNotEmpty
+            return state.category.data != null &&
+                    state.category.data!.results!.isNotEmpty
                 ? ListView.builder(
                     itemBuilder: (context, index) => NegotiationsCardItem(
                       image: state.category.data?.results?[index].image ?? "",

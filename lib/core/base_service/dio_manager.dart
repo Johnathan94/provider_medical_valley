@@ -5,28 +5,28 @@ import 'package:provider_medical_valley/core/base_service/flavors.dart';
 import 'package:provider_medical_valley/core/strings/urls.dart';
 
 class DioManager {
-  static  Dio? _dio ;
+  static Dio? _dio;
 
- static Dio getDio (){
-    if(_dio == null ){
+  static Dio getDio() {
+    if (_dio == null) {
       _dio = Dio(BaseOptions(baseUrl: FlavorManager.currentFlavor.baseUrl));
       _dio!.interceptors.add(APIsInterceptors());
       _dio!.interceptors.add(DioNetworkLogger());
     }
     return _dio!;
- }static Dio getNewDio (){
-    if(_dio == null ){
-      _dio = Dio(BaseOptions(baseUrl: "${Strings.newBaseUrl}${Strings.v_1}"));
+  }
+
+  static Dio getNewDio() {
+    if (_dio == null) {
+      _dio = Dio(BaseOptions(baseUrl: "${Strings.alphaBaseUrl}${Strings.v_1}"));
       _dio!.interceptors.add(APIsInterceptors());
       _dio!.interceptors.add(DioNetworkLogger());
     }
     return _dio!;
- }
+  }
 }
+
 class APIsInterceptors extends Interceptor {
-
-
-
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var path = options.path;
@@ -34,7 +34,7 @@ class APIsInterceptors extends Interceptor {
 
     if (options.data != null) {
       var body = options.data;
-      debugPrint("RequestBody -> \n $body => $path" );
+      debugPrint("RequestBody -> \n $body => $path");
     }
     super.onRequest(options, handler);
   }
@@ -44,7 +44,7 @@ class APIsInterceptors extends Interceptor {
     var data = response.data;
     var baseUrl = response.requestOptions.baseUrl;
     var path = response.requestOptions.path;
-    debugPrint("Response $baseUrl$path ->  \n $data => $path" );
+    debugPrint("Response $baseUrl$path ->  \n $data => $path");
     super.onResponse(response, handler);
   }
 
@@ -54,10 +54,8 @@ class APIsInterceptors extends Interceptor {
     var path = err.requestOptions.path;
     debugPrint(
         "ErrorResponse $baseUrl$path ->  \n statusCode: ${err.response?.statusCode} ${err.response?.statusMessage}"
-            " \n message: ${err.response?.data }  $path");
+        " \n message: ${err.response?.data}  $path");
 
     super.onError(err, handler);
   }
 }
-
-

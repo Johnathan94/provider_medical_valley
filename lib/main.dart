@@ -43,7 +43,7 @@ void main() async {
   );
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  FlavorManager.setCurrentFlavor(Flavor(Strings.newBaseUrl, Strings.v_1));
+  FlavorManager.setCurrentFlavor(Flavor(Strings.alphaBaseUrl, Strings.v_1));
   await LocalStorageManager.initialize();
   configureDependencies();
   String currentLanguage = LocalStorageManager.getCurrentLanguage();
