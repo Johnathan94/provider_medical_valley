@@ -11,9 +11,9 @@ class BranchesResponseModel {
   BranchesResponseModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     providerId = json['providerId'];
-    location = json['location'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    location = json['branchName'];
+    latitude = double.parse(json['latitude']);
+    longitude = double.parse(json['longitude']);
   }
 
   Map<String, dynamic> toJson() {

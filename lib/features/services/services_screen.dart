@@ -128,7 +128,10 @@ class ServicesScreenState extends State<ServicesScreen> {
                     ? service.arabicName!
                     : service.englishName!,
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                    color: blackColor, decoration: TextDecoration.none),
+                  color: blackColor,
+                  decoration: TextDecoration.none,
+                  fontSize: 12.w,
+                ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
                 textAlign: TextAlign.start,

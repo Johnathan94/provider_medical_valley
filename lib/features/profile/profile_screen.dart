@@ -88,106 +88,182 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state is LoadingGetProfileState) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is SuccessGetProfileState) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 27.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Stack(
-                        children: [
-                          StreamBuilder<File?>(
-                              stream: imageFileSubject.stream,
-                              builder: (context, snapshot) {
-                                return imageFileSubject.hasValue
-                                    ? Container(
-                                        width: 120,
-                                        height: 120,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.red,
-                                            image: DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: FileImage(
-                                                    imageFileSubject.value ??
-                                                        File("")))),
-                                      )
-                                    : CachedNetworkImage(
-                                        imageUrl: iconLinkPrefix +
-                                            (state.model.data!.logoImgId != null
-                                                ? state.model.data!.logoImgId!
-                                                    .toString()
-                                                : "0"),
-                                        placeholder: (context, url) =>
-                                            const CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                            Container(
-                                          decoration: const BoxDecoration(
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 27.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Stack(
+                          children: [
+                            StreamBuilder<File?>(
+                                stream: imageFileSubject.stream,
+                                builder: (context, snapshot) {
+                                  return imageFileSubject.hasValue
+                                      ? Container(
+                                          width: 120,
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.red,
                                               image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: AssetImage(personImage),
-                                          )),
-                                        ),
-                                        width: 120,
-                                        height: 120,
-                                      );
-                              }),
-                          PositionedDirectional(
-                            end: 10,
-                            bottom: 10,
-                            child: GestureDetector(
-                              onTap: () {
-                                _pickImage(ImageSource.gallery);
-                              },
-                              child: const Icon(
-                                Icons.edit_calendar_outlined,
-                                color: primaryColor,
+                                                  fit: BoxFit.fill,
+                                                  image: FileImage(
+                                                      imageFileSubject.value ??
+                                                          File("")))),
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl: iconLinkPrefix +
+                                              (state.model.data!.logoImgId !=
+                                                      null
+                                                  ? state.model.data!.logoImgId!
+                                                      .toString()
+                                                  : "0"),
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                            decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(personImage),
+                                            )),
+                                          ),
+                                          width: 120,
+                                          height: 120,
+                                        );
+                                }),
+                            PositionedDirectional(
+                              end: 10,
+                              bottom: 10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  _pickImage(ImageSource.gallery);
+                                },
+                                child: const Icon(
+                                  Icons.edit_calendar_outlined,
+                                  color: primaryColor,
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                        Text(
+                          state.model.data?.fullName ?? "",
+                          style: AppStyles.baloo2FontWith700WeightAnd15Size,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 27.h,
+                    ),
+                    DisabledTextField(
+                      textController: controller,
+                      hintText: state.model.data?.email,
+                    ),
+                    SizedBox(
+                      height: 27.h,
+                    ),
+                    DisabledTextField(
+                      textController: controller,
+                      hintText: state.model.data?.mobile,
+                      suffixIcon: const Icon(Icons.call, color: hintTextColor),
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (c) => ServicesScreen())),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                  "assets/images/services_icon.svg",
+                                  width: 25,
+                                  height: 25),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text(AppLocalizations.of(context)!.services),
+                            ],
                           ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 15,
+                          )
                         ],
                       ),
-                      Text(
-                        state.model.data?.fullName ?? "",
-                        style: AppStyles.baloo2FontWith700WeightAnd15Size,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 27.h,
-                  ),
-                  DisabledTextField(
-                    textController: controller,
-                    hintText: state.model.data?.email,
-                  ),
-                  SizedBox(
-                    height: 27.h,
-                  ),
-                  DisabledTextField(
-                    textController: controller,
-                    hintText: state.model.data?.mobile,
-                    suffixIcon: const Icon(Icons.call, color: hintTextColor),
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (c) => ServicesScreen())),
-                    child: Row(
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset("assets/images/services_icon.svg",
+                            width: 25, height: 25),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.branches,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Wrap(
+                      children: state.model.data!.providerBranches != null
+                          ? state.model.data!.providerBranches!
+                              .map((e) => Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * .25,
+                                    margin: const EdgeInsets.all(16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 8),
+                                    decoration:
+                                        const BoxDecoration(color: textFieldBg),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SvgPicture.asset(locationGreenIcon),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(e.location ?? ""),
+                                      ],
+                                    ),
+                                  ))
+                              .toList()
+                          : [],
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset("assets/images/services_icon.svg",
-                                width: 25, height: 25),
+                            SvgPicture.asset(
+                              ratingIcon,
+                              width: 25,
+                              height: 25,
+                            ),
                             const SizedBox(
                               width: 6,
                             ),
-                            Text(AppLocalizations.of(context)!.services),
+                            Text(AppLocalizations.of(context)!.rating),
                           ],
                         ),
                         const Icon(
@@ -196,166 +272,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset("assets/images/services_icon.svg",
-                          width: 25, height: 25),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.branches,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  Wrap(
-                    children: state.model.data!.providerBranches != null
-                        ? state.model.data!.providerBranches!
-                            .map((e) => Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * .25,
-                                  margin: const EdgeInsets.all(16),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 8),
-                                  decoration:
-                                      const BoxDecoration(color: textFieldBg),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SvgPicture.asset(locationGreenIcon),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(e.location ?? ""),
-                                    ],
-                                  ),
-                                ))
-                            .toList()
-                        : [],
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            ratingIcon,
-                            width: 25,
-                            height: 25,
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Text(AppLocalizations.of(context)!.rating),
-                        ],
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppLocalizations.of(context)!.license_num),
-                      Text(state.model.data?.license ?? ""),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppLocalizations.of(context)!.vat_number),
-                      Text(state.model.data?.vatNumber ?? ""),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppLocalizations.of(context)!.commercial_record),
-                      Text(state.model.data?.commercialRecord ?? ""),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            state.model.data!.providerRequestsCount != null
-                                ? state.model.data!.providerRequestsCount
-                                    .toString()
-                                : "0",
-                            style: AppStyles.baloo2FontWith700WeightAnd25Size
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.booking,
-                            style: AppStyles.baloo2FontWith700WeightAnd15Size
-                                .copyWith(
-                                    fontWeight: FontWeight.normal,
-                                    color: primaryColor),
-                          ),
-                          Container(
-                            height: 3,
-                            width: 100,
-                            decoration:
-                                const BoxDecoration(color: primaryColor),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            state.model.data!.providerRating != null
-                                ? state.model.data!.providerRating.toString()
-                                : "0",
-                            style: AppStyles.baloo2FontWith700WeightAnd22Size
-                                .copyWith(color: greyWith80Percentage),
-                          ),
-                          RatingBarIndicator(
-                            rating: state.model.data!.providerRating != null
-                                ? state.model.data!.providerRating!.toDouble()
-                                : 0.0,
-                            itemBuilder: (context, index) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.license_num),
+                        Text(state.model.data?.license ?? ""),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.vat_number),
+                        Text(state.model.data?.vatNumber ?? ""),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.commercial_record),
+                        Text(state.model.data?.commercialRecord ?? ""),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              state.model.data!.providerRequestsCount != null
+                                  ? state.model.data!.providerRequestsCount
+                                      .toString()
+                                  : "0",
+                              style: AppStyles.baloo2FontWith700WeightAnd25Size
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
-                            itemCount: 5,
-                            itemSize: 16,
-                            direction: Axis.horizontal,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                ],
+                            Text(
+                              AppLocalizations.of(context)!.booking,
+                              style: AppStyles.baloo2FontWith700WeightAnd15Size
+                                  .copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: primaryColor),
+                            ),
+                            Container(
+                              height: 3,
+                              width: 100,
+                              decoration:
+                                  const BoxDecoration(color: primaryColor),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              state.model.data!.providerRating != null
+                                  ? state.model.data!.providerRating.toString()
+                                  : "0",
+                              style: AppStyles.baloo2FontWith700WeightAnd22Size
+                                  .copyWith(color: greyWith80Percentage),
+                            ),
+                            RatingBarIndicator(
+                              rating: state.model.data!.providerRating != null
+                                  ? state.model.data!.providerRating!.toDouble()
+                                  : 0.0,
+                              itemBuilder: (context, index) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 16,
+                              direction: Axis.horizontal,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                  ],
+                ),
               ),
             );
           } else {
