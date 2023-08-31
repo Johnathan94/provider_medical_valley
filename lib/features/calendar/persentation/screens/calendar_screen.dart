@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
-import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/widgets/primary_button.dart';
@@ -32,7 +32,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
   List<DateTime?> _singleDatePickerValueWithDefaultValue = [
     DateTime.now(),
   ];
-  BehaviorSubject<int> selectedSlot = BehaviorSubject<int>.seeded(0);
+  BehaviorSubject<String> selectedSlot = BehaviorSubject<String>.seeded("0");
 
   TextEditingController notesController = TextEditingController();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
@@ -160,17 +160,17 @@ class _CalenderScreenState extends State<CalenderScreen> {
               bloc: negotiationBloc,
               builder: (context, state) {
                 if (state is SuccessSlotState) {
-                  List<Periods>? periods = state.slotResponse.data?.periods;
+                  List<String>? periods = state.slotResponse.data!;
                   return Wrap(
-                    children: periods!
-                        .map((Periods e) => StreamBuilder<int>(
+                    children: periods
+                        .map((String e) => StreamBuilder<String>(
                             stream: selectedSlot.stream,
                             builder: (context, snapshot) {
                               return GestureDetector(
-                                onTap: () => selectedSlot.sink.add(e.id!),
+                                onTap: () => selectedSlot.sink.add(e),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: selectedSlot.value == e.id
+                                      color: selectedSlot.value == e
                                           ? primaryColor
                                           : textFieldBg,
                                       borderRadius: const BorderRadius.all(
@@ -179,11 +179,11 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 8),
                                     child: Text(
-                                      "${e.from}:${e.to}",
+                                      "${e.hmFormat}",
                                       style: AppStyles
                                           .baloo2FontWith700WeightAnd15Size
                                           .copyWith(
-                                              color: selectedSlot.value == e.id
+                                              color: selectedSlot.value == e
                                                   ? textFieldBg
                                                   : Colors.black),
                                     ),

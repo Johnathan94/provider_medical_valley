@@ -57,7 +57,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedImage != null) {
       _imageFile = File(pickedImage.path);
       imageFileSubject.sink.add(_imageFile);
-      print("Image");
       ConfirmationDialogExample(context, () {
         Navigator.pop(context);
         // LoadingDialogs.showLoadingDialog(context);

@@ -2,7 +2,7 @@ class SendOffer {
   int? requestId;
   int? providerId;
   double? price;
-  int? periodId;
+  String? startTime;
   int? branchId;
   int? insuranceStatus;
 
@@ -10,7 +10,7 @@ class SendOffer {
       {this.requestId,
       this.providerId,
       this.price,
-      this.periodId,
+      this.startTime,
       this.insuranceStatus,
       this.branchId});
 
@@ -18,7 +18,7 @@ class SendOffer {
     requestId = json['requestId'];
     providerId = json['providerId'];
     price = json['price'];
-    periodId = json['periodId'];
+    startTime = json['periodId'];
     branchId = json['branchId'];
     insuranceStatus = json['insuranceStatus'];
   }
@@ -28,7 +28,7 @@ class SendOffer {
     data['requestId'] = requestId;
     data['providerId'] = providerId;
     data['price'] = price;
-    data['periodId'] = periodId;
+    data['serviceStartTime'] = startTime;
     data['branchId'] = branchId;
     data['insuranceStatus'] = insuranceStatus;
     return data;

@@ -5,11 +5,10 @@ class BranchesClient {
   Dio dio;
 
   BranchesClient(this.dio);
-
-  getBranches() async {
+  getBranches(int requestId) async {
     final token = LocalStorageManager.getToken();
     Response response = await dio.get(
-      "${dio.options.baseUrl}/Alpha/Provider/GetMyBranches",
+      "${dio.options.baseUrl}/Alpha/Provider/GetMyRequestBranches?requestId=$requestId",
       options: Options(headers: {
         'Authorization': 'Bearer $token',
       }),

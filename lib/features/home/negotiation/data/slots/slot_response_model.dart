@@ -4,7 +4,7 @@ class SlotResponse {
   String? messageCode;
   int? responseCode;
   String? validationIssue;
-  Data? data;
+  List<String>? data;
 
   SlotResponse(
       {this.succeeded,
@@ -20,7 +20,7 @@ class SlotResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? (json['data'] as List).cast<String>() : [];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,7 +31,7 @@ class SlotResponse {
     data['responseCode'] = responseCode;
     data['validationIssue'] = validationIssue;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!;
     }
     return data;
   }

@@ -20,7 +20,7 @@ import 'package:rxdart/rxdart.dart';
 import 'firebase_options.dart';
 
 BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
-String iconLinkPrefix = "https://services.medvally.com/";
+String iconLinkPrefix = "https://alpha.api.medvalley-sa.com/";
 
 LanguageBloc languageBloc = LanguageBloc();
 

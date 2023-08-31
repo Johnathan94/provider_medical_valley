@@ -7,14 +7,12 @@ class BranchesBloc extends Cubit<BranchesState> {
 
   BranchesBloc(this.getBranchesUseCase) : super(BranchesStateIdle());
 
-  getBranches() async {
+  getBranches(int requestId) async {
     try {
       emit(BranchesStateLoading());
-      var res = await getBranchesUseCase.getBranches();
-      res.fold(
-          (l) => emit(BranchesStateError()),
-          (r) => emit(BranchesStateSuccess(r))
-      );
+      var res = await getBranchesUseCase.getBranches(requestId);
+      res.fold((l) => emit(BranchesStateError()),
+          (r) => emit(BranchesStateSuccess(r)));
     } catch (e) {
       emit(BranchesStateError());
     }

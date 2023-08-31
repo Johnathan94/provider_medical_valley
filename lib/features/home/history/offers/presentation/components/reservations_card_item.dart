@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
+import 'package:provider_medical_valley/main.dart';
 
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
@@ -71,7 +72,7 @@ class ReservationsCardItem extends StatelessWidget {
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.grey.shade300),
                               image: DecorationImage(
-                                image: AssetImage(image),
+                                image: NetworkImage(iconLinkPrefix + image),
                               )),
                         ),
                       ],
@@ -170,11 +171,12 @@ class ReservationsCardItem extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  Text(
-                    date,
-                    style: AppStyles.baloo2FontWith400WeightAnd12Size
-                        .copyWith(color: blackColor),
-                  ),
+                  if (date.isNotEmpty)
+                    Text(
+                      date.formattedDate!,
+                      style: AppStyles.baloo2FontWith400WeightAnd12Size
+                          .copyWith(color: blackColor),
+                    ),
                   SizedBox(
                     height: 5.h,
                   ),

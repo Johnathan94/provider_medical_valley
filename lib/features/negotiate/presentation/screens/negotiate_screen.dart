@@ -5,10 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider_medical_valley/core/extensions/string_extensions.dart';
 import 'package:provider_medical_valley/core/widgets/snackbars.dart';
 import 'package:provider_medical_valley/features/calendar/persentation/screens/calendar_screen.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_request.dart';
-import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/app_colors.dart';
@@ -40,7 +40,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
 
   TextEditingController controller = TextEditingController();
 
-  BehaviorSubject<int> selectedBorder = BehaviorSubject.seeded(0);
+  BehaviorSubject<String> selectedBorder = BehaviorSubject.seeded("0");
   BehaviorSubject<bool> isButtonEnabled = BehaviorSubject.seeded(false);
 
   final _formKey = GlobalKey<FormState>();
@@ -49,8 +49,6 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
 
   @override
   void initState() {
-    DateTime now = DateTime.now();
-    negotiationBloc.getSlot(getDayId(now.weekday), widget.result.id!);
     super.initState();
   }
 
@@ -377,7 +375,7 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
             bloc: negotiationBloc,
             builder: (context, state) {
               if (state is SuccessSlotState) {
-                List<Periods>? periods = state.slotResponse.data?.periods;
+                List<String>? periods = state.slotResponse.data;
                 return Wrap(
                   children:
                       periods!.map((e) => _buildSlot(context, e)).toList(),
@@ -402,11 +400,11 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
             child: PrimaryButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate() &&
-                      selectedBorder.value != 0) {
+                      selectedBorder.value != "0") {
                     negotiationBloc.negotiate(NegotiationRequest(
                       price: int.parse(controller.text),
                       negotiateId: widget.result.id,
-                      periodId: selectedBorder.value,
+                      startTime: selectedBorder.value,
                     ));
                   } else {
                     context.showSnackBar(
@@ -423,12 +421,12 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
         });
   }
 
-  Widget _buildSlot(BuildContext context, Periods item) {
-    return StreamBuilder<int>(
+  Widget _buildSlot(BuildContext context, String item) {
+    return StreamBuilder<String>(
         stream: selectedBorder.stream,
         builder: (context, snapshot) {
           return GestureDetector(
-            onTap: () => selectedBorder.sink.add(item.id!),
+            onTap: () => selectedBorder.sink.add(item),
             child: Container(
               height: 52.h,
               width: 155.w,
@@ -437,19 +435,17 @@ class _NegotiateScreenState extends State<NegotiateScreen> {
                   const EdgeInsetsDirectional.only(start: 12, end: 5, top: 30),
               padding: const EdgeInsetsDirectional.only(start: 5, top: 5),
               decoration: BoxDecoration(
-                color:
-                    selectedBorder.value != item.id ? whiteColor : primaryColor,
+                color: selectedBorder.value != item ? whiteColor : primaryColor,
                 borderRadius: const BorderRadius.all(Radius.circular(7)),
-                border: selectedBorder.value != item.id
+                border: selectedBorder.value != item
                     ? Border.all(color: borderGrey)
                     : null,
               ),
               child: Text(
-                "${item.from} : ${item.to}",
+                "${item.hmFormat}",
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                    color: selectedBorder.value != item.id
-                        ? blackColor
-                        : whiteColor,
+                    color:
+                        selectedBorder.value != item ? blackColor : whiteColor,
                     decoration: TextDecoration.none),
               ),
             ),

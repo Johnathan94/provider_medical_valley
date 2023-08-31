@@ -242,7 +242,7 @@ class Results {
   dynamic offerDate;
   num? categoryId;
   String? categoryStr;
-  num? providerServiceId;
+  String? providerServiceId;
   String? serviceStr;
   dynamic providerPackageId;
   String? packageStr;
@@ -303,7 +303,7 @@ class Results {
         userId: userId!.toInt(),
         userStr: userName,
         categoryStr: categoryStr,
-        providerServiceId: providerServiceId!.toInt(),
+        providerServiceId: providerServiceId!,
         appointmentDate: offerDate,
         serviceStr: serviceStr,
         mobileStr: userMobile,

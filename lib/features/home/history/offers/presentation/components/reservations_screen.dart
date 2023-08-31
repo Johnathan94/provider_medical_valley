@@ -52,8 +52,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                     from:
                         '${state.category.data?.results?[index].periodStartTime} ',
                     to: "${state.category.data?.results?[index].periodEndTime}",
-                    date: state.category.data?.results?[index].offerDate ??
-                        "no date",
+                    date: state.category.data?.results?[index].offerDate ?? "",
                     title:
                         state.category.data?.results?[index].categoryStr ?? "",
                     subtitle:

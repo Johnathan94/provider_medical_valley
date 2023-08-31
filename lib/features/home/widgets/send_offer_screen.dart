@@ -22,7 +22,6 @@ import 'package:provider_medical_valley/features/branches/presentation/bloc/bran
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/offer_model.dart';
-import 'package:provider_medical_valley/features/home/negotiation/data/slots/slot_response_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SendOfferScreen extends StatefulWidget {
@@ -49,11 +48,8 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
 
   @override
   void initState() {
-    DateTime now = DateTime.now();
-    negotiationBloc.getSlot(
-        getDayId(now.weekday), widget.result.providerServiceId!);
     super.initState();
-    branchesBloc.getBranches();
+    branchesBloc.getBranches(widget.result.id!);
     selectedInsuranceStatus.sink.add(0);
   }
 
@@ -148,7 +144,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                           image: const DecorationImage(
                                             image: AssetImage(personImage),
                                           )),
-                                    ),/*
+                                    ), /*
                                     Row(
                                       children: [
                                         const Icon(
@@ -246,113 +242,27 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                               height: 20.h,
                             ),
                             Text(
-                              AppLocalizations.of(context)!.choose_time,
-                              style: AppStyles.baloo2FontWith500WeightAnd16Size
-                                  .copyWith(color: blackColor),
-                            ),
-                            SizedBox(
-                              height: 16.h,
-                            ),
-                            BlocBuilder<NegotiationBloc, NegotiationState>(
-                                buildWhen: (prev, cur) =>
-                                    cur is SuccessSlotState ||
-                                    cur is ErrorSlotState ||
-                                    cur is LoadingSlotState,
-                                bloc: negotiationBloc,
-                                builder: (context, state) {
-                                  if (state is SuccessSlotState) {
-                                    if (state.slotResponse.data!.periods!
-                                        .isNotEmpty) {
-                                      selectedBorder.sink.add(state.slotResponse
-                                          .data!.periods!.first.id!);
-                                    }
-                                    return SizedBox(
-                                      height: 40,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: ListView.builder(
-                                          itemCount: state.slotResponse.data
-                                              ?.periods?.length,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (c, index) =>
-                                              StreamBuilder<int>(
-                                                  stream: selectedBorder.stream,
-                                                  builder: (context, snapshot) {
-                                                    List<Periods>? periods =
-                                                        state.slotResponse.data
-                                                            ?.periods;
-                                                    return GestureDetector(
-                                                      onTap: () =>
-                                                          selectedBorder.sink
-                                                              .add(periods![
-                                                                      index]
-                                                                  .id!),
-                                                      child: Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 12,
-                                                                vertical: 3),
-                                                        margin: const EdgeInsets
-                                                                .symmetric(
-                                                            horizontal: 5),
-                                                        decoration: BoxDecoration(
-                                                            color: selectedBorder
-                                                                        .value !=
-                                                                    periods![
-                                                                            index]
-                                                                        .id!
-                                                                ? whiteColor
-                                                                : primaryColor,
-                                                            border: Border.all(
-                                                                color: selectedBorder
-                                                                            .value !=
-                                                                        periods[index]
-                                                                            .id!
-                                                                    ? borderGrey
-                                                                    : whiteColor)),
-                                                        child: Text(
-                                                          "${periods[index].from?.hmFormat} : ${periods[index].to?.hmFormat}",
-                                                          style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                                                              color: selectedBorder
-                                                                          .value !=
-                                                                      periods[index]
-                                                                          .id!
-                                                                  ? blackColor
-                                                                  : whiteColor,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  })),
-                                    );
-                                  } else if (state is ErrorSlotState) {
-                                    return Text(AppLocalizations.of(context)!
-                                        .there_is_no_slots);
-                                  } else if (state is LoadingSlotState) {
-                                    return const CircularProgressIndicator();
-                                  }
-                                  return Container();
-                                }),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
                               AppLocalizations.of(context)!.choose_branch,
                               style: AppStyles.baloo2FontWith500WeightAnd16Size
                                   .copyWith(color: blackColor),
                             ),
-                            BlocBuilder<BranchesBloc, BranchesState>(
+                            BlocConsumer<BranchesBloc, BranchesState>(
+                                listener: (context, state) {
+                                  if (state is BranchesStateSuccess &&
+                                      state.branches.isNotEmpty) {
+                                    negotiationBloc.getSlot(
+                                        state.branches.first.id!,
+                                        widget.result.id!);
+
+                                    selectedBranch.sink
+                                        .add(state.branches.first.id!);
+                                  }
+                                },
                                 bloc: branchesBloc,
                                 builder: (context, state) {
                                   if (state is BranchesStateSuccess) {
                                     branches = state.branches;
                                     if (state.branches.isNotEmpty) {
-                                      selectedBranch.sink
-                                          .add(state.branches.first.id!);
                                       return SizedBox(
                                         height: 40,
                                         width:
@@ -371,12 +281,21 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                                               branches =
                                                               state.branches;
                                                           return GestureDetector(
-                                                            onTap: () =>
-                                                                selectedBranch
-                                                                    .sink
-                                                                    .add(branches[
-                                                                            index]
-                                                                        .id!),
+                                                            onTap: () {
+                                                              selectedBranch
+                                                                  .sink
+                                                                  .add(branches[
+                                                                          index]
+                                                                      .id!);
+                                                              negotiationBloc
+                                                                  .getSlot(
+                                                                      branches[
+                                                                              index]
+                                                                          .id!,
+                                                                      widget
+                                                                          .result
+                                                                          .id!);
+                                                            },
                                                             child: Container(
                                                               alignment:
                                                                   Alignment
@@ -426,6 +345,101 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                     return Text(AppLocalizations.of(context)!
                                         .no_branches);
                                   } else if (state is BranchesStateLoading) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                  return Container();
+                                }),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!.choose_time,
+                              style: AppStyles.baloo2FontWith500WeightAnd16Size
+                                  .copyWith(color: blackColor),
+                            ),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                            BlocConsumer<NegotiationBloc, NegotiationState>(
+                                listener: (context, state) {
+                                  if (state is SuccessSlotState &&
+                                      state.slotResponse.data!.isNotEmpty) {
+                                    selectedBorder.sink
+                                        .add(state.slotResponse.data!.first);
+                                  }
+                                },
+                                buildWhen: (prev, cur) =>
+                                    cur is SuccessSlotState ||
+                                    cur is ErrorSlotState ||
+                                    cur is LoadingSlotState,
+                                bloc: negotiationBloc,
+                                builder: (context, state) {
+                                  if (state is SuccessSlotState) {
+                                    return SizedBox(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: ListView.builder(
+                                          itemCount:
+                                              state.slotResponse.data?.length,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (c, index) =>
+                                              StreamBuilder<String>(
+                                                  stream: selectedBorder.stream,
+                                                  builder: (context, snapshot) {
+                                                    List<String>? periods =
+                                                        state
+                                                            .slotResponse.data!;
+                                                    return GestureDetector(
+                                                      onTap: () =>
+                                                          selectedBorder.sink
+                                                              .add(periods[
+                                                                  index]),
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 12,
+                                                                vertical: 3),
+                                                        margin: const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 5),
+                                                        decoration: BoxDecoration(
+                                                            color: selectedBorder
+                                                                        .value !=
+                                                                    periods[
+                                                                        index]
+                                                                ? whiteColor
+                                                                : primaryColor,
+                                                            border: Border.all(
+                                                                color: selectedBorder
+                                                                            .value !=
+                                                                        periods[
+                                                                            index]
+                                                                    ? borderGrey
+                                                                    : whiteColor)),
+                                                        child: Text(
+                                                          "${periods[index].hmFormat}",
+                                                          style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
+                                                              color: selectedBorder
+                                                                          .value !=
+                                                                      periods[
+                                                                          index]
+                                                                  ? blackColor
+                                                                  : whiteColor,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  })),
+                                    );
+                                  } else if (state is ErrorSlotState) {
+                                    return Text(AppLocalizations.of(context)!
+                                        .there_is_no_slots);
+                                  } else if (state is LoadingSlotState) {
                                     return const CircularProgressIndicator();
                                   }
                                   return Container();
@@ -502,7 +516,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
                                       price: double.parse(controller.text),
                                       requestId: widget.result.id,
                                       providerId: user.id,
-                                      periodId: selectedBorder.value,
+                                      startTime: selectedBorder.value,
                                       branchId: selectedBranch.value,
                                       insuranceStatus:
                                           selectedInsuranceStatus.value,
@@ -576,7 +590,7 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
   }
 
   BehaviorSubject<bool> sendButtonVisible = BehaviorSubject.seeded(true);
-  BehaviorSubject<int> selectedBorder = BehaviorSubject();
+  BehaviorSubject<String> selectedBorder = BehaviorSubject<String>();
   BehaviorSubject<int> selectedBranch = BehaviorSubject();
   BehaviorSubject<int> selectedInsuranceStatus = BehaviorSubject.seeded(0);
 }

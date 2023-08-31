@@ -4,7 +4,8 @@ import 'package:provider_medical_valley/features/branches/data/api/branches_clei
 import 'package:provider_medical_valley/features/branches/data/model/branches_response_model.dart';
 
 abstract class GetBranchesUseCase {
-  Future<Either<ServerFailure, List<BranchesResponseModel>>> getBranches();
+  Future<Either<ServerFailure, List<BranchesResponseModel>>> getBranches(
+      int requestId);
 }
 
 class GetBranchesUseCaseImpl extends GetBranchesUseCase {
@@ -13,9 +14,9 @@ class GetBranchesUseCaseImpl extends GetBranchesUseCase {
   GetBranchesUseCaseImpl(this.branchesClient);
 
   @override
-  Future<Either<ServerFailure, List<BranchesResponseModel>>>
-      getBranches() async {
-    var result = await branchesClient.getBranches();
+  Future<Either<ServerFailure, List<BranchesResponseModel>>> getBranches(
+      int requestId) async {
+    var result = await branchesClient.getBranches(requestId);
     List<BranchesResponseModel> branches = [];
     if (result['data'] != null && (result['data'] as List).isNotEmpty) {
       for (var element in (result['data'] as List)) {

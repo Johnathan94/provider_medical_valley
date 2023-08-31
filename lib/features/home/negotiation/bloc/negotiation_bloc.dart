@@ -12,13 +12,13 @@ class NegotiationBloc extends Cubit<NegotiationState> {
   SendOfferRepo sendOfferRepo;
   NegotiateRepo negotiateRepo;
   SlotRepo slotRepo;
-  getSlot(int dayId, int serviceId) async {
+  getSlot(int branchId, int requestId) async {
     emit(LoadingSlotState());
-    var loginUser = await slotRepo.getSlot(dayId, serviceId);
+    var loginUser = await slotRepo.getSlot(branchId, requestId);
     loginUser.fold((l) {
       emit(ErrorSlotState());
     }, (r) {
-      if (r.data != null) {
+      if (r.data != null && r.data!.isNotEmpty) {
         emit(SuccessSlotState(r));
       } else {
         emit(ErrorSlotState());

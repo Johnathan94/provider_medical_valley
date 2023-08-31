@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
 import 'package:provider_medical_valley/core/app_styles.dart';
 
@@ -46,8 +47,10 @@ extension BookingStatusView on int {
               borderRadius: BorderRadius.circular(8)),
           child: Text(
             text,
-            style: AppStyles.baloo2FontWith400WeightAnd12Size
-                .copyWith(color: const Color(0xffFF686A)),
+            style: AppStyles.baloo2FontWith400WeightAnd12Size.copyWith(
+              color: const Color(0xffFF686A),
+              fontSize: 8,
+            ),
           ),
         );
     }
@@ -59,5 +62,9 @@ extension DateTimeFormat on String {
     final timeSplit = split(':');
     timeSplit.removeLast();
     return timeSplit.join(':');
+  }
+
+  String? get formattedDate {
+    return DateFormat('yyyy-MM-dd').format(DateTime.parse(this));
   }
 }

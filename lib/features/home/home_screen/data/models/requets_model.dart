@@ -87,7 +87,7 @@ class Data {
 
 class BookRequest {
   int? id;
-  int? providerServiceId;
+  String? providerServiceId;
   int? userId;
   String? userStr;
   String? categoryStr;

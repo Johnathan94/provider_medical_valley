@@ -8,6 +8,7 @@ import 'package:provider_medical_valley/features/home/widgets/send_offer_screen.
 import '../../../../../../core/app_colors.dart';
 import '../../../../../../core/app_styles.dart';
 import '../../../../../../core/strings/images.dart';
+import '../../../../../../main.dart';
 
 class NegotiationsCardItem extends StatelessWidget {
   const NegotiationsCardItem({
@@ -80,7 +81,7 @@ class NegotiationsCardItem extends StatelessWidget {
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.grey.shade300),
                               image: DecorationImage(
-                                image: AssetImage(image),
+                                image: NetworkImage(iconLinkPrefix + image),
                               )),
                         ),
                         Row(
@@ -99,8 +100,10 @@ class NegotiationsCardItem extends StatelessWidget {
                                 style: AppStyles
                                     .baloo2FontWith400WeightAnd18Size
                                     .copyWith(
-                                        color: blackColor,
-                                        decoration: TextDecoration.none),
+                                  color: blackColor,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12,
+                                ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
