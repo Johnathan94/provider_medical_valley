@@ -166,22 +166,6 @@ class NegotiationsCardItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        //SizedBox(height: 4.h),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(phoneIcon),
-                              SizedBox(width: 5.w),
-                              Text(
-                                phone,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style:
-                                    AppStyles.baloo2FontWith400WeightAnd12Size,
-                              ),
-                            ],
-                          ),
-                        ),
                         SizedBox(height: 6.h),
                         Expanded(
                           child: Row(
