@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/core/widgets/change_language_screen/data/models/language_model.dart';
@@ -20,12 +21,7 @@ class AppInitializer {
       SortModel(true, AppLocalizations.of(context)!.most_recent),
       SortModel(true, AppLocalizations.of(context)!.oldest),
     ]);
-    insuranceOptions = {
-      0: AppLocalizations.of(context)!.insurance_not_available,
-      1: AppLocalizations.of(context)!.insurance_available_and_covering,
-      2: AppLocalizations.of(context)!
-          .insurance_available_and_but_need_approval,
-    };
+    initInsuranceOptions(context);
     optionsList.addAll([
       AppLocalizations.of(context)!.yes,
       AppLocalizations.of(context)!.no,
@@ -47,5 +43,14 @@ class AppInitializer {
         AppLocalizations.of(context)!.english_title, false));
     languages.add(LanguageModel(2, AppLocalizations.of(context)!.arabic_title,
         AppLocalizations.of(context)!.arabic_sub_title, false));
+  }
+
+  static void initInsuranceOptions(BuildContext context) {
+    insuranceOptions = {
+      0: AppLocalizations.of(context)!.insurance_not_available,
+      1: AppLocalizations.of(context)!.insurance_available_and_covering,
+      2: AppLocalizations.of(context)!
+          .insurance_available_and_but_need_approval,
+    };
   }
 }

@@ -53,6 +53,12 @@ class _SendOfferScreenState extends State<SendOfferScreen> {
     selectedInsuranceStatus.sink.add(0);
   }
 
+  @override
+  void didChangeDependencies() {
+    AppInitializer.initInsuranceOptions(context);
+    super.didChangeDependencies();
+  }
+
   int getDayId(int weedDay) {
     return weedDay == 6
         ? 1
