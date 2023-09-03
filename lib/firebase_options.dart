@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDnaiYWzsWIfKh56eteOzisf_3zlVXmCs4',
-    appId: '1:536370473855:android:e84c6e80f65c5dd189084a',
-    messagingSenderId: '536370473855',
-    projectId: 'medicalvalleyprovider',
-    storageBucket: 'medicalvalleyprovider.appspot.com',
+    apiKey: 'AIzaSyAByIYX3TRM5ZmvMeL00gg3hQTJRQpGV3w',
+    appId: '1:600040989984:android:dad2efd9b4a87cd7d16345',
+    messagingSenderId: '600040989984',
+    projectId: 'medvalley-ff30c',
+    storageBucket: 'medvalley-ff30c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDZlpTp62mmW2lt4SMWFsRvC9AhniZo7-o',
-    appId: '1:536370473855:ios:c8b24ef20327241489084a',
-    messagingSenderId: '536370473855',
-    projectId: 'medicalvalleyprovider',
-    storageBucket: 'medicalvalleyprovider.appspot.com',
-    iosClientId: '536370473855-sbv8af9n7a6jgb3lmoe7rl72d06dqd7p.apps.googleusercontent.com',
+    apiKey: 'AIzaSyANwiK4A3oE37b-BHjwdvTF2EaIt8LF6Bc',
+    appId: '1:600040989984:ios:5624acf12605cd26d16345',
+    messagingSenderId: '600040989984',
+    projectId: 'medvalley-ff30c',
+    storageBucket: 'medvalley-ff30c.appspot.com',
+    iosClientId: '600040989984-c1ual8nop9b9e3ac729mi6ja3d37kans.apps.googleusercontent.com',
     iosBundleId: 'com.example.providerMedicalValley',
   );
 }

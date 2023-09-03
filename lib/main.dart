@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,8 +17,6 @@ import 'package:provider_medical_valley/core/widgets/change_language_screen/pere
 import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/language_state.dart';
 import 'package:provider_medical_valley/features/splash/presentation/screens/splash_screen.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'firebase_options.dart';
 
 BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
 String iconLinkPrefix = "https://alpha.api.medvalley-sa.com/";
@@ -37,9 +36,15 @@ class MyHttpOverrides extends HttpOverrides {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
   );
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
