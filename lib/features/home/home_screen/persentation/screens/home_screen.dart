@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   initState() {
+    homeBloc.updateFcmToken();
     earliestBloc.getEarliestRequests(earliestNextPage, 10);
     scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
 
@@ -61,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
       scheduledNextPage = pageKey + 1;
       scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
     });
+
     super.initState();
   }
 

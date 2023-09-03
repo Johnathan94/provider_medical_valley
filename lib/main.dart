@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:in_app_notification/in_app_notification.dart';
 import 'package:provider_medical_valley/core/app_sizes.dart';
 import 'package:provider_medical_valley/core/app_theme.dart';
 import 'package:provider_medical_valley/core/base_service/flavors.dart';
 import 'package:provider_medical_valley/core/medical_injection.dart';
+import 'package:provider_medical_valley/core/notifications/notification_tab.dart';
 import 'package:provider_medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:provider_medical_valley/core/strings/urls.dart';
 import 'package:provider_medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_bloc.dart';
@@ -46,6 +49,41 @@ void main() async {
     provisional: false,
     sound: true,
   );
+  FirebaseMessaging.onMessage.listen((event) {
+    if (kDebugMode) {
+      print('hi message');
+    }
+    if (kDebugMode) {
+      print(event.notification?.title);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.data);
+    }
+    NotificationTab.showNotification(event);
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    if (kDebugMode) {
+      print('hi message');
+    }
+    if (kDebugMode) {
+      print(event.notification?.title);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.data);
+    }
+  });
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.alphaBaseUrl, Strings.v_1));
@@ -55,6 +93,9 @@ void main() async {
 
   runApp(MyApp(currentLang: currentLanguage));
 }
+
+final GlobalKey<NavigatorState> navigatorGlobalKey =
+    GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   final String currentLang;
@@ -72,19 +113,22 @@ class MyApp extends StatelessWidget {
                     minTextAdapt: true,
                     splitScreenMode: true,
                     builder: (context, child) {
-                      return MaterialApp(
-                        theme: appTheme,
-                        locale: state.locale ??
-                            (currentLang.isNotEmpty
-                                ? Locale(currentLang)
-                                : const Locale("en")),
-                        localizationsDelegates:
-                            AppLocalizations.localizationsDelegates,
-                        supportedLocales: AppLocalizations.supportedLocales,
-                        onGenerateTitle: (context) =>
-                            AppLocalizations.of(context)!.application_title,
-                        debugShowCheckedModeBanner: false,
-                        home: const SplashScreen(),
+                      return InAppNotification(
+                        child: MaterialApp(
+                          navigatorKey: navigatorGlobalKey,
+                          theme: appTheme,
+                          locale: state.locale ??
+                              (currentLang.isNotEmpty
+                                  ? Locale(currentLang)
+                                  : const Locale("en")),
+                          localizationsDelegates:
+                              AppLocalizations.localizationsDelegates,
+                          supportedLocales: AppLocalizations.supportedLocales,
+                          onGenerateTitle: (context) =>
+                              AppLocalizations.of(context)!.application_title,
+                          debugShowCheckedModeBanner: false,
+                          home: const SplashScreen(),
+                        ),
                       );
                     });
               });

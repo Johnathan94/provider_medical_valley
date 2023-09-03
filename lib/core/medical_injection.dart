@@ -12,6 +12,8 @@ import 'package:provider_medical_valley/features/home/history/offers/data/api_se
 import 'package:provider_medical_valley/features/home/history/offers/data/repo/offers_repo.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/negotiation_cubit.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
+import 'package:provider_medical_valley/features/home/home_screen/data/api/fcm_client.dart';
+import 'package:provider_medical_valley/features/home/home_screen/domain/update_fcm_use_case.dart';
 import 'package:provider_medical_valley/features/home/negotiation/bloc/negotiation_bloc.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/negotiate_client.dart';
 import 'package:provider_medical_valley/features/home/negotiation/data/negotiate/send_offer_repo.dart';
@@ -65,7 +67,7 @@ configureDependencies() {
   getIt.registerFactory(
       () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => HomeBloc(
-        GetRequestsUseCase(RequestsClient(DioManager.getDio())),
+        UpdateFcmUseCase(FcmClient(DioManager.getDio())),
       ));
   getIt.registerFactory(() => EarliestBloc(
         GetRequestsUseCase(RequestsClient(DioManager.getDio())),
