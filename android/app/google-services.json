@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:536370473855:android:e84c6e80f65c5dd189084a",
         "android_client_info": {
-          "package_name": "com.example.provider_medical_valley"
+          "package_name": "com.medvalley.provider"
         }
       },
       "oauth_client": [

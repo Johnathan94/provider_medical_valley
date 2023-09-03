@@ -8,11 +8,11 @@ class LoginResponse {
 
   LoginResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];

@@ -1,4 +1,4 @@
-package com.example.provider_medical_valley
+package com.medvalley.provider
 
 import io.flutter.embedding.android.FlutterActivity
 
