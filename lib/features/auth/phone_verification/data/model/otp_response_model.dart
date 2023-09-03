@@ -109,8 +109,8 @@ class ProviderData {
   int? statusId;
   String? statusStr;
   int? logoImgId;
-  String? licenseImgId;
-  String? commercialRecordImgId;
+  int? licenseImgId;
+  int? commercialRecordImgId;
   List<BranchModel>? providerBranches;
   int? providerRequestsCount;
   double? providerRating;
