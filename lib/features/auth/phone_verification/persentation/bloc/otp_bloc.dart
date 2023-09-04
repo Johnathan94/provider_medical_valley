@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider_medical_valley/features/auth/login/data/repo/login_repo.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/domain/verify_otp_use_case.dart';
+import 'package:provider_medical_valley/features/home/home_screen/persentation/bloc/home_bloc.dart';
 
 class OtpBloc extends Cubit<OtpState> {
   VerifyOtpUseCase verifyOtpUseCase;
@@ -14,6 +16,7 @@ class OtpBloc extends Cubit<OtpState> {
     either.fold((l) {
       emit(ErrorOtpState());
     }, (r) {
+      GetIt.instance<HomeBloc>().updateFcmToken();
       emit(SuccessOtpState());
     });
   }

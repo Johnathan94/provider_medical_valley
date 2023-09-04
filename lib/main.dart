@@ -37,6 +37,10 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
+Future<void> _backgroundHandler(RemoteMessage message) async {
+  NotificationTab.showNotification(message);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -49,6 +53,7 @@ void main() async {
     provisional: false,
     sound: true,
   );
+
   FirebaseMessaging.onMessage.listen((event) {
     if (kDebugMode) {
       print('hi message');
@@ -65,9 +70,11 @@ void main() async {
     if (kDebugMode) {
       print(event.data);
     }
-    NotificationTab.showNotification(event);
+    _backgroundHandler(event);
   });
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    _backgroundHandler(event);
+
     if (kDebugMode) {
       print('hi message');
     }

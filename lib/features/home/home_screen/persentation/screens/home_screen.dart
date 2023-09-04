@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/core/app_colors.dart';
+import 'package:provider_medical_valley/core/notifications/notification_helper.dart';
 import 'package:provider_medical_valley/features/home/home_screen/data/models/requets_model.dart';
 import 'package:provider_medical_valley/features/home/widgets/request_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -27,7 +29,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeBloc homeBloc = GetIt.I<HomeBloc>();
   EarliestBloc earliestBloc = GetIt.I<EarliestBloc>();
   ScheduledBloc scheduledBloc = GetIt.I<ScheduledBloc>();
   final PagingController<int, BookRequest> immediatePagingController =
@@ -48,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   initState() {
-    homeBloc.updateFcmToken();
     earliestBloc.getEarliestRequests(earliestNextPage, 10);
     scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
 
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
       scheduledNextPage = pageKey + 1;
       scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
     });
-
+    _handleRequestNotification();
     super.initState();
   }
 
@@ -158,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final RefreshController _scheduledRefreshController =
       RefreshController(initialRefresh: false);
   void _onRefreshReservations() async {
+    _earlistRefreshController.requestRefresh();
     earliestPagingController.value.itemList?.clear();
     earliestNextPage = 1;
     earliestNextPageKey = 1;
@@ -172,7 +173,6 @@ class _HomeScreenState extends State<HomeScreen> {
     scheduledNextPage = 1;
     scheduledNextPageKey = 1;
     await scheduledBloc.getScheduledRequests(scheduledNextPage, 10);
-
     _scheduledRefreshController.refreshCompleted();
   }
 
@@ -280,5 +280,28 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void _handleRequestNotification() {
+    FirebaseMessaging.onMessage.listen((event) {
+      _backgroundHandler(event);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      _backgroundHandler(event);
+    });
+    // FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+  }
+
+  void _refreshHome(int notificationActionId) {
+    if (notificationActionId == NotificationActions.AddBooking.index + 1) {
+      _onRefreshReservations();
+      _onScheduledRefresh();
+    }
+  }
+
+  Future<void> _backgroundHandler(RemoteMessage event) async {
+    final notificationActionId =
+        NotificationHelper.getNotificationActionId(event);
+    _refreshHome(notificationActionId);
   }
 }

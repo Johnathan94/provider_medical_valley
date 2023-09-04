@@ -13,6 +13,7 @@ import 'package:provider_medical_valley/core/strings/images.dart';
 import 'package:provider_medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:provider_medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/bloc/offers_bloc.dart';
+import 'package:provider_medical_valley/features/home/home_screen/persentation/bloc/home_bloc.dart';
 import 'package:provider_medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         GetIt.instance<OffersBloc>()
             .getOffers(NegotiationsEvent(1, 10, user.id!));
         goToHomeScreen(context);
+        GetIt.instance<HomeBloc>().updateFcmToken();
       }
     });
     super.initState();

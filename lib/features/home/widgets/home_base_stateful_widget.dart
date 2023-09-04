@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart' as bad;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +12,7 @@ import 'package:provider_medical_valley/features/home/notifications/persentation
 import 'package:provider_medical_valley/main.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../core/notifications/notification_helper.dart';
 import '../home_screen/persentation/screens/home_screen.dart';
 
 class HomeBaseStatefulWidget extends StatefulWidget {
@@ -25,6 +27,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
 
   @override
   initState() {
+    _handleRequestNotification();
     _index.sink.add(0);
     super.initState();
   }
@@ -112,5 +115,37 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
                 );
               });
         });
+  }
+
+  void _handleRequestNotification() {
+    FirebaseMessaging.onMessage.listen((event) {
+      _backgroundHandler(event);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      _backgroundHandler(event);
+    });
+    // FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+  }
+
+  Future<void> _backgroundHandler(RemoteMessage event) async {
+    final notificationActionId =
+        NotificationHelper.getNotificationActionId(event);
+    _navigate(notificationActionId);
+  }
+
+  void _navigate(int notificationActionId) {
+    switch (notificationActionId - 1) {
+      case 0:
+        _index.sink.add(0);
+        return;
+      case 2:
+        _index.sink.add(2);
+        return;
+      case 3:
+        _index.sink.add(2);
+    }
+    if (notificationActionId == NotificationActions.AddBooking.index + 1) {
+      _index.sink.add(0);
+    }
   }
 }
