@@ -144,8 +144,5 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
       case 3:
         _index.sink.add(2);
     }
-    if (notificationActionId == NotificationActions.AddBooking.index + 1) {
-      _index.sink.add(0);
-    }
   }
 }

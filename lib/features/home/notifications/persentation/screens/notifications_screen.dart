@@ -84,7 +84,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             itemComparator: (item1, item2) =>
                 item1.userId.toString().compareTo(item2.userId.toString()),
             groupComparator: (value1, value2) => value2.compareTo(value1),
-            order: GroupedListOrder.DESC,
+            order: GroupedListOrder.ASC,
             groupSeparatorBuilder: (String value) => Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
