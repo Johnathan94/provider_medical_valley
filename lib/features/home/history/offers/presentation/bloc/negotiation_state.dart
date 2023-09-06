@@ -1,22 +1,40 @@
 part of 'negotiation_cubit.dart';
 
 @immutable
-abstract class NegotiationState {}
+abstract class NegotiationState {
+  final ProviderNegotiationsModel category;
 
-class NegotiationInitial extends NegotiationState {}
+  const NegotiationState(this.category);
+}
+
+class NegotiationInitial extends NegotiationState {
+  const NegotiationInitial(super.category);
+}
 
 class SuccessNegotiationState extends NegotiationState {
-  ProviderNegotiationsModel category;
-
-  SuccessNegotiationState(this.category);
+  const SuccessNegotiationState(super.category);
 }
 
-class InitialNegotiationState extends NegotiationState {}
+class InitialNegotiationState extends NegotiationState {
+  const InitialNegotiationState(super.category);
+}
 
 class ErrorNegotiationState extends NegotiationState {
-  ErrorStates states;
+  final ErrorStates states;
 
-  ErrorNegotiationState(this.states);
+  ErrorNegotiationState(this.states) : super(ProviderNegotiationsModel());
 }
 
-class LoadingNegotiationState extends NegotiationState {}
+class LoadingNegotiationState extends NegotiationState {
+  const LoadingNegotiationState(super.category);
+}
+
+class LoadingMoreNegotiationsState extends NegotiationState {
+  const LoadingMoreNegotiationsState(super.category);
+}
+
+class ErrorLoadingMoreNegotiationsState extends NegotiationState {
+  final ErrorStates states;
+  ErrorLoadingMoreNegotiationsState(this.states)
+      : super(ProviderNegotiationsModel());
+}

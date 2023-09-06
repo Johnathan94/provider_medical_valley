@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider_medical_valley/features/home/history/offers/presentation/components/negotiations_card_item.dart';
-
 import '../../../../../../core/notifications/notification_helper.dart';
-import '../../data/model/provider_reservations_model.dart';
 import '../bloc/negotiation_cubit.dart';
 
 class NegotiationScreen extends StatefulWidget {
@@ -21,54 +18,86 @@ class NegotiationScreen extends StatefulWidget {
 
 class _NegotiationScreenState extends State<NegotiationScreen> {
   NegotiationCubit negotiationCubit = GetIt.I<NegotiationCubit>();
-
-  final PagingController<int, ProviderNegotiationsModel>
-      negotiationsPagingController = PagingController(firstPageKey: 1);
+  late final ScrollController _scrollController;
   int nextPage = 1;
-  int nextPageKey = 1;
+  int nextPageSize = 10;
+  bool isFetching = true;
   @override
   void initState() {
     _handleNegotiationsNotification();
-    negotiationCubit.getNegotiations(nextPage, 10);
-    negotiationsPagingController.addPageRequestListener((pageKey) {
-      nextPageKey = 10 + nextPage;
-      nextPage = pageKey + 1;
-      negotiationCubit.getNegotiations(nextPage, 10);
-      negotiationCubit.getNegotiations(nextPage, nextPageKey);
-    });
+    negotiationCubit.getNegotiations(nextPage, nextPageSize);
+    _scrollController = ScrollController()
+      ..addListener(() {
+        if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent * 0.8) {
+          if (isFetching) {
+            return;
+          }
+          isFetching = true;
+          nextPage += 1;
+          negotiationCubit.getMoreNegotiations(nextPage, nextPageSize);
+        }
+      });
     super.initState();
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NegotiationCubit, NegotiationState>(
+    return BlocConsumer<NegotiationCubit, NegotiationState>(
         bloc: negotiationCubit,
+        listener: (context, state) {
+          if (state is! LoadingMoreNegotiationsState) {
+            isFetching = false;
+          }
+        },
         builder: (context, state) {
-          if (state is SuccessNegotiationState) {
+          if (state is SuccessNegotiationState ||
+              state is LoadingMoreNegotiationsState) {
             return state.category.data != null &&
                     state.category.data!.results!.isNotEmpty
                 ? ListView.builder(
-                    itemBuilder: (context, index) => NegotiationsCardItem(
-                      image: state.category.data?.results?[index].image ?? "",
-                      bookingType:
-                          state.category.data?.results?[index].bookingTypeId ??
-                              1,
-                      time: "",
-                      rate: 'no rate',
-                      name: state.category.data?.results?[index].userName ?? "",
-                      phone:
-                          state.category.data?.results?[index].userMobile ?? "",
-                      price: state.category.data?.results?[index].price
-                              .toString() ??
-                          "",
-                      title: state.category.data?.results?[index].categoryStr ??
-                          '',
-                      subtitle:
-                          state.category.data?.results?[index].serviceStr ?? "",
-                      request: state.category.data!.results![index]
-                          .mapToBookRequest(),
-                    ),
-                    itemCount: state.category.data?.results?.length,
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      if (index ==
+                          (state.category.data?.results?.length ?? 0)) {
+                        if (state is LoadingMoreNegotiationsState) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        return Container();
+                      }
+                      return NegotiationsCardItem(
+                        image: state.category.data?.results?[index].image ?? "",
+                        bookingType: state
+                                .category.data?.results?[index].bookingTypeId ??
+                            1,
+                        time: "",
+                        rate: 'no rate',
+                        name:
+                            state.category.data?.results?[index].userName ?? "",
+                        phone:
+                            state.category.data?.results?[index].userMobile ??
+                                "",
+                        price: state.category.data?.results?[index].price
+                                .toString() ??
+                            "",
+                        title:
+                            state.category.data?.results?[index].categoryStr ??
+                                '',
+                        subtitle:
+                            state.category.data?.results?[index].serviceStr ??
+                                "",
+                        request: state.category.data!.results![index]
+                            .mapToBookRequest(),
+                      );
+                    },
+                    itemCount: (state.category.data?.results?.length ?? 0) + 1,
                   )
                 : Center(
                     child: Text(
@@ -100,14 +129,8 @@ class _NegotiationScreenState extends State<NegotiationScreen> {
     log('refresh negotiation *****');
     if (notificationActionId == NotificationActions.AddNegotiate.index + 1) {
       nextPage = 1;
-      nextPageKey = 1;
-      negotiationCubit.getNegotiations(nextPage, 10);
-      negotiationsPagingController.addPageRequestListener((pageKey) {
-        nextPageKey = 10 + nextPage;
-        nextPage = pageKey + 1;
-        negotiationCubit.getNegotiations(nextPage, 10);
-        negotiationCubit.getNegotiations(nextPage, nextPageKey);
-      });
+      nextPageSize = 10;
+      negotiationCubit.getNegotiations(nextPage, nextPageSize);
     }
   }
 }
