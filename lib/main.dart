@@ -21,6 +21,8 @@ import 'package:provider_medical_valley/core/widgets/change_language_screen/pere
 import 'package:provider_medical_valley/features/splash/presentation/screens/splash_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'firebase_options.dart';
+
 BehaviorSubject<int> negoNumber = BehaviorSubject.seeded(0);
 String iconLinkPrefix = "https://alpha.api.medvalley-sa.com/";
 
@@ -43,7 +45,9 @@ Future<void> _backgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: false,
@@ -53,7 +57,7 @@ void main() async {
     provisional: false,
     sound: true,
   );
-
+  FirebaseMessaging.instance.getToken().then((value) => print(value));
   FirebaseMessaging.onMessage.listen((event) {
     if (kDebugMode) {
       print('hi message');
