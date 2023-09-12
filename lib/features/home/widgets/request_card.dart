@@ -174,7 +174,12 @@ class RequestCard extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              SvgPicture.asset(infoIcon),
+                              SvgPicture.asset(
+                                infoIcon,
+                                color: (items.userHasInsurance ?? false)
+                                    ? primaryColor
+                                    : secondaryColor,
+                              ),
                               SizedBox(width: 5.w),
                               Text(
                                 items.userHasInsurance != null &&
@@ -187,7 +192,12 @@ class RequestCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: AppStyles
                                     .baloo2FontWith400WeightAnd12Size
-                                    .copyWith(color: primaryColor),
+                                    .copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: (items.userHasInsurance ?? false)
+                                      ? primaryColor
+                                      : secondaryColor,
+                                ),
                               ),
                             ],
                           ),
